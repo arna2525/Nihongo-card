@@ -1,0 +1,8 @@
+{
+  "name": "Kotoba Card",
+  "short_name": "Kotoba Card",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0B1026",
+  "theme_color": "#0B1026"
+}
