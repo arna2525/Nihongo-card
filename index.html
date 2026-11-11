@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Kotoba Card">
@@ -9,18 +9,14 @@
 <title>Kotoba Card</title>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Yomogi&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0B1026;--card:#162044;--line:#243063;--tx:#F8FAFC;--mu:#94a3c4;--gold:#FACC15;--ok:#10B981;--bad:#EF4444;--jp:"Zen Maru Gothic","Hiragino Sans","Noto Sans JP",sans-serif;--z:1.2;--y:1.4;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+:root{--bg:#0B1026;--card:#162044;--line:#243063;--tx:#F8FAFC;--mu:#94a3c4;--gold:#FACC15;--ok:#10B981;--bad:#EF4444;--jp:"Zen Maru Gothic","Hiragino Sans","Noto Sans JP",sans-serif;--z:1.2;--y:1.4;color-scheme:dark;box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%;min-height:100%;}
 *,*:before,*:after{box-sizing:inherit}
-body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;overscroll-behavior-y:contain;touch-action:pan-y}
-input,select,textarea,button{font-size:16px}
-button{touch-action:manipulation}
-main{overscroll-behavior:contain;touch-action:pan-y}
-
-#app{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto}
-main{flex:1;overflow:auto;padding:16px;position:relative;-webkit-overflow-scrolling:touch}
-nav{display:flex;background:var(--card);border-top:1px solid var(--line)}
-nav button{flex:1;padding:13px 4px;background:none;border:0;color:var(--mu);font:inherit;font-size:14px;cursor:pointer}
+body{margin:0;min-height:100%;height:100%;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+#app{height:100vh;height:100dvh;min-height:100dvh;display:flex;flex-direction:column;max-width:560px;margin:0 auto;position:relative;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+main{flex:1;min-height:0;overflow:auto;padding:26px 16px calc(96px + env(safe-area-inset-bottom,0px));position:relative;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+nav{position:fixed;z-index:1000;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,560px);display:flex;background:var(--card);border-top:1px solid var(--line);padding:0 0 calc(env(safe-area-inset-bottom,0px) + 2px);}
+nav button{flex:1;padding:11px 4px;background:none;border:0;color:var(--mu);font:inherit;font-size:14px;cursor:pointer}
 nav button.on{color:var(--gold);font-weight:700}
 h1{font-size:20px;margin:0}
 .row{display:flex;gap:8px;align-items:center}
@@ -66,16 +62,47 @@ input,select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid va
 .bar1{flex:1;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;font-size:12px;color:var(--mu);gap:3px}
 .bar1 i{display:block;background:var(--gold);border-radius:6px 6px 0 0;min-height:3px}
 .tag{padding:8px 16px;border-radius:999px;background:#1b2b66;color:#6ea8fe;font-size:15px}
-.pg{animation:pageFade .15s ease-out both}
+.pg.n,.pg.l,.pg.f{animation:pageFade .15s ease-out both}
+.pg.o{position:absolute;left:16px;right:16px;top:16px;animation:pageFadeOut .12s ease-in both;pointer-events:none}
+.pg.o.r,.pg.o.f{animation-name:pageFadeOut}
 @keyframes pageFade{from{opacity:0}to{opacity:1}}
-button{transition:background-color .15s,opacity .15s}
-button:active{opacity:.82}
+@keyframes pageFadeOut{from{opacity:1}to{opacity:0}}
+@keyframes shk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes pop{50%{transform:scale(1.03)}}
+button{transition:transform .12s,background-color .25s,opacity .2s}
+button:active{transform:scale(.96)}
 nav button{position:relative}
-nav button:after{content:"";position:absolute;left:30%;right:30%;bottom:0;height:3px;border-radius:3px;background:var(--gold);transform:scaleX(0);transition:transform .15s ease}
+nav button:after{content:"";position:absolute;left:30%;right:30%;bottom:0;height:3px;border-radius:3px;background:var(--gold);transform:scaleX(0);transition:transform .28s}
 nav button.on:after{transform:scaleX(1)}
 .opt.bad{animation:shk .32s}
 .opt.ok{animation:pop .32s}
 @media(prefers-reduced-motion:reduce){.pg,.opt{animation:none!important}.in{transition:none}}
+
+/* NIHONGO QUEST-inspired visual polish */
+:root{--bg:#0a1024;--card:#151f3d;--line:#29375f;--tx:#f8f7ff;--mu:#a8b2cc;--gold:#f5c96a;--pink:#f2a9c4;--ok:#43c59e}
+body{background:radial-gradient(ellipse at 85% 0%,rgba(108,85,151,.20),transparent 38%),var(--bg)}
+main{padding-top:18px;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.box,.stat{border:1px solid rgba(173,190,235,.08);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.box{border-radius:20px}
+.btn{border:1px solid rgba(173,190,235,.09);border-radius:15px}
+.btn.gold{background:linear-gradient(135deg,#f5d58a,#e9ad79);box-shadow:0 5px 16px rgba(233,173,121,.18)}
+.chip{border-color:rgba(173,190,235,.13)}
+.chip.on{background:linear-gradient(135deg,#f5d58a,#e9ad79);border-color:transparent}
+.hero{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:112px;padding:17px 18px;margin:0 0 16px;border:1px solid rgba(242,169,196,.22);border-radius:23px;background:linear-gradient(112deg,#20294d 0%,#342b55 58%,#53334f 100%);box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.hero:before,.hero:after{content:"✿";position:absolute;color:rgba(255,205,222,.32);font-size:40px;pointer-events:none}
+.hero:before{right:72px;top:-13px;transform:rotate(18deg)}
+.hero:after{right:20px;bottom:-17px;font-size:54px;transform:rotate(-18deg)}
+.hero-copy{position:relative;z-index:1;min-width:0}
+.hero-kicker{font-size:10px;letter-spacing:2px;color:#f5c9d8;font-weight:700}
+.hero-title{font-size:19px;font-weight:800;line-height:1.25;margin-top:4px;color:#fff}
+.hero-sub{font-size:11px;color:#d7d3e8;margin-top:5px}
+.hero-mascot{position:relative;z-index:1;flex:0 0 76px;width:76px;height:76px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.2);font-size:43px;box-shadow:inset 0 1px rgba(255,255,255,.18)}
+h1{letter-spacing:-.3px}
+nav{background:rgba(21,31,61,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(173,190,235,.13);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 2px)}
+nav button{font-size:13px;padding:10px 4px}
+.card{background-color:#182345;background-image:radial-gradient(circle at 50% 100%,transparent 36%,rgba(242,169,196,.08) 37%,rgba(242,169,196,.08) 40%,transparent 41%,transparent 57%,rgba(242,169,196,.08) 58%,rgba(242,169,196,.08) 61%,transparent 62%);box-shadow:0 12px 28px rgba(0,0,0,.25)}
+.tag{background:rgba(242,169,196,.13);color:#f4bfd1;border:1px solid rgba(242,169,196,.18)}
+
 </style></head><body><div id="app"><main id="m"></main>
 <nav><button id="t-folder" onclick="go('folder')">Folder</button><button id="t-learn" onclick="go('learn')">Belajar</button><button id="t-quiz" onclick="go('quiz')">Kuis</button><button id="t-stat" onclick="go('stat')">Statistik</button></nav></div>
 <script>
@@ -96,14 +123,15 @@ function cur(){return S.folders.filter(function(f){return f.id===S.active})[0]||
 function applyFont(){var r=document.documentElement.style;r.setProperty("--jp",FONTS[S.font]||FONTS.std);r.setProperty("--z",S.size||1.2);r.setProperty("--y",S.fsize||1.4)}
 function go(t){var I=["folder","learn","quiz","stat"];if(t===T)return;var d=I.indexOf(t)>I.indexOf(T);T=t;R(d?"n":"l")}
 function R(k){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();["folder","learn","quiz","stat"].forEach(function(t){document.getElementById("t-"+t).className=t===T?"on":""});
-var m=document.getElementById("m"),h=T==="folder"?vFolder():T==="learn"?vLearn():T==="stat"?vStat():vQuiz(),n=document.createElement("div");
-n.className="pg";n.innerHTML=h;
-m.replaceChildren(n);
-if(k==="n"||k==="l")m.scrollTop=0}
+var m=document.getElementById("m"),old=m.querySelector(".pg:not(.o)"),h=T==="folder"?vFolder():T==="learn"?vLearn():T==="stat"?vStat():vQuiz(),n=document.createElement("div");
+Array.prototype.forEach.call(m.querySelectorAll(".pg.o"),function(x){x.remove()});
+n.className="pg "+(k||"");n.innerHTML=h;
+if(k&&old){if(k==="n"||k==="l")m.scrollTop=0;old.classList.add("o");if(k==="l")old.classList.add("r");if(k==="f")old.classList.add("f");m.insertBefore(n,old);setTimeout(function(){if(old.parentNode)old.remove()},230)}else{m.innerHTML="";m.appendChild(n)}}
 var RT=0;
 function empty(t){return '<div class="box mu">'+t+'</div>'}
 
-function vFolder(){var f=cur(),h='<div class="row sp"><h1>Folder</h1><button class="btn" style="margin:0" onclick="gear=!gear;R(\'f\')" aria-label="Edit">'+(gear?"Selesai":"Edit")+'</button></div>';
+function hero(){return '<section class="hero"><div class="hero-copy"><div class="hero-kicker">KOTOBA CARD · JAPANESE STUDY</div><div class="hero-title">Belajar sedikit,<br>maju setiap hari.</div><div class="hero-sub">Satu kartu, satu langkah lebih dekat 🌸</div></div><div class="hero-mascot" aria-hidden="true">🦊</div></section>'}
+function vFolder(){var f=cur(),h=hero()+'<div class="row sp"><h1>Folder</h1><button class="btn" style="margin:0" onclick="gear=!gear;R(\'f\')" aria-label="Edit">'+(gear?"Selesai":"Edit")+'</button></div>';
 if(gear)h+='<div class="box"><label class="mu">Jenis font Jepang</label><select onchange="S.font=this.value;applyFont();save();R()"><option value="std"'+(S.font==="std"?" selected":"")+'>Standar / Rounded</option><option value="min"'+(S.font==="min"?" selected":"")+'>Klasik / Mincho</option><option value="hand"'+(S.font==="hand"?" selected":"")+'>Tulisan tangan</option></select><label class="mu" style="display:block;margin-top:14px">Ukuran kanji flashcard</label><input type="range" min="1" max="2" step="0.1" value="'+(S.size||1.2)+'" oninput="S.size=+this.value;applyFont();save()"><div class="jp" style="text-align:center;font-size:calc(46px*var(--z));margin-top:8px">日本語</div><label class="mu" style="display:block;margin-top:14px">Ukuran furigana (kuning)</label><input type="range" min="1" max="2.4" step="0.1" value="'+(S.fsize||1.4)+'" oninput="S.fsize=+this.value;applyFont();save()"><div class="fur" style="text-align:center;margin-top:8px">にほんご</div></div><div class="box"><div class="mu">Cadangan data</div><div class="row"><button class="btn" onclick="bkExp()">Ekspor</button><button class="btn" onclick="bkImp(this)">Impor</button></div><div class="mu" id="bm"></div><textarea id="bk" placeholder="Ekspor menampilkan cadangan di sini. Untuk impor, tempel cadangan lalu ketuk Impor." style="width:100%;height:90px;margin-top:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--tx);padding:10px;font:12px monospace"></textarea></div>';
 h+='<div class="box">'+(gear?'<div class="mu">Folder baru</div><div class="row"><input id="fn" placeholder="Contoh: Kanji N5"><button class="btn" onclick="addFolder()">Buat</button></div>':'')+'<div class="chips">';
 S.folders.forEach(function(x){h+='<button class="chip'+(x.id===S.active?" on":"")+'" onclick="pick(\''+x.id+'\')">'+e(x.name)+' ('+x.words.length+')</button>'});
@@ -131,7 +159,7 @@ Object.keys(st).forEach(function(x){tot+=st[x].s||0});
 S.folders.forEach(function(f){f.words.forEach(function(w){if(!w.due||w.due<=t)due++;if((w.ivl||0)>=21)mt++})});
 k=(st[t]&&(st[t].r+st[t].q))?t:t-1;while(st[k]&&(st[k].r+st[k].q)>0){s++;k--}
 for(i=6;i>=0;i--){var x=st[t-i]||{},m=Math.ceil((x.s||0)/60);v.push([dy[new Date((t-i)*864e5).getUTCDay()],m]);mx=Math.max(mx,m)}
-var h='<h1>Statistik</h1><div class="box"><div class="mu">Hari ini</div><div style="font-size:40px;font-weight:700;color:var(--gold);line-height:1.2">'+fm(d.s||0)+'</div><div class="mu">Flashcard '+d.r+' kartu'+(d.r?' ('+Math.round(d.g/d.r*100)+'% benar)':'')+' · Kuis '+d.q+' soal'+(d.q?' ('+Math.round(d.qo/d.q*100)+'% benar)':'')+'</div></div>';
+var h=hero()+'<h1>Statistik</h1><div class="box"><div class="mu">Hari ini</div><div style="font-size:40px;font-weight:700;color:var(--gold);line-height:1.2">'+fm(d.s||0)+'</div><div class="mu">Flashcard '+d.r+' kartu'+(d.r?' ('+Math.round(d.g/d.r*100)+'% benar)':'')+' · Kuis '+d.q+' soal'+(d.q?' ('+Math.round(d.qo/d.q*100)+'% benar)':'')+'</div></div>';
 h+='<div class="grid"><div class="stat"><b>'+fm(tot)+'</b><span class="mu">Total waktu belajar</span></div><div class="stat"><b>'+s+' hari</b><span class="mu">Runtutan</span></div><div class="stat"><b>'+due+'</b><span class="mu">Kartu jatuh tempo</span></div><div class="stat"><b>'+mt+'</b><span class="mu">Kata dikuasai</span></div></div>';
 h+='<div class="box"><div class="mu">Waktu belajar 7 hari (menit)</div><div class="bars">';
 v.forEach(function(a){h+='<div class="bar1"><span>'+a[1]+'</span><i style="height:'+Math.round(a[1]/mx*80)+'px"></i>'+a[0]+'</div>'});
@@ -155,7 +183,7 @@ function vLearn(){var f=cur();if(!f||!f.words.length)return empty("Tambahkan kos
 if(!L||L.fid!==f.id)startL();
 if(!L.q.length)return '<div class="card"><div class="big">おつかれさま！</div><p class="mu">'+(L.total?'Semua kartu selesai ('+L.total+' kartu)':'Tidak ada kartu jatuh tempo hari ini')+'</p></div><button class="btn gold" onclick="startL(true);R()">Latihan semua kartu (tanpa jadwal)</button>';
 var w=f.words.filter(function(x){return x.id===L.q[0]})[0];if(!w){L.q.shift();return vLearn()}
-return '<div class="row sp"><span class="tag">'+e(f.name)+'</span><span class="mu">'+L.q.length+' kartu tersisa</span></div><div class="flip" onclick="flipC()"><div class="in" id="in"><div class="face card"><div class="big kz">'+e(w.k)+'</div><div class="sub">Ketuk untuk membalik</div></div><div class="face bk card"><div class="fur">'+e(w.f)+'</div><div style="font-size:22px">'+e(w.a)+'</div></div></div></div><div class="ev" id="ev"><button style="background:var(--bad)" onclick="rate(0)">Ulangi<small>'+iv(w,0)+'</small></button><button style="background:#F97316" onclick="rate(1)">Sulit<small>'+iv(w,1)+'</small></button><button style="background:var(--ok)" onclick="rate(2)">Bagus<small>'+iv(w,2)+'</small></button><button style="background:#3B82F6" onclick="rate(3)">Mudah<small>'+iv(w,3)+'</small></button></div>'}
+return hero()+'<div class="row sp"><span class="tag">'+e(f.name)+'</span><span class="mu">'+L.q.length+' kartu tersisa</span></div><div class="flip" onclick="flipC()"><div class="in" id="in"><div class="face card"><div class="big kz">'+e(w.k)+'</div><div class="sub">Ketuk untuk membalik</div></div><div class="face bk card"><div class="fur">'+e(w.f)+'</div><div style="font-size:22px">'+e(w.a)+'</div></div></div></div><div class="ev" id="ev"><button style="background:var(--bad)" onclick="rate(0)">Ulangi<small>'+iv(w,0)+'</small></button><button style="background:#F97316" onclick="rate(1)">Sulit<small>'+iv(w,1)+'</small></button><button style="background:var(--ok)" onclick="rate(2)">Bagus<small>'+iv(w,2)+'</small></button><button style="background:#3B82F6" onclick="rate(3)">Mudah<small>'+iv(w,3)+'</small></button></div>'}
 function flipC(){document.getElementById("in").classList.toggle("f");document.getElementById("ev").classList.add("show")}
 function rate(r){var id=L.q.shift(),w=cur().words.filter(function(x){return x.id===id})[0];if(w){stat("r",r>=2);if(!L.cram){var s=sr(w,r);w.ivl=s.ivl;w.ease=s.ease;w.due=today()+s.ivl;save()}}if(r===0)L.q.splice(Math.min(2,L.q.length),0,id);else if(r===1)L.q.splice(Math.min(5,L.q.length),0,id);R("n")}
 
@@ -163,7 +191,7 @@ function retry(){var b=Q.ws.filter(function(w,i){return !Q.res[i]}).map(function
 function startQ(mode,ids){var f=cur(),src=ids?f.words.filter(function(w){return ids.indexOf(w.id)>-1}):f.words;Q={fid:f.id,mode:mode,ws:shuf(src).slice(0,20),pool:f.words,i:0,res:[],lock:false,o:null};R("n")}
 function lab(x){return Q.mode==="arti"?x.a:x.k}
 function vQuiz(){var f=cur();if(!f||f.words.length<2)return empty("Kuis butuh minimal 2 kata di folder aktif.");
-if(!Q||Q.fid!==f.id)return '<h1>Kuis</h1><div class="box"><div class="mu">Folder: '+e(f.name)+' ('+f.words.length+' kata)</div><button class="btn gold" onclick="startQ(\'arti\')">Tebak Arti</button><button class="btn gold" onclick="startQ(\'kanji\')">Tebak Kanji</button></div>';
+if(!Q||Q.fid!==f.id)return hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder: '+e(f.name)+' ('+f.words.length+' kata)</div><button class="btn gold" onclick="startQ(\'arti\')">Tebak Arti</button><button class="btn gold" onclick="startQ(\'kanji\')">Tebak Kanji</button></div>';
 var n=Q.ws.length;
 if(Q.i>=n){var sc=Q.res.filter(Boolean).length,pc=Math.round(sc/n*100),bad=Q.ws.filter(function(w,i){return !Q.res[i]}),h2='<div class="card"><div class="big" style="color:var(--gold)">'+pc+'%</div><p class="mu">Benar '+sc+' dari '+n+' soal</p></div>';
 h2+=bad.length?'<div class="box"><div class="mu">Kata yang salah ('+bad.length+')</div>'+bad.map(function(w){return '<div class="w"><div><span class="jp" style="font-size:22px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div></div>'}).join("")+'</div>':'<div class="box mu">Semua jawaban benar. Mantap!</div>';
@@ -181,12 +209,6 @@ if(!ok)Q.o.forEach(function(x,j){if(x.id===c.id)document.getElementById("o"+j).c
 var p=Math.round(Q.res.length/Q.ws.length*100),fl=document.getElementById("fl");fl.style.width=p+"%";fl.textContent=p+"%";
 document.getElementById("d"+Q.i).className="dot d";
 setTimeout(function(){if(!Q)return;Q.i++;Q.lock=false;R("n")},600)}
-// iPhone Safari: cegah gesture zoom dan double-tap zoom tanpa mematikan scroll.
-document.addEventListener("gesturestart",function(ev){ev.preventDefault()},{passive:false});
-document.addEventListener("gesturechange",function(ev){ev.preventDefault()},{passive:false});
-document.addEventListener("gestureend",function(ev){ev.preventDefault()},{passive:false});
-var lastTouchEnd=0;
-document.addEventListener("touchend",function(ev){var now=Date.now();if(now-lastTouchEnd<=300){ev.preventDefault()}lastTouchEnd=now},{passive:false});
 document.addEventListener("click",function(ev){var a=document.activeElement;if(a&&/INPUT|SELECT/.test(a.tagName)&&!ev.target.closest("input,select"))a.blur()});
 document.addEventListener("keydown",function(ev){if(ev.key!=="Enter")return;var a=document.activeElement;if(a&&a.id==="ia")addWord();else if(a&&a.id==="fn")addFolder()});
 var lastAct=Date.now(),tk6=0;
