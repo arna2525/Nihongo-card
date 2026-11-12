@@ -1,27 +1,19 @@
-/* Kotoba Card V0.8 — safer cache update */
-var CACHE_NAME = "kotoba-v21";
-var APP_FILES = [
-  "./",
-  "index.html",
-  "manifest.webmanifest",
-  "assets/header.webp",
-  "assets/bg.webp",
-  "assets/logo.png",
-  "assets/icon-192.png",
-  "assets/icon-512.png"
-];
+/* Kotoba Card V1.0 — Service Worker
+   - Hanya mengelola cache berawalan "kotoba-v" milik aplikasi ini (cache aplikasi lain tidak disentuh).
+   - Tidak menyentuh IndexedDB/localStorage sama sekali.
+   - Berkas kamus (dict/) dan version.json selalu ke jaringan (tidak di-cache) agar pemeriksaan update akurat.
+   - Pemulihan: versi cache lama dihapus HANYA setelah versi baru sukses ter-install & aktif. */
+var CACHE_NAME = "kotoba-v1.0.0";
+var CORE = ["./", "index.html", "manifest.webmanifest"];
+var ART = ["assets/header.webp", "assets/bg.webp", "assets/logo.png", "assets/icon-192.png", "assets/icon-512.png"];
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
-      // Core app files must install successfully. Optional artwork is cached
-      // independently so a missing asset cannot disable offline app startup.
-      return cache.addAll(["./", "index.html", "manifest.webmanifest"])
-        .then(function () {
-          return Promise.all(APP_FILES.slice(3).map(function (file) {
-            return cache.add(file).catch(function () { return false; });
-          }));
-        });
+      // Berkas inti wajib berhasil; artwork opsional agar aset yang belum ada tidak menggagalkan install.
+      return cache.addAll(CORE).then(function () {
+        return Promise.all(ART.map(function (f) { return cache.add(f).catch(function () { return false; }); }));
+      });
     })
   );
   self.skipWaiting();
@@ -31,56 +23,43 @@ self.addEventListener("activate", function (event) {
   event.waitUntil(
     caches.keys().then(function (keys) {
       return Promise.all(keys.map(function (key) {
-        // Only clean up Kotoba Card's own previous cache versions.
-        if (key.indexOf("kotoba-v") === 0 && key !== CACHE_NAME) {
-          return caches.delete(key);
-        }
+        if (key.indexOf("kotoba-v") === 0 && key !== CACHE_NAME) return caches.delete(key);
       }));
-    }).then(function () {
-      return self.clients.claim();
-    })
+    }).then(function () { return self.clients.claim(); })
   );
+});
+
+self.addEventListener("message", function (e) {
+  if (e.data === "SKIP_WAITING") self.skipWaiting();
 });
 
 self.addEventListener("fetch", function (event) {
   var request = event.request;
   if (request.method !== "GET") return;
-
   var url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+  if (/\/dict\//.test(url.pathname) || /\/version\.json$/.test(url.pathname)) return; // jaringan langsung
 
-  // HTML: network-first so deployments update promptly, cached copy works offline.
-  if (request.mode === "navigate" || url.pathname.endsWith("/index.html")) {
+  // HTML: network-first, salinan cache untuk offline.
+  if (request.mode === "navigate" || /\/index\.html$/.test(url.pathname)) {
     event.respondWith(
-      fetch(request).then(function (response) {
-        if (response && response.ok) {
-          var copy = response.clone();
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(request, copy);
-          });
-        }
-        return response;
+      fetch(request).then(function (res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(CACHE_NAME).then(function (c) { c.put(request, copy); }); }
+        return res;
       }).catch(function () {
-        return caches.match(request).then(function (cached) {
-          return cached || caches.match("index.html");
-        });
+        return caches.match(request).then(function (hit) { return hit || caches.match("index.html") || caches.match("./"); });
       })
     );
     return;
   }
 
-  // Same-origin app assets: cache-first with background cache fill.
+  // Aset: cache-first + isi cache di latar belakang.
   event.respondWith(
-    caches.match(request).then(function (cached) {
-      if (cached) return cached;
-      return fetch(request).then(function (response) {
-        if (response && response.ok) {
-          var copy = response.clone();
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(request, copy);
-          });
-        }
-        return response;
+    caches.match(request).then(function (hit) {
+      if (hit) return hit;
+      return fetch(request).then(function (res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(CACHE_NAME).then(function (c) { c.put(request, copy); }); }
+        return res;
       });
     })
   );

@@ -300,8 +300,44 @@ html{background:#0d1035}
 .crumb-edit{display:flex;align-items:center;gap:7px;overflow-x:auto;white-space:nowrap;padding:4px 2px 8px;margin:2px 0 8px;scrollbar-width:thin}
 .crumb-edit button{flex:none;margin:0;padding:5px 2px;border:0;background:none;color:var(--gold);font:inherit;font-size:13px}
 .crumb-edit b{flex:none;color:#fff;font-size:13px}
+
+/* ===== V1.0: tambahan (mengikuti tema asli) ===== */
+.vscroll{max-height:46vh;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.cattag{display:inline-block;margin-left:4px;padding:1px 8px;border-radius:999px;font:600 11px/1.5 system-ui,sans-serif;color:#eadcff;background:rgba(122,70,176,.3);border:1px solid var(--glow);vertical-align:middle}
+.crumb{overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
+.crumb button{flex:none}.crumb span{color:var(--mu)}.crumb b{flex:none}
+.kr{cursor:pointer;border-radius:12px;padding:6px 8px}
+.kr.sel{background:rgba(124,58,196,.45);box-shadow:inset 0 0 0 1px rgba(255,210,31,.55)}
+.ctl{margin-top:14px;padding:12px}
+.ksel{margin:10px 0 8px;font-size:13.5px;min-height:20px}
+.ctl .btn:disabled{opacity:.4}
+.dict-wrap{position:relative}
+.dict-suggest{display:none;position:relative;z-index:30;margin-top:6px;padding:6px;border:1px solid var(--glow);border-radius:16px;background:rgba(12,14,48,.97);box-shadow:0 10px 28px rgba(0,0,0,.38);max-height:260px;overflow:auto}
+.dict-suggest.show{display:block}
+.dict-hit{display:block;width:100%;padding:10px 12px;margin:0;border:0;border-bottom:1px solid rgba(198,172,255,.16);border-radius:10px;background:transparent;color:#fff;text-align:left;font:inherit}
+.dict-hit:last-child{border-bottom:0}
+.dict-hit:active{background:rgba(124,58,196,.35)}
+.dict-hit b{font-family:var(--jp);font-size:18px;color:#fff}
+.dict-hit em{font-style:normal;color:var(--gold);font-family:var(--jp);margin-left:8px}
+.dict-hit small{display:block;color:var(--mu);font-size:13px;margin-top:2px}
+.dict-hit .src{display:block;color:#b9a8ff;font-size:11px;margin-top:2px}
+.dict-status{font-size:11.5px;color:var(--mu);margin-top:7px;line-height:1.35}
+.qg{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.qg .qc{margin:0}
+.qn3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.qn3 button{margin:0;padding:14px 4px;border-radius:16px;border:1px solid var(--glow);background:rgba(30,27,84,.7);color:#fff;font:inherit;font-size:17px;font-weight:700}
+.qn3 button.on{border-color:rgba(255,210,31,.8);background:rgba(110,52,175,.55);box-shadow:0 0 14px rgba(255,210,31,.3)}
+.qtm{display:flex;align-items:center;gap:10px;margin-top:12px}
+.qtb{flex:1;height:10px;border-radius:99px;background:rgba(190,151,255,.2);overflow:hidden}
+.qtb i{display:block;height:100%;width:100%;background:var(--ok);transition:background-color .2s}
+.qtb i.mid{background:#f59e0b}.qtb i.bad{background:var(--bad)}
+.qtm b{min-width:52px;text-align:right;font:700 20px ui-monospace,Menlo,monospace;color:var(--gold)}
+#qa{margin-top:12px;font-size:20px!important;text-align:center;font-family:var(--jp)}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:18px;border:1px solid var(--glow);background:rgba(10,13,44,.6)}
+.qfb.ok{border-color:rgba(16,185,129,.8)}.qfb.bad{border-color:rgba(239,68,68,.85)}
+.qfb .btn{width:100%}
+select{width:100%;padding:12px 14px;border-radius:12px;margin-top:8px;font:inherit}
 </style></head><body><div id="app"><main id="m"></main>
-<nav><button id="t-folder" onclick="go('folder')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><circle cx='12' cy='13' r='2' fill='#0d1035'/></svg><span>Folder</span></button><button id="t-learn" onclick="go('learn')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M2.5 5.5C5.5 4 9 4 12 5.5c3-1.5 6.5-1.5 9.5 0V19c-3-1.5-6.5-1.5-9.5 0-3-1.5-6.5-1.5-9.5 0z'/><path d='M12 5.5V19' stroke='#0d1035' stroke-width='1.4'/></svg><span>Belajar</span></button><button id="t-quiz" onclick="go('quiz')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3A2.6 2.6 0 0 1 15.5 17l-.7-1.2H9.2L8.5 17a2.6 2.6 0 0 1-5.4-.6l-.9-3A5 5 0 0 1 7 7z'/><path d='M8 10v4M6 12h4' stroke='#0d1035' stroke-width='1.6' stroke-linecap='round'/><circle cx='15.5' cy='11' r='1' fill='#0d1035'/><circle cx='17.8' cy='13' r='1' fill='#0d1035'/></svg><span>Kuis</span></button><button id="t-stat" onclick="go('stat')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><rect x='4' y='11' width='4.4' height='9' rx='1.3'/><rect x='9.8' y='4' width='4.4' height='16' rx='1.3'/><rect x='15.6' y='8' width='4.4' height='12' rx='1.3'/></svg><span>Statistik</span></button></nav><div id="dg" class="dg"><div class="dgc" role="dialog"><h3 id="dgt"></h3><p id="dgm"></p><input id="dgi" autocomplete="off"><div class="dgb"><button id="dgn" onclick="dgx(0)">Batal</button><button id="dgy" onclick="dgx(1)">Ya, Terapkan</button></div></div></div></div>
+<nav><button id="t-folder" onclick="go('folder')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><circle cx='12' cy='13' r='2' fill='#0d1035'/></svg><span>Folder</span></button><button id="t-learn" onclick="go('learn')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M2.5 5.5C5.5 4 9 4 12 5.5c3-1.5 6.5-1.5 9.5 0V19c-3-1.5-6.5-1.5-9.5 0-3-1.5-6.5-1.5-9.5 0z'/><path d='M12 5.5V19' stroke='#0d1035' stroke-width='1.4'/></svg><span>Belajar</span></button><button id="t-quiz" onclick="go('quiz')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3A2.6 2.6 0 0 1 15.5 17l-.7-1.2H9.2L8.5 17a2.6 2.6 0 0 1-5.4-.6l-.9-3A5 5 0 0 1 7 7z'/><path d='M8 10v4M6 12h4' stroke='#0d1035' stroke-width='1.6' stroke-linecap='round'/><circle cx='15.5' cy='11' r='1' fill='#0d1035'/><circle cx='17.8' cy='13' r='1' fill='#0d1035'/></svg><span>Kuis</span></button><button id="t-stat" onclick="go('stat')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><rect x='4' y='11' width='4.4' height='9' rx='1.3'/><rect x='9.8' y='4' width='4.4' height='16' rx='1.3'/><rect x='15.6' y='8' width='4.4' height='12' rx='1.3'/></svg><span>Statistik</span></button></nav><div id="tst" class="sv" role="status"><span id="tstm"></span><button id="tstb" type="button"></button></div><div id="dg" class="dg"><div class="dgc" role="dialog"><h3 id="dgt"></h3><p id="dgm"></p><input id="dgi" autocomplete="off"><div class="dgb"><button id="dgn" onclick="dgx(0)">Batal</button><button id="dgy" onclick="dgx(1)">Ya, Terapkan</button></div></div></div></div>
 <script>
 var PEN='<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
 var FO=false;var KEY="kotobaCard.v1",S,T="folder",L=null,Q=null,gear=false,arm=null;
@@ -309,17 +345,471 @@ var FONTS={std:'"Zen Maru Gothic","Hiragino Sans","Noto Sans JP",sans-serif',min
 function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+/* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
+var FRESH=false,APP_VERSION="1.0.0",APP_BUILD="2026-11-12",SCHEMA=2,NP=[];
+var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
+function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
+function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
+
+/* --- normalisasi teks & kana --- */
+function nzk(s){return String(s==null?"":s).normalize("NFKC").replace(/\s+/g,"").trim()}
+function hira(s){return String(s==null?"":s).replace(/[ァ-ヶ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-96)})}
+function nA(s){return String(s==null?"":s).normalize("NFKC").toLowerCase().replace(/[\s　・､、，,.。．!！?？'’"“”~〜～\-]/g,"")}
+function kfKey(k,f){return nzk(k).toLowerCase()+"|"+hira(nzk(f||k)).toLowerCase()}
+var KR={"あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo","ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"wo","ん":"n","が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo","だ":"da","ぢ":"ji","づ":"zu","で":"de","ど":"do","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo","ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","ぁ":"a","ぃ":"i","ぅ":"u","ぇ":"e","ぉ":"o","ゔ":"vu"};
+var KRY={"き":"ky","し":"sh","ち":"ch","に":"ny","ひ":"hy","み":"my","り":"ry","ぎ":"gy","じ":"j","び":"by","ぴ":"py"};
+var YO={"ゃ":"a","ゅ":"u","ょ":"o"},R2K=null;
+function kanaToRomaji(s){s=hira(s);var out="",i=0,dbl=false;
+while(i<s.length){var c=s[i],n=s[i+1];
+if(c==="っ"){dbl=true;i++;continue}
+if(c==="ー"){var lv=out.slice(-1);if(/[aiueo]/.test(lv))out+=lv;i++;continue}
+var r;if(n&&YO[n]&&KRY[c]){r=KRY[c]+YO[n];i+=2}else{r=KR[c];i++;if(r===undefined)r=c}
+if(dbl){if(/^[bcdfghjklmpqrstvwxyz]/.test(r))r=r.charAt(0)==="c"?"t"+r:r.charAt(0)+r;dbl=false}
+out+=r}
+return out}
+function romajiToKana(s,strip){if(!R2K){R2K={};for(var k in KR){if(!(KR[k] in R2K)&&k!=="ん"&&"ぁぃぅぇぉゔ".indexOf(k)<0)R2K[KR[k]]=k}
+for(var b in KRY)for(var y in YO)R2K[KRY[b]+YO[y]]=b+y;
+[["si","し"],["ti","ち"],["tu","つ"],["hu","ふ"],["zi","じ"],["sya","しゃ"],["syu","しゅ"],["syo","しょ"],["tya","ちゃ"],["tyu","ちゅ"],["tyo","ちょ"],["jya","じゃ"],["jyu","じゅ"],["jyo","じょ"],["du","づ"],["di","ぢ"],["fa","ふぁ"],["fi","ふぃ"],["fe","ふぇ"],["fo","ふぉ"]].forEach(function(p){R2K[p[0]]=p[1]})}
+s=String(s||"").toLowerCase().replace(/ā/g,"aa").replace(/ī/g,"ii").replace(/ū/g,"uu").replace(/ē/g,"ee").replace(/[ōô]/g,"ou").replace(/[^a-z'\-]/g,"");
+var out="",i=0;
+while(i<s.length){var c=s[i];
+if(c==="-"){out+="ー";i++;continue}
+if(c==="'"){i++;continue}
+if(i+1<s.length&&c===s[i+1]&&/[bcdfghjklmpqrstvwxyz]/.test(c)){out+="っ";i++;continue}
+if(c==="n"){var nx=s[i+1];if(nx==="'"||nx==="n"){out+="ん";i+=2;continue}if(!nx||!/[aiueoy]/.test(nx)){out+="ん";i++;continue}}
+var hit=null;for(var L=3;L>=1;L--){var seg=s.substr(i,L);if(R2K[seg]){hit=seg;break}}
+if(hit){out+=R2K[hit];i+=hit.length}else{out+=c;i++}}
+if(strip)out=out.replace(/[a-z]+$/,"");
+return out}
+
+/* --- penyimpanan --- */
 function load(){try{S=JSON.parse(localStorage.getItem(KEY))}catch(x){}
-if(!S||(!S.folders&&!S.roots)){S={font:"std",rootName:"NIHONGO",active:"f1",folders:[{id:"f1",name:"Kotoba \u2022 BAB 1",words:[
-{id:"w1",k:"\u301cさん",f:"さん",a:"Saudara, bapak, ibu"},
+if(!S||(!S.folders&&!S.roots)){FRESH=true;S={font:"std",rootName:"NIHONGO",active:"f1",folders:[{id:"f1",name:"Kotoba • BAB 1",words:[
+{id:"w1",k:"〜さん",f:"さん",a:"Saudara, bapak, ibu"},
 {id:"w2",k:"あの人",f:"あのひと",a:"Orang itu/beliau"},
 {id:"w3",k:"何歳",f:"なんさい",a:"Berapa umurnya"},
 {id:"w4",k:"先生",f:"せんせい",a:"Guru, dosen, pengajar"},
 {id:"w5",k:"学生",f:"がくせい",a:"Pelajar, mahasiswa"}]}]}}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(x){}}
-function cur(){return S.folders.filter(function(f){return f.id===S.active})[0]||null}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(x){}mirrorSoon()}
+function cur(){var l=S.active?locF(S.active):null;return l?l.f:null}
+
+/* --- folder bertingkat (kedalaman bebas) --- */
+function walkF(a,fn,p,d){(a||[]).forEach(function(f){fn(f,p||null,d||0);walkF(f.children,fn,f,(d||0)+1)})}
+function allF(){var a=[];S.roots.forEach(function(r){walkF(r.folders,function(f){a.push(f)})});return a}
+function rootFolders(r){var a=[];walkF(r.folders,function(f,p,d){a.push({f:f,p:p,d:d})});return a}
+function locF(fid){var res=null;S.roots.forEach(function(r){if(res)return;(function find(arr,p,path){for(var i=0;i<arr.length&&!res;i++){var f=arr[i],np=path.concat([f]);if(f.id===fid){res={r:r,arr:arr,f:f,p:p,path:np};return}find(f.children||[],f,np)}})(r.folders,null,[])});return res}
+function pathLabel(fid){var l=locF(fid);return l?l.r.name+" › "+l.path.map(function(z){return z.name}).join(" › "):""}
+function descF(f){var a=[f];(f.children||[]).forEach(function(c){a=a.concat(descF(c))});return a}
+function totalWords(f){return descF(f).reduce(function(s,z){return s+z.words.length},0)}
+function childArr(pid){var r=rootOf(pid);if(r)return r.folders;var l=locF(pid);return l?l.f.children:null}
+function wordLoc(wid){var res=null;allF().forEach(function(f){f.words.forEach(function(w){if(w.id===wid)res={f:f,w:w}})});return res}
+function fixAct(){var r=curRoot(),fl=r?rootFolders(r).map(function(x){return x.f}):[],ok=function(i){return fl.some(function(x){return x.id===i})};if(!ok(S.active))S.active=r&&ok(r.active)?r.active:(fl.length?fl[0].id:null)}
+function guessCat(k,f){k=k||"";f=f||"";var s=k||f;if(/ます$/.test(s)||/ます$/.test(f))return"verb";if(s.length>1&&/い$/.test(s)&&!/^(きれい|綺麗|嫌い|きらい)$/.test(s))return"iadj";return"noun"}
+function fixTree(a){a.forEach(function(f){f.words=f.words||[];f.children=f.children||[];f.words.forEach(function(w){if(!CATS.some(function(x){return x[0]===w.c})){w.c=guessCat(w.k,w.f);w.ca=1}});fixTree(f.children)})}
+function mig(){if(!S.roots){try{if(!localStorage.getItem(KEY+".premig"))localStorage.setItem(KEY+".premig",JSON.stringify(S))}catch(x){}
+S.roots=[{id:"r1",name:S.rootName||"NIHONGO",locked:false,folders:S.folders||[]}];S.rootId="r1";delete S.folders}
+if((S.schema||1)<SCHEMA){try{var raw=localStorage.getItem(KEY);if(raw&&!localStorage.getItem(KEY+".premig2"))localStorage.setItem(KEY+".premig2",raw)}catch(x){}}
+S.roots.forEach(function(r){r.folders=r.folders||[];r.locked=!!r.locked;fixTree(r.folders)});
+S.schema=SCHEMA;S.perf=S.perf||{};S.qh=S.qh||[];S.qs=S.qs||{};if(S.auto===undefined)S.auto=true;
+if(!curRoot())S.rootId=S.roots.length?S.roots[0].id:null;
+Object.defineProperty(S,"folders",{get:function(){var r=curRoot();return r?r.folders:[]},set:function(v){var r=curRoot();if(r)r.folders=v},enumerable:false,configurable:true});fixAct()}
+
+/* --- halaman Folder: navigasi seperti File Explorer --- */
+function vFolder(){var h=hero()+'<div class="row sp folder-heading"><h1>Folder <span>🌸</span></h1><button class="btn edit-btn" style="margin:0" onclick="tgGear()" aria-label="Edit">'+(gear?"✓ Selesai":PEN+" Edit")+'</button></div>';
+if(gear)return h+editMenu();
+var r=curRoot();if(RL||!r)return h+rootList();
+var cf=null;if(NP.length){var lc=locF(NP[NP.length-1]);if(lc&&lc.r.id===r.id)cf=lc.f;else NP=[]}
+var list=cf?cf.children:r.folders;
+h+='<div class="box fbox"><div class="row sp"><button class="rback jp" onclick="upNP()" aria-label="Kembali"><i>‹</i>📁 '+e(cf?cf.name:r.name)+'</button><span class="mu">'+list.length+' folder</span></div>'+crumbNP(r)+'<div class="chips col">';
+list.forEach(function(x){var ns=x.children.length;h+='<button class="chip rt'+(x.id===S.active?' on':'')+'" onclick="openNP(\''+x.id+'\')"><span class="jp">'+e(x.name)+'</span><span class="mu rc">'+(ns?ns+' sub · ':'')+x.words.length+' kata</span></button>'});
+if(!list.length)h+='<div class="mu">Tidak ada subfolder.</div>';
+h+='</div></div>';
+if(cf){h+='<div class="box vocab-panel'+(S.vh?' hid':'')+'"><button class="vh mu vocab-count" onclick="tgVh(this)">'+cf.words.length+' kata<i></i></button><div class="vscroll">';
+cf.words.forEach(function(w){h+='<div class="w"><div><span class="jp" style="font-size:20px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span> <span class="cattag">'+e(catLabel(w.c))+'</span><div class="mu">'+e(w.a)+'</div></div></div>'});
+if(!cf.words.length)h+='<div class="mu" style="padding:8px 0">Belum ada kotoba.</div>';
+h+='</div></div>'}
+return h}
+function crumbNP(r){var h='<div class="crumb"><button onclick="jumpNP(-1)">'+e(r.name)+'</button>';NP.forEach(function(id,i){var l=locF(id);if(!l)return;h+='<span>›</span>'+(i===NP.length-1?'<b>'+e(l.f.name)+'</b>':'<button onclick="jumpNP('+i+')">'+e(l.f.name)+'</button>')});return h+'</div>'}
+function openNP(id){NP.push(id);S.active=id;var l=locF(id);if(l)l.r.active=id;L=null;save();R("n")}
+function jumpNP(i){NP=NP.slice(0,i+1);if(NP.length){S.active=NP[NP.length-1]}L=null;R("n")}
+function upNP(){if(NP.length)jumpNP(NP.length-2);else backRoot()}
+function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}gear=false;S.rootId=id;NP=[];fixAct();RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
+
+/* --- CRUD folder --- */
+function addChild(pid,iid){var x=document.getElementById(iid||"nf_"+pid),n=x?x.value.trim():"",a=childArr(pid);if(!n||!a)return;var pr=rootOf(pid),pl=pr?null:locF(pid),pn=pr?pr.name:(pl?pl.f.name:"");
+dlg({t:"Buat folder anak?",m:'Folder "'+n+'" dibuat di dalam '+pn+'.'},function(){var f={id:uid(),name:n,words:[],children:[]};a.push(f);var l=locF(f.id);if(l&&l.r.id===S.rootId){S.active=f.id;l.r.active=f.id}L=null;Q=null;save();R()})}
+function renChild(rid,fid){var f=findF(fid);if(!f)return;dlg({t:"Ganti nama folder",inp:true,v:f.name},function(v){f.name=v;save();R()})}
+function delChild(rid,fid){var l=locF(fid);if(!l)return;var ds=descF(l.f),n=ds.reduce(function(s,z){return s+z.words.length},0);
+dlg({t:"Hapus folder?",m:'Folder "'+l.f.name+'" beserta '+(ds.length-1)+' subfolder dan '+n+' kosakatanya akan dihapus. Tidak bisa dikembalikan.'},function(){
+ds.forEach(function(z){z.words.forEach(function(w){delete S.perf[w.id]})});
+var ix=l.arr.indexOf(l.f);if(ix>-1)l.arr.splice(ix,1);if(l.r.active===fid)l.r.active=null;
+ix=ES.indexOf(fid);if(ix>-1)ES=ES.slice(0,ix);ix=NP.indexOf(fid);if(ix>-1)NP=NP.slice(0,ix);
+KSEL=null;KE=null;fixAct();L=null;Q=null;save();R()})}
+
+/* --- CRUD kotoba --- */
+function dupIn(f,k,r,exceptId){var key=kfKey(k,r||k);return f.words.some(function(w){return w.id!==exceptId&&kfKey(w.k,w.f)===key})}
+function addWordTo(fid){var g=function(p){var x=document.getElementById(p+fid);return x?x.value.trim():""},f=findF(fid),k=g("ik_"),r=g("if_"),a=g("ia_"),c=g("ic_");if(!f||!k||!a)return;
+if(dupIn(f,k,r,KE)){dlg({t:"Sudah ada",m:'Kotoba "'+k+'" ('+(r||k)+') sudah ada di folder ini.',single:true,y:"Mengerti"});return}
+kPut(f,k,r,a,c);dictSaveCorrection(k,r||k,a,c);KSEL=null;L=null;Q=null;save();R()}
+function delWordIn(fid,wid){var f=findF(fid),w=f&&f.words.filter(function(x){return x.id===wid})[0];if(!w)return;dlg({t:"Hapus kotoba?",m:'"'+w.k+'" dihapus dari '+f.name+'.'},function(){f.words=f.words.filter(function(x){return x.id!==wid});delete S.perf[wid];KSEL=null;KE=null;L=null;Q=null;save();R()})}
+
+/* --- pencarian kotoba pribadi (Kanji, Kana, Romaji, Arti) --- */
+function wordMatch(w,q){var n=nA(q);if(!n)return true;var hq=hira(n),lat=/^[a-z]+$/.test(n),kana=lat?romajiToKana(n):"";
+var hk=hira(nA(w.k)),hf=hira(nA(w.f)),ha=nA(w.a);
+if(hk.indexOf(hq)>-1||hf.indexOf(hq)>-1||ha.indexOf(n)>-1)return true;
+if(lat){if(kana&&(hf.indexOf(kana)>-1||hk.indexOf(kana)>-1))return true;if(kanaToRomaji(hf).indexOf(n)>-1)return true}
+return false}
+
+document.addEventListener("keydown",function(ev){if(ev.key!=="Enter"||ev.isComposing||ev.keyCode===229)return;var a=document.activeElement;
+if(a&&/^ia_/.test(a.id))addWordTo(a.id.slice(3));
+else if(Q&&Q.phase==="fb"&&T==="quiz"&&!(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName)))qNext()});
+
+/* ===== Kamus lokal (IndexedDB), autocomplete, koreksi pengguna, update kamus & aplikasi ===== */
+/* Toko: entries (kamus Jepang), trans (terjemahan Indonesia), corrections (koreksi pengguna),
+   meta (versi), mirror (salinan data pribadi). Update kamus TIDAK menyentuh corrections/mirror. */
+var DBN="kotoba-card-db",DB=null,DBP=null,CORR=[],MIRROR_OK=false,SVT=0,DBUSY=false,DICT_HITS=[],DSQ=0,DST=null;
+function rq(r){return new Promise(function(ok,no){r.onsuccess=function(){ok(r.result)};r.onerror=function(){no(r.error)}})}
+function txd(tx){return new Promise(function(ok,no){tx.oncomplete=function(){ok()};tx.onerror=function(){no(tx.error)};tx.onabort=function(){no(tx.error||new Error("abort"))}})}
+function dbOpen(){if(DBP)return DBP;DBP=new Promise(function(res){if(!window.indexedDB){res(null);return}var q;try{q=indexedDB.open(DBN,1)}catch(x){res(null);return}
+q.onupgradeneeded=function(){var d=q.result;
+if(!d.objectStoreNames.contains("entries")){var s=d.createObjectStore("entries",{keyPath:"id"});s.createIndex("ks","ks",{multiEntry:true});s.createIndex("fs","fs",{multiEntry:true})}
+if(!d.objectStoreNames.contains("trans")){var t=d.createObjectStore("trans",{keyPath:"tid"});t.createIndex("aw","aw",{multiEntry:true});t.createIndex("kf","kf")}
+["corrections","meta","mirror"].forEach(function(n){if(!d.objectStoreNames.contains(n))d.createObjectStore(n,{keyPath:"key"})})};
+q.onsuccess=function(){DB=q.result;DB.onversionchange=function(){DB.close();DB=null;DBP=null};
+try{var r=DB.transaction("corrections").objectStore("corrections").getAll();r.onsuccess=function(){CORR=r.result||[];res(DB)};r.onerror=function(){res(DB)}}catch(x){res(DB)}};
+q.onerror=function(){res(null)};q.onblocked=function(){res(null)}});return DBP}
+function getMeta(k){return dbOpen().then(function(db){return db?rq(db.transaction("meta").objectStore("meta").get(k)).then(function(v){return v?v.val:null}):null})}
+function setMeta(k,v){return dbOpen().then(function(db){if(!db)return;var tx=db.transaction("meta","readwrite");tx.objectStore("meta").put({key:k,val:v});return txd(tx)})}
+function delMeta(k){return dbOpen().then(function(db){if(!db)return;var tx=db.transaction("meta","readwrite");tx.objectStore("meta").delete(k);return txd(tx)})}
+
+/* --- salinan data pribadi di IndexedDB (cadangan otomatis bila localStorage terhapus) --- */
+function mirrorSoon(){if(!MIRROR_OK)return;clearTimeout(SVT);SVT=setTimeout(function(){dbOpen().then(function(db){if(!db)return;try{db.transaction("mirror","readwrite").objectStore("mirror").put({key:"S",json:JSON.stringify(S),at:Date.now()})}catch(x){}})},900)}
+function mirrorRecover(){dbOpen().then(function(db){if(!db){MIRROR_OK=true;return}
+if(!FRESH){MIRROR_OK=true;mirrorSoon();return}
+var r=db.transaction("mirror").objectStore("mirror").get("S");
+r.onsuccess=function(){var v=r.result;MIRROR_OK=true;if(!v){mirrorSoon();return}
+try{var d=JSON.parse(v.json);if(d&&d.roots&&d.roots.length){S=d;mig();FRESH=false;RL=true;applyFont();save();R();toast("Data dipulihkan dari salinan otomatis di perangkat ini.")}}catch(x){}};
+r.onerror=function(){MIRROR_OK=true}})}
+
+/* --- koreksi pengguna (selalu menang atas kamus) --- */
+function dictSaveCorrection(k,f,a,c){if(!k||!window.indexedDB)return;var rec={key:kfKey(k,f),k:k,f:f||k,a:a||"",c:c||"",at:Date.now()};
+var i=-1;CORR.forEach(function(x,j){if(x.key===rec.key)i=j});if(i>-1)CORR[i]=rec;else CORR.push(rec);
+dbOpen().then(function(db){if(!db)return;try{db.transaction("corrections","readwrite").objectStore("corrections").put(rec)}catch(x){}})}
+
+/* --- pencarian --- */
+function catFromPos(p){p=p||[];if(p.indexOf("adj-i")>-1)return"iadj";if(p.indexOf("adj-na")>-1)return"naadj";if(p.indexOf("n")>-1)return"noun";if(p.some(function(x){return/^(v1|v5|vk|vz|v2|v4|vr|vs-i|vs-s)/.test(x)}))return"verb";return""}
+function pfx(db,store,index,q,lim){return new Promise(function(res){var out=[];if(!q){res(out);return}try{var c=db.transaction(store).objectStore(store).index(index).openCursor(IDBKeyRange.bound(q,q+"￿"));c.onsuccess=function(){var cu=c.result;if(cu&&out.length<lim){out.push(cu.value);cu.continue()}else res(out)};c.onerror=function(){res(out)}}catch(x){res(out)}})}
+function trFor(db,k,f){return new Promise(function(res){try{var r=db.transaction("trans").objectStore("trans").index("kf").getAll(IDBKeyRange.only(kfKey(k,f)));r.onsuccess=function(){res((r.result||[]).map(function(z){return z.a}).filter(Boolean))};r.onerror=function(){res([])}}catch(x){res([])}})}
+function memHits(q){var out=[],seen={};CORR.forEach(function(c){if(!seen[c.key]&&wordMatch(c,q)){seen[c.key]=1;out.push({k:c.k,f:c.f,a:c.a,c:c.c,src:"Koreksi Anda",key:c.key})}});
+allF().forEach(function(fo){fo.words.forEach(function(w){var key=kfKey(w.k,w.f);if(!seen[key]&&wordMatch(w,q)){seen[key]=1;out.push({k:w.k,f:w.f,a:w.a,c:w.c,src:"Kosakata Anda",key:key})}})});return out}
+function dictQuery(q){var raw=String(q||"").trim();if(!raw)return Promise.resolve([]);var mem=memHits(raw).slice(0,6);
+return dbOpen().then(function(db){if(!db)return mem;
+var n=nzk(raw).toLowerCase(),h=hira(n),lat=/^[a-z' \-]+$/i.test(raw),kana=lat?romajiToKana(n,true):"",tok=(raw.toLowerCase().split(/[^a-z0-9À-ɏ]+/).filter(Boolean)[0])||"";
+var pe=[pfx(db,"entries","ks",n,30),pfx(db,"entries","fs",h,30)];if(kana&&kana!==h)pe.push(pfx(db,"entries","fs",kana,30));
+var pt=(lat&&tok)?pfx(db,"trans","aw",tok,40):Promise.resolve([]);
+return Promise.all([Promise.all(pe),pt]).then(function(rr){var ents={},ord=[];rr[0].forEach(function(arr){arr.forEach(function(en){if(!ents[en.id]){ents[en.id]=1;ord.push(en)}})});
+var sc=function(en){var ex=(en.ks.indexOf(n)>-1||en.fs.indexOf(h)>-1||(kana&&en.fs.indexOf(kana)>-1))?0:1;return ex*100-(en.cm?10:0)+Math.min((en.fs[0]||"").length,50)};
+ord.sort(function(a,b){return sc(a)-sc(b)});
+var top=ord.slice(0,8),have={};mem.forEach(function(m){have[m.key]=1});CORR.forEach(function(c){have[c.key]=1});
+var low=raw.toLowerCase().replace(/\s+/g," ");
+var tr=rr[1].filter(function(z){return z.a.toLowerCase().indexOf(low)>-1}).slice(0,8).map(function(z){return{k:z.k,f:z.f,a:z.a,c:"",src:"Kamus (terjemahan)",key:kfKey(z.k,z.f)}});
+return Promise.all(top.map(function(en){var kd=(en.kd&&en.kd[0])||"",kr=(en.kr&&en.kr[0])||"",k=kd||kr;return trFor(db,k,kr).then(function(list){return{k:k,f:kr,a:list.join(", "),c:catFromPos(en.p),src:"Kamus",en:(en.g||[]).join("; "),key:kfKey(k,kr)}})})).then(function(dh){
+var out=mem.slice();dh.concat(tr).forEach(function(x){if(!have[x.key]){have[x.key]=1;out.push(x)}});return out.slice(0,10)})})})}
+function dictStatusLine(){return DICT_INFO_TXT}
+var DICT_INFO_TXT="Memeriksa kamus lokal…";
+function dictSuggest(input){var fld=input.getAttribute("data-fld"),box=document.getElementById("ds_"+fld),q=input.value.trim();clearTimeout(DST);
+if(!box)return;if(!q){box.classList.remove("show");box.innerHTML="";return}
+var my=++DSQ;DST=setTimeout(function(){dictQuery(q).then(function(rows){if(my!==DSQ)return;box=document.getElementById("ds_"+fld);if(!box)return;DICT_HITS=rows;
+if(!rows.length){box.innerHTML='<div class="dict-status">Tidak ada saran. Kolom tetap bisa diisi manual.'+(DICT_INFO_TXT.indexOf("belum terpasang")>-1?' Kamus belum terpasang (Edit › About).':'')+'</div>';box.classList.add("show");return}
+box.innerHTML=rows.map(function(x,i){return'<button type="button" class="dict-hit" onclick="dictChoose('+i+')"><b>'+e(x.k)+'</b><em>'+e(x.f)+'</em><small>'+(x.a?e(x.a):'Arti Indonesia belum tersedia — isi manual')+(x.en?' · EN: '+e(x.en):'')+'</small><span class="src">'+e(x.src)+(x.c?' · '+e(catLabel(x.c)):'')+'</span></button>'}).join("");
+box.classList.add("show")})},160)}
+function dictHide(){var l=document.querySelectorAll(".dict-suggest");for(var i=0;i<l.length;i++){l[i].classList.remove("show");l[i].innerHTML=""}}
+function dictChoose(i){var x=DICT_HITS[i];if(!x)return;var set=function(p,v){var el=document.getElementById(p+KF);if(el)el.value=v};
+set("ik_",x.k);set("if_",x.f);if(x.a)set("ia_",x.a);
+var cs=document.getElementById("ic_"+KF);if(cs&&!cs.getAttribute("data-u"))cs.value=x.c||guessCat(x.k,x.f);dictHide()}
+document.addEventListener("click",function(ev){if(!ev.target.closest||!ev.target.closest(".dict-wrap"))dictHide()});
+
+/* --- impor / update kamus --- */
+function toEntry(it){var kd=it.k||[],kr=it.f||[];return{id:it.id,ks:kd.map(function(x){return nzk(x).toLowerCase()}),kd:kd,fs:kr.map(function(x){return hira(nzk(x)).toLowerCase()}),kr:kr,p:it.p||[],g:(it.g||[]).slice(0,3),cm:it.c?1:0}}
+function tokens(a){var o={};String(a).toLowerCase().split(/[^a-z0-9À-ɏ]+/).forEach(function(t){if(t.length>1)o[t]=1});return Object.keys(o)}
+function toTrans(it){var a=String(it.a||"").trim();var kf=kfKey(it.k,it.f);return{tid:kf+"#"+nzk(a).toLowerCase().slice(0,60),kf:kf,k:it.k,f:it.f||it.k,a:a,aw:tokens(a)}}
+async function putBatch(store,items,map){var db=await dbOpen();if(!db)throw new Error("IndexedDB tidak tersedia di perangkat ini.");for(var i=0;i<items.length;i+=2000){var tx=db.transaction(store,"readwrite"),st=tx.objectStore(store);items.slice(i,i+2000).forEach(function(it){if(map){var v=map(it);if(v)st.put(v)}else st.put(it)});await txd(tx)}}
+async function delIds(ids){var db=await dbOpen();for(var i=0;i<ids.length;i+=2000){var tx=db.transaction("entries","readwrite"),st=tx.objectStore("entries");ids.slice(i,i+2000).forEach(function(id){st.delete(Number(id))});await txd(tx)}}
+async function clearStore(n){var db=await dbOpen();var tx=db.transaction(n,"readwrite");tx.objectStore(n).clear();await txd(tx)}
+async function pruneNotIn(seen){var db=await dbOpen();return new Promise(function(res,no){var tx=db.transaction("entries","readwrite"),c=tx.objectStore("entries").openKeyCursor(),del=[];c.onsuccess=function(){var cu=c.result;if(cu){if(!seen[cu.key])del.push(cu.key);cu.continue()}else{del.forEach(function(k){tx.objectStore("entries").delete(k)})}};tx.oncomplete=function(){res(del.length)};tx.onerror=function(){no(tx.error)}})}
+function dBase(){var u=(S.dictUrl||"dict/").trim()||"dict/";if(u.slice(-1)!=="/")u+="/";return u}
+async function fj(u){var r=await fetch(u,{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status+" ("+u+")");return r.json()}
+async function dictRemote(){if(navigator.onLine===false)throw new Error("Tidak ada koneksi internet.");return fj(dBase()+"manifest.json")}
+function dMsg(t){var x=document.getElementById("abMsg");if(x)x.textContent=t}
+async function dictInfo(){var m=await getMeta("dict"),t=await getMeta("trans"),db=await dbOpen(),n=0,nt=0;if(db){n=await rq(db.transaction("entries").objectStore("entries").count());nt=await rq(db.transaction("trans").objectStore("trans").count())}return{m:m,t:t,n:n,nt:nt}}
+function infoText(i){if(!i.n&&!i.nt)return"Database kamus: belum terpasang. Ketuk “Perbarui Database Kamus” atau impor berkas kamus.";
+return"Database kamus: "+(i.m?"versi "+i.m.version+(i.m.date?" · tanggal "+i.m.date:""):"impor berkas")+" · "+i.n.toLocaleString("id-ID")+" entri Jepang · "+i.nt.toLocaleString("id-ID")+" terjemahan Indonesia"+(i.t?" (versi "+i.t.version+")":"")}
+async function aboutRefresh(){try{var i=await dictInfo(),t=infoText(i);DICT_INFO_TXT=t;var x=document.getElementById("abDict");if(x)x.textContent=t;var s=document.getElementById("dictStatus");if(s)s.textContent=(i.n||i.nt)?("Kamus lokal: "+i.n.toLocaleString("id-ID")+" entri Jepang, "+i.nt.toLocaleString("id-ID")+" terjemahan Indonesia."):"Kamus belum terpasang — saran hanya dari kosakata & koreksi Anda. Pasang di Edit › About."}catch(x){}}
+function dictChain(local,m){var d=m.deltas||[],c=local,steps=[],g=0;while(c!==m.version&&g++<60){var s=d.filter(function(x){return x.from===c})[0];if(!s)return null;steps.push(s);c=s.to}return c===m.version?steps:null}
+async function dictApplyFull(m,prog){var seen={},files=m.full.files;await setMeta("dict_updating",{to:m.version,at:Date.now()});
+for(var i=0;i<files.length;i++){prog("Mengunduh kamus "+(i+1)+"/"+files.length+"…");var j=await fj(dBase()+files[i]);var it=j.items||[];it.forEach(function(x){seen[x.id]=1});await putBatch("entries",it,toEntry)}
+prog("Merapikan entri lama…");await pruneNotIn(seen);
+var db=await dbOpen(),n=await rq(db.transaction("entries").objectStore("entries").count());
+await setMeta("dict",{version:m.version,date:m.date||"",count:n,source:dBase(),license:m.license||"CC BY-SA 4.0 (EDRDG)",at:Date.now()});await delMeta("dict_updating")}
+async function dictApplyDeltas(steps,m,prog){for(var i=0;i<steps.length;i++){prog("Menerapkan selisih "+(i+1)+"/"+steps.length+"…");var j=await fj(dBase()+steps[i].file);await putBatch("entries",j.upsert||[],toEntry);await delIds(j.remove||[]);var cm=await getMeta("dict")||{};cm.version=steps[i].to;if(i===steps.length-1&&m.date)cm.date=m.date;cm.at=Date.now();await setMeta("dict",cm)}
+var db=await dbOpen(),n=await rq(db.transaction("entries").objectStore("entries").count()),cm2=await getMeta("dict");cm2.count=n;await setMeta("dict",cm2)}
+async function dictApplyTrans(m,prog){var files=m.trans.files||[];await clearStore("trans");for(var i=0;i<files.length;i++){prog("Mengunduh terjemahan "+(i+1)+"/"+files.length+"…");var j=await fj(dBase()+files[i]);await putBatch("trans",j.items||[],toTrans)}await setMeta("trans",{version:m.trans.version,date:m.trans.date||"",source:m.trans.source||"",at:Date.now()})}
+async function dictCheckPlan(){var m=await dictRemote(),loc=await getMeta("dict"),tl=await getMeta("trans"),upd=await getMeta("dict_updating");
+var needE=!loc||loc.version!==m.version||(upd&&upd.to===m.version),needT=!!(m.trans&&(!tl||tl.version!==m.trans.version));
+var steps=(needE&&loc&&!upd)?dictChain(loc.version,m):null;return{m:m,loc:loc,tl:tl,needE:needE,needT:needT,steps:steps}}
+async function btnDictUpdate(){if(DBUSY)return;DBUSY=true;try{dMsg("Memeriksa versi database kamus…");var p=await dictCheckPlan();
+if(!p.needE&&!p.needT){dMsg("Database kamus sudah terbaru (versi "+p.m.version+(p.m.date?", "+p.m.date:"")+").");DBUSY=false;return}
+var how=p.needE?(p.steps?"inkremental ("+p.steps.length+" berkas selisih)":"unduhan penuh ("+p.m.full.files.length+" berkas)"):"hanya terjemahan Indonesia";
+dlg({t:"Perbarui database kamus?",m:"Saat ini: "+(p.loc?p.loc.version+(p.loc.date?" ("+p.loc.date+")":""):"belum terpasang")+"\nTerbaru: "+p.m.version+(p.m.date?" ("+p.m.date+")":"")+"\nMetode: "+how+"\nKosakata pribadi dan koreksi Anda tidak diubah.",y:"Perbarui"},async function(){DBUSY=true;
+try{if(p.needE){if(p.steps)await dictApplyDeltas(p.steps,p.m,dMsg);else await dictApplyFull(p.m,dMsg)}
+if(p.needT)await dictApplyTrans(p.m,dMsg);dMsg("Selesai. Database kamus diperbarui ke versi "+p.m.version+".");aboutRefresh()}
+catch(x){dMsg("Pembaruan gagal: "+x.message+". Data lama tetap aman; coba lagi nanti.")}DBUSY=false},function(){DBUSY=false;dMsg("Pembaruan dibatalkan.")})}
+catch(x){dMsg("Gagal memeriksa kamus: "+(x.message||x)+(String(x.message).indexOf("HTTP 404")>-1?" — manifest.json belum dipasang di sumber kamus.":""));DBUSY=false}}
+function jmToItem(w){var kj=w.kanji||[],ka=w.kana||[],pos={},gl=[];(w.sense||[]).forEach(function(s,i){(s.partOfSpeech||[]).forEach(function(p){pos[p]=1});if(i<1)(s.gloss||[]).forEach(function(g){gl.push(g.text)})});
+return{id:Number(w.id),k:kj.map(function(x){return x.text}),f:ka.map(function(x){return x.text}),p:Object.keys(pos),g:gl.slice(0,3),c:(kj.concat(ka)).some(function(x){return x.common})?1:0}}
+async function dictImportFile(inp){var file=inp.files&&inp.files[0];if(!file)return;if(DBUSY){dMsg("Masih ada proses kamus berjalan.");return}DBUSY=true;
+try{dMsg("Membaca berkas…");var j=JSON.parse(await file.text()),n=0;
+if(j.words&&Array.isArray(j.words)){var its=j.words.map(jmToItem);await putBatch("entries",its,toEntry);n=its.length;await setMeta("dict",{version:j.version||("berkas-"+new Date().toISOString().slice(0,10)),date:(j.dictDate||new Date().toISOString().slice(0,10)),count:n,source:"impor berkas",license:"CC BY-SA 4.0 (EDRDG)",at:Date.now()})}
+else if(j.type==="trans"||(j.items&&j.type==="trans")){await putBatch("trans",j.items||[],toTrans);n=(j.items||[]).length;await setMeta("trans",{version:j.version||("berkas-"+new Date().toISOString().slice(0,10)),date:j.date||"",source:"impor berkas",at:Date.now()})}
+else if(j.type==="entries"){await putBatch("entries",j.items||[],toEntry);n=(j.items||[]).length;var cm=(await getMeta("dict"))||{version:j.version||"berkas",date:j.date||"",source:"impor berkas",license:"CC BY-SA 4.0 (EDRDG)"};cm.at=Date.now();await setMeta("dict",cm)}
+else if(j.type==="delta"){await putBatch("entries",j.upsert||[],toEntry);await delIds(j.remove||[]);n=(j.upsert||[]).length}
+else throw new Error("Format berkas tidak dikenali (butuh JMdict-simplified, type entries/trans/delta).");
+dMsg("Impor selesai: "+n.toLocaleString("id-ID")+" data.");aboutRefresh()}catch(x){dMsg("Impor gagal: "+(x.message||x))}DBUSY=false;inp.value=""}
+function tgAuto(){S.auto=!(S.auto!==false);save();var b=document.getElementById("abAuto");if(b)b.textContent=S.auto?"Pemeriksaan otomatis saat online: AKTIF":"Pemeriksaan otomatis saat online: MATI"}
+
+/* --- update aplikasi (terpisah dari kamus) --- */
+function vcmp(a,b){var x=String(a).split(".").map(Number),y=String(b).split(".").map(Number);for(var i=0;i<3;i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1}return 0}
+async function appRemote(){if(navigator.onLine===false)throw new Error("Tidak ada koneksi internet.");return fj("version.json")}
+async function btnAppCheck(){try{dMsg("Memeriksa versi aplikasi…");var j=await appRemote(),l=document.getElementById("abLatest");if(l)l.textContent=j.version;
+if(vcmp(j.version,APP_VERSION)>0){dMsg("Pembaruan tersedia: "+j.version);dlg({t:"Pembaruan aplikasi tersedia",m:"Versi saat ini: "+APP_VERSION+"\nVersi terbaru: "+j.version+(j.notes?"\n"+j.notes:"")+"\nKosakata, progres, dan database kamus Anda tidak dihapus.",y:"Perbarui",n:"Nanti"},appApply)}
+else dMsg("Aplikasi sudah versi terbaru ("+APP_VERSION+").")}catch(x){dMsg("Gagal memeriksa: "+(x.message||x))}}
+async function appApply(){save();dMsg("Memperbarui aplikasi…");try{if(!("serviceWorker" in navigator)){location.reload();return}var reg=await navigator.serviceWorker.getRegistration();if(!reg){location.reload();return}
+var done=false,go=function(){if(!done){done=true;location.reload()}};navigator.serviceWorker.addEventListener("controllerchange",go);
+await reg.update();if(!reg.installing&&!reg.waiting){go();return}setTimeout(go,7000)}catch(x){dMsg("Pembaruan gagal; versi lama tetap dipakai. Gunakan Pemulihan bila perlu.")}}
+function btnRecover(){dlg({t:"Bersihkan cache aplikasi?",m:"Hanya cache milik Kotoba Card yang dihapus, lalu aplikasi dimuat ulang. Kosakata, progres, dan database kamus TIDAK dihapus.",y:"Bersihkan"},async function(){try{var ks=await caches.keys();await Promise.all(ks.filter(function(k){return k.indexOf("kotoba-")===0}).map(function(k){return caches.delete(k)}));var rg=await navigator.serviceWorker.getRegistration();if(rg)await rg.unregister()}catch(x){}location.reload()})}
+
+/* --- toast & pemeriksaan otomatis (hanya memeriksa; pembaruan tetap manual) --- */
+var TT=null;
+function toast(msg,label,fn){var t=document.getElementById("tst");if(!t)return;document.getElementById("tstm").textContent=msg;var b=document.getElementById("tstb");b.style.display=label?"":"none";b.textContent=label||"";b.onclick=function(){t.classList.remove("show");if(fn)fn()};t.classList.add("show");clearTimeout(TT);TT=setTimeout(function(){t.classList.remove("show")},label?12000:5000)}
+async function autoCheck(){if(S.auto===false||navigator.onLine===false)return;if(Date.now()-(S.lastChk||0)<6*3600e3)return;S.lastChk=Date.now();save();
+try{var j=await appRemote();if(vcmp(j.version,APP_VERSION)>0)toast("Pembaruan aplikasi "+j.version+" tersedia.","Lihat",function(){gear=true;ES=[];EC=5;R();ecT(5);ecT(5)})}catch(x){}
+try{var p=await dictCheckPlan();if(p.needE||p.needT)toast("Pembaruan database kamus tersedia ("+p.m.version+").","Lihat",function(){gear=true;ES=[];R();ecT(5)})}catch(x){}}
+
+/* ===== Menu Edit: Folder Utama (bertingkat), Kotoba (satu area kontrol), Backup, About ===== */
+function editMenu(){if(ES.length)return editPage();var r=curRoot();
+var ft='<label class="mu">Jenis font Jepang</label><div class="fps">'+[["std","Standar / Rounded"],["min","Klasik / Mincho"],["hand","Tulisan tangan"]].map(function(p){return'<button class="fp'+((S.font||"std")===p[0]?' on':'')+'" style="font-family:'+e(FONTS[p[0]])+'" onclick="chFont(\''+p[0]+'\')"><b>日本語 にほんご</b><small>'+p[1]+'</small></button>'}).join("")+'</div>';
+var kz='<label class="mu">Ukuran kanji flashcard</label><input type="range" min="1" max="2" step="0.1" value="'+(S.size||1.2)+'" oninput="S.size=+this.value;applyFont();save()"><div class="jp" style="text-align:center;font-size:calc(46px*var(--z));margin-top:8px">日本語</div>';
+var fz='<label class="mu">Ukuran furigana (kuning)</label><input type="range" min="1" max="2.4" step="0.1" value="'+(S.fsize||1.4)+'" oninput="S.fsize=+this.value;applyFont();save()"><div class="fur" style="text-align:center;margin-top:8px">にほんご</div>';
+var bk='<div class="mu">Cadangan data (kosakata, folder, kategori, koreksi, progres &amp; riwayat kuis)</div><div class="row"><button class="btn" onclick="bkExp()">Ekspor</button><button class="btn" onclick="document.getElementById(\'bkf\').click()">Pilih file…</button></div><input id="bkf" type="file" accept=".json,application/json" style="display:none" onchange="bkFile(this)"><div class="row"><button class="btn" onclick="bkImp(\'merge\')">Impor (Gabung)</button><button class="btn" onclick="bkImp(\'replace\')">Impor (Timpa)</button></div>'+(bkHasUndo()?'<button class="btn" style="width:100%" onclick="bkUndo()">Urungkan impor terakhir</button>':'')+'<div class="mu" id="bm"></div><textarea id="bk" placeholder="Ekspor menampilkan cadangan di sini. Untuk impor, pilih file atau tempel cadangan lalu ketuk Impor." style="width:100%;height:90px;margin-top:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--tx);padding:10px;font:12px monospace"></textarea>';
+var ab='<div class="mu">Kotoba Card · versi <b id="abVer">'+APP_VERSION+'</b> (build '+APP_BUILD+')</div><div class="mu">Versi terbaru: <span id="abLatest">belum diperiksa</span></div>'
++'<button class="btn gold" style="margin-top:10px" onclick="btnAppCheck()">Periksa Update Aplikasi</button>'
++'<div class="mu" style="margin-top:14px" id="abDict">Database kamus: memuat…</div>'
++'<button class="btn gold" style="margin-top:10px" onclick="btnDictUpdate()">Perbarui Database Kamus</button>'
++'<div class="mu" id="abMsg" style="margin-top:8px;min-height:18px"></div>'
++'<button class="btn" style="width:100%" onclick="tgAuto()" id="abAuto">'+(S.auto!==false?"Pemeriksaan otomatis saat online: AKTIF":"Pemeriksaan otomatis saat online: MATI")+'</button>'
++'<div class="mu" style="margin-top:14px">Sumber kamus (folder berisi manifest.json)</div><input id="abUrl" value="'+e(S.dictUrl||"dict/")+'" onchange="S.dictUrl=this.value.trim()||\'dict/\';save()" autocomplete="off">'
++'<div class="mu" style="margin-top:10px">Impor berkas kamus (.json, offline)</div><input type="file" accept=".json,application/json" onchange="dictImportFile(this)">'
++'<button class="btn" style="width:100%;margin-top:10px" onclick="btnRecover()">Pemulihan: bersihkan cache aplikasi</button>'
++'<div class="mu" style="margin-top:12px;font-size:12.5px;line-height:1.4">Data kamus Jepang: JMdict © Electronic Dictionary Research and Development Group (EDRDG), lisensi CC BY-SA 4.0 — edrdg.org/edrdg/licence.html. Terjemahan Indonesia berasal dari sumber terpisah atau input Anda sendiri; JMdict sendiri tidak memuat bahasa Indonesia.</div>';
+return'<div class="em">'+esRow()+ecI(1,"M4 5h13a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3zM8 9h8M8 13h6","Kotoba",bodyKotoba())+ecI(2,"M5 6V4h14v2M12 4v16M9 20h6","Tampilan Teks",ft+'<div style="height:1px;background:var(--line);margin:14px 0"></div>'+kz+fz)+ecI(3,"M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7","Backup & Data",bk)+ecI(4,"M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1","Pengaturan Lainnya",'<button class="btn" style="width:100%;margin-top:0" onclick="S.vh=!S.vh;save();R()">'+(S.vh?"Tampilkan":"Sembunyikan")+' daftar kotoba di halaman Folder</button>')+ecI(5,"M12 8v5M12 16h.01M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0","About",ab)+'</div>'}
+function commit(){var g=function(i){var x=document.getElementById(i);return x?x.value.trim():""},ok=true;
+allF().forEach(function(f){var k=g("ik_"+f.id),a=g("ia_"+f.id),fr=g("if_"+f.id);if(k||fr||a){if(k&&a&&!dupIn(f,k,fr,KE)){kPut(f,k,fr,a,g("ic_"+f.id));dictSaveCorrection(k,fr||k,a,g("ic_"+f.id))}else ok=false}});
+document.querySelectorAll('[data-dr="rn"]').forEach(function(x){var v=x.value.trim(),rr=rootOf(x.getAttribute("data-id"));if(rr&&v)rr.name=v});
+document.querySelectorAll('[data-dr="nf"]').forEach(function(x){var v=x.value.trim(),a=childArr(x.getAttribute("data-id"));if(a&&v){var nf={id:uid(),name:v,words:[],children:[]};a.push(nf)}});
+if(g("nr"))S.roots.push({id:uid(),name:g("nr"),locked:false,folders:[]});
+fixAct();save();return ok}
+
+/* --- halaman Edit › Folder Utama (kedalaman bebas) --- */
+function esJump(n){var m=document.getElementById("m");if(dirty()){guard(function(){esJump(n)});return}ES=ES.slice(0,n+1);R();m.scrollTop=0}
+function editCrumb(r,fp){var h='<div class="crumb"><button onclick="esJump(-1)">Edit</button><span>›</span><button onclick="esJump(0)">Folder Utama</button>';if(r)h+='<span>›</span>'+(fp.length?'<button onclick="esJump(1)">'+e(r.name)+'</button>':'<b>'+e(r.name)+'</b>');fp.forEach(function(f,i){h+='<span>›</span>'+(i===fp.length-1?'<b>'+e(f.name)+'</b>':'<button onclick="esJump('+(2+i)+')">'+e(f.name)+'</button>')});return h+'</div>'}
+function kidWords(f){return f.words.map(function(w){return'<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span> <span class="cattag">'+e(catLabel(w.c))+'</span><div class="mu">'+e(w.a)+'</div></span></div>'}).join("")||'<div class="mu">Belum ada kotoba.</div>'}
+function subCount(z){return(z.children.length?z.children.length+" sub · ":"")+z.words.length+" kata"}
+function editPage(){var r=ES[1]?rootOf(ES[1]):null,f=null,fp=[],h;if(ES[1]&&!r)ES.length=1;
+if(r){for(var i=2;i<ES.length;i++){var cands=f?f.children:r.folders,id=ES[i],x=null;for(var j=0;j<cands.length;j++)if(cands[j].id===id)x=cands[j];if(!x){ES.length=i;break}f=x;fp.push(x)}}
+if(!r){h=esBk("Edit")+editCrumb(null,[])+'<h1 style="margin:10px 0 0">Folder Utama</h1><div class="mu" style="margin-top:12px">Buat folder induk baru</div><div class="row"><input id="nr" data-dr="n" placeholder="mis. ENGLISH, CATATAN"><button class="btn" onclick="addRoot()">Buat</button></div><div class="em">'+S.roots.map(function(x){return esItem(x.name,x.folders.length+" folder","esPush('"+x.id+"')",x.locked)}).join("")+'</div>'}
+else if(!f){var i2=r.id;h=esBk("Folder Utama")+editCrumb(r,[])+'<h1 class="jp" style="margin:10px 0 0">'+(r.locked?'🔒 ':'')+e(r.name)+'</h1><div class="mu" style="margin-top:12px">Buat folder anak</div><div class="row"><input id="nf_'+i2+'" data-dr="nf" data-id="'+i2+'" placeholder="Nama folder anak"><button class="btn" onclick="addChild(\''+i2+'\')">Buat</button></div><div class="em">'+(r.folders.map(function(z){return esItem(z.name,subCount(z),"esPush('"+z.id+"')")}).join("")||'<div class="mu">Belum ada folder anak.</div>')+'</div><div class="rr"><div class="mu">Nama folder induk</div><div class="row"><input id="rn_'+i2+'" data-dr="rn" data-id="'+i2+'" data-o="'+e(r.name)+'" value="'+e(r.name)+'" aria-label="Nama folder induk"><button class="btn" onclick="renRoot(\''+i2+'\')">Rename</button></div><div class="row sp"><button class="btn" onclick="lockRoot(\''+i2+'\')">'+(r.locked?'🔓 Buka gembok':'🔒 Kunci')+'</button><button class="x'+(r.locked?' dis':'')+'" onclick="delRoot(\''+i2+'\')">Hapus folder induk</button></div></div>'}
+else{var par=fp.length>1?fp[fp.length-2].name:r.name;h=esBk(par)+editCrumb(r,fp)+'<h1 class="jp" style="margin:10px 0 0">'+e(f.name)+'</h1><div class="row sp" style="margin-top:12px"><button class="btn" onclick="renChild(\''+r.id+'\',\''+f.id+'\')">Rename</button><button class="x" onclick="delChild(\''+r.id+'\',\''+f.id+'\')">Hapus folder</button></div><div class="mu" style="margin-top:14px">Buat subfolder</div><div class="row"><input id="nf_'+f.id+'" data-dr="nf" data-id="'+f.id+'" placeholder="Nama subfolder"><button class="btn" onclick="addChild(\''+f.id+'\')">Buat</button></div><div class="em">'+(f.children.map(function(z){return esItem(z.name,subCount(z),"esPush('"+z.id+"')")}).join("")||'<div class="mu">Belum ada subfolder.</div>')+'</div><div class="mu" style="margin-top:14px">Isi folder ('+f.words.length+' kata) — kelola lewat Edit › Kotoba</div><div class="vscroll">'+kidWords(f)+'</div>'}
+return h}
+
+/* --- Edit › Kotoba: form tambah + satu area kontrol (Cari, Edit, Hapus) --- */
+var KF=null,KQ="",KE=null,KSEL=null,KS="f";
+function kPut(f,k,r,a,c){c=CATS.some(function(x){return x[0]===c})?c:guessCat(k,r);if(KE){var w=f.words.filter(function(x){return x.id===KE})[0];if(w){w.k=k;w.f=r||k;w.a=a;w.c=c;delete w.ca;KE=null;return}KE=null}f.words.push({id:uid(),k:k,f:r||k,a:a,c:c})}
+function kRows(f){var q=KQ.trim(),src=[];if(KS==="a"){allF().forEach(function(z){z.words.forEach(function(w){src.push({w:w,f:z})})})}else f.words.forEach(function(w){src.push({w:w,f:f})});
+var rows=src.filter(function(x){return wordMatch(x.w,q)});
+return rows.map(function(x){var w=x.w;return'<div class="kid kr'+(w.id===KSEL?' sel':'')+'" onclick="kSel(\''+w.id+'\')"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span> <span class="cattag">'+e(catLabel(w.c))+(w.ca?'*':'')+'</span><div class="mu">'+e(w.a)+(KS==="a"?' · <small>'+e(pathLabel(x.f.id))+'</small>':'')+'</div></span></div>'}).join("")||'<div class="mu">'+(q?"Tidak ada kotoba yang cocok.":"Belum ada kotoba.")+'</div>'}
+function kSelUI(){var s=document.getElementById("ksel"),b1=document.getElementById("kEdit"),b2=document.getElementById("kDel"),l=KSEL?wordLoc(KSEL):null;if(KSEL&&!l)KSEL=null;
+if(s)s.innerHTML=l?'Dipilih: <b class="jp">'+e(l.w.k)+'</b> <span class="jp" style="color:var(--gold)">'+e(l.w.f)+'</span> — '+e(l.w.a):'Pilih kotoba dari daftar/hasil pencarian untuk Edit atau Hapus.';
+if(b1)b1.disabled=!l;if(b2)b2.disabled=!l}
+function kList(){var f=findF(KF),x=document.getElementById("kl");if(f&&x)x.innerHTML=kRows(f);kSelUI()}
+function kSel(id){KSEL=KSEL===id?null:id;kList()}
+function kScope(s){KS=s;KSEL=null;R()}
+function kEditSel(){if(KSEL)editWord(KSEL)}
+function kDelSel(){var l=KSEL?wordLoc(KSEL):null;if(l)delWordIn(l.f.id,KSEL)}
+function editWord(id){var l=wordLoc(id);if(!l)return;KF=l.f.id;KE=id;R();var s=function(p,v){var x=document.getElementById(p+KF);if(x)x.value=v};s("ik_",l.w.k);s("if_",l.w.f);s("ia_",l.w.a);s("ic_",l.w.c||"noun");var cs=document.getElementById("ic_"+KF);if(cs)cs.setAttribute("data-u","1");var b=document.getElementById("ik_"+KF);if(b&&b.scrollIntoView)b.scrollIntoView({block:"center",behavior:"smooth"})}
+function cancelEdit(){KE=null;R()}
+function catAuto(){var k=document.getElementById("ik_"+KF),f=document.getElementById("if_"+KF),c=document.getElementById("ic_"+KF);if(c&&!c.getAttribute("data-u"))c.value=guessCat(k?k.value.trim():"",f?f.value.trim():"")}
+function onWF(x){dictSuggest(x);catAuto()}
+function bodyKotoba(){var all=allF();if(!KF||!findF(KF))KF=(S.active&&findF(S.active))?S.active:(all[0]?all[0].id:null);var f=findF(KF);
+if(!f)return'<div class="mu">Buat folder anak dulu di Folder Utama.</div>';
+var o="";S.roots.forEach(function(r){walkF(r.folders,function(z){o+='<option value="'+z.id+'"'+(z.id===KF?" selected":"")+'>'+e(pathLabel(z.id))+'</option>'})});var i=f.id;
+var wf=function(id,fld,ph){return'<div class="dict-wrap"><input id="'+id+i+'" data-dr="w" data-fld="'+fld+'" autocomplete="off" autocapitalize="none" spellcheck="false" oninput="onWF(this)" placeholder="'+ph+'"><div class="dict-suggest" id="ds_'+fld+'"></div></div>'};
+return'<div class="mu">Folder tujuan</div><select id="kf" onchange="KF=this.value;KE=null;KSEL=null;R()">'+o+'</select><div class="mu" style="margin-top:14px">'+(KE?"Edit kotoba":"Tambah kotoba")+'</div>'
++wf("ik_","k","Kanji / Kotoba")+wf("if_","f","Furigana (cara baca)")+wf("ia_","a","Arti (Bahasa Indonesia)")
++'<select id="ic_'+i+'" aria-label="Kategori" onchange="this.setAttribute(\'data-u\',1)">'+catOpts("noun")+'</select>'
++'<button class="btn gold" onclick="addWordTo(KF)">'+(KE?"Simpan perubahan":"Tambah Kotoba")+'</button>'+(KE?'<button class="btn" style="width:100%" onclick="cancelEdit()">Batal edit</button>':'')
++'<div class="dict-status" id="dictStatus">'+dictStatusLine()+'</div>'
++'<div class="box ctl"><div class="mu">Cari · Edit · Hapus kotoba</div><input id="ks" type="search" placeholder="Cari: Kanji, Kana, Romaji, atau Arti" value="'+e(KQ)+'" oninput="KQ=this.value;kList()">'
++'<div class="qg" style="margin-top:8px"><button class="qc'+(KS==="f"?' on':'')+'" onclick="kScope(\'f\')">Folder ini</button><button class="qc'+(KS==="a"?' on':'')+'" onclick="kScope(\'a\')">Semua folder</button></div>'
++'<div class="mu ksel" id="ksel"></div><div class="row"><button class="btn" id="kEdit" style="flex:1" onclick="kEditSel()" disabled>Edit</button><button class="btn" id="kDel" style="flex:1;color:#ff7b8a" onclick="kDelSel()" disabled>Hapus</button></div>'
++'<div class="mu" style="margin-top:10px">Daftar kotoba ('+f.words.length+')</div><div id="kl" class="vscroll">'+kRows(f)+'</div></div>'}
+
+/* ===== Backup & Restore (tervalidasi, tanpa duplikasi, dengan peringatan) ===== */
+var BKF="kotoba-card-backup";
+function bkm(t){var x=document.getElementById("bm");if(x)x.textContent=t}
+function bkHasUndo(){try{return!!localStorage.getItem(KEY+".prerestore")}catch(x){return false}}
+function bkPayload(){return{format:BKF,schema:SCHEMA,app:APP_VERSION,at:new Date().toISOString(),data:JSON.parse(JSON.stringify(S)),corrections:CORR.slice()}}
+function bkExp(){var t=document.getElementById("bk"),p=bkPayload(),txt=JSON.stringify(p);t.value=txt;
+try{var a=document.createElement("a"),u=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.href=u;a.download="kotoba-card-backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u)},500)}catch(x){}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){bkm("Berkas diunduh dan teks tersalin.")},function(){bkm("Berkas diunduh. Bila tidak muncul, salin teks di bawah.")})}else bkm("Berkas diunduh. Bila tidak muncul, salin teks di bawah.")}
+function bkFile(inp){var f=inp.files&&inp.files[0];if(!f)return;var r=new FileReader();r.onload=function(){document.getElementById("bk").value=String(r.result);bkm("Berkas dimuat ("+f.name+"). Pilih Impor (Gabung) atau Impor (Timpa).");inp.value=""};r.onerror=function(){bkm("Gagal membaca berkas.")};r.readAsText(f)}
+function sStr(v,d){return typeof v==="string"?v:(typeof v==="number"?String(v):d)}
+function normWords(a,st){var out=[];(Array.isArray(a)?a:[]).forEach(function(w){if(!w||typeof w!=="object"){st.skip++;return}var k=sStr(w.k,"").trim(),ar=sStr(w.a,"").trim();if(!k||!ar){st.skip++;return}
+var n={id:sStr(w.id,"")||uid(),k:k,f:sStr(w.f,"").trim()||k,a:ar};if(CATS.some(function(x){return x[0]===w.c}))n.c=w.c;if(w.ca)n.ca=1;
+["ivl","ease","due"].forEach(function(p){if(typeof w[p]==="number"&&isFinite(w[p]))n[p]=w[p]});out.push(n)});return out}
+function normFolders(a,st,d){var out=[];if(d>40){st.skip++;return out}(Array.isArray(a)?a:[]).forEach(function(f){if(!f||typeof f!=="object"){st.skip++;return}var n={id:sStr(f.id,"")||uid(),name:sStr(f.name,"").trim()||"Tanpa nama",words:normWords(f.words,st),children:normFolders(f.children,st,d+1)};st.f++;out.push(n)});return out}
+function bkValidate(txt){var d;try{d=JSON.parse(txt)}catch(x){return{err:"Teks bukan JSON yang valid."}}
+if(!d||typeof d!=="object")return{err:"Isi cadangan tidak valid."};
+var data=d,cor=[];if(d.format){if(d.format!==BKF)return{err:"Ini bukan berkas cadangan Kotoba Card."};if(typeof d.schema==="number"&&d.schema>SCHEMA)return{err:"Cadangan dibuat oleh versi aplikasi yang lebih baru (skema "+d.schema+"). Perbarui aplikasi dulu."};data=d.data;cor=Array.isArray(d.corrections)?d.corrections:[]}
+if(!data||typeof data!=="object")return{err:"Cadangan tidak memuat data."};
+var roots=data.roots;if(!Array.isArray(roots)){if(Array.isArray(data.folders))roots=[{id:"r1",name:data.rootName||"NIHONGO",folders:data.folders}];else return{err:"Cadangan tidak memuat folder."}}
+var st={skip:0,f:0};var R2=roots.filter(function(r){return r&&typeof r==="object"}).map(function(r){return{id:sStr(r.id,"")||uid(),name:sStr(r.name,"").trim()||"NIHONGO",locked:!!r.locked,folders:normFolders(r.folders,st,0)}});
+if(!R2.length)return{err:"Cadangan tidak memuat folder induk."};
+var wc=0;R2.forEach(function(r){walkF(r.folders,function(f){wc+=f.words.length})});
+var perf={};if(data.perf&&typeof data.perf==="object")Object.keys(data.perf).forEach(function(k){var p=data.perf[k];if(p&&typeof p==="object"&&typeof p.n==="number")perf[k]={n:p.n,x:+p.x||0,s:+p.s||0,ms:+p.ms||0,fs:+p.fs||0,lr:sStr(p.lr,""),t:+p.t||0}});
+var cr=cor.filter(function(c){return c&&typeof c.k==="string"&&c.k}).map(function(c){return{key:kfKey(c.k,c.f),k:c.k,f:sStr(c.f,"")||c.k,a:sStr(c.a,""),c:sStr(c.c,""),at:+c.at||0}});
+return{ok:1,roots:R2,rootId:sStr(data.rootId,""),perf:perf,qh:Array.isArray(data.qh)?data.qh.slice(0,60):[],st:(data.st&&typeof data.st==="object")?data.st:{},settings:{font:data.font,size:data.size,fsize:data.fsize,vh:data.vh,qs:data.qs},corr:cr,counts:{roots:R2.length,folders:st.f,words:wc,corr:cr.length,skip:st.skip}}}
+function mergeWords(la,ba,idmap,st){ba.forEach(function(bw){var key=kfKey(bw.k,bw.f),ex=la.filter(function(w){return kfKey(w.k,w.f)===key})[0];if(ex){idmap[bw.id]=ex.id;st.dup++;return}
+var nw=JSON.parse(JSON.stringify(bw));if(wordLoc(nw.id))nw.id=uid();idmap[bw.id]=nw.id;la.push(nw);st.add++})}
+function mergeFolders(la,ba,idmap,st){ba.forEach(function(bf){var key=bf.name.trim().toLowerCase(),lf=la.filter(function(f){return f.name.trim().toLowerCase()===key})[0];
+if(!lf){lf={id:allF().some(function(z){return z.id===bf.id})?uid():bf.id,name:bf.name,words:[],children:[]};la.push(lf);st.nf++}
+mergeWords(lf.words,bf.words,idmap,st);mergeFolders(lf.children,bf.children,idmap,st)})}
+function bkApply(v,mode){try{localStorage.setItem(KEY+".prerestore",JSON.stringify(S))}catch(x){}
+var st={add:0,dup:0,nf:0},msg;
+if(mode==="replace"){var ns={font:v.settings.font||"std",rootId:v.rootId,active:null,roots:v.roots,perf:v.perf,qh:v.qh,st:v.st,qs:v.settings.qs||{}};if(v.settings.size)ns.size=v.settings.size;if(v.settings.fsize)ns.fsize=v.settings.fsize;if(v.settings.vh)ns.vh=v.settings.vh;ns.dictUrl=S.dictUrl;ns.auto=S.auto;S=ns;mig();
+dbOpen().then(function(db){if(!db)return;var tx=db.transaction("corrections","readwrite"),s=tx.objectStore("corrections");s.clear();v.corr.forEach(function(c){s.put(c)});CORR=v.corr.slice()});
+msg="Restore (timpa) selesai: "+v.counts.words+" kotoba."}
+else{var idmap={};v.roots.forEach(function(br){var lr=S.roots.filter(function(r){return r.name.trim().toLowerCase()===br.name.trim().toLowerCase()})[0];if(!lr){lr={id:S.roots.some(function(r){return r.id===br.id})?uid():br.id,name:br.name,locked:br.locked,folders:[]};S.roots.push(lr)}mergeFolders(lr.folders,br.folders,idmap,st)});
+Object.keys(v.perf).forEach(function(k){var lid=idmap[k];if(!lid)return;var lp=S.perf[lid],bp=v.perf[k];if(!lp||bp.n>lp.n)S.perf[lid]=bp});
+var seenT={};S.qh.forEach(function(h){seenT[h.t]=1});v.qh.forEach(function(h){if(h&&!seenT[h.t])S.qh.push(h)});S.qh.sort(function(a,b){return b.t-a.t});S.qh=S.qh.slice(0,60);
+S.st=S.st||{};Object.keys(v.st).forEach(function(d){var b=v.st[d],l=S.st[d];if(!l){S.st[d]=b;return}Object.keys(b).forEach(function(p){if(typeof b[p]==="number")l[p]=Math.max(l[p]||0,b[p])})});
+v.corr.forEach(function(c){var i=-1;CORR.forEach(function(x,j){if(x.key===c.key)i=j});if(i>-1){if(c.at>CORR[i].at){CORR[i]=c}else return}else CORR.push(c);dbOpen().then(function(db){if(db)db.transaction("corrections","readwrite").objectStore("corrections").put(c)})});
+mig();msg="Restore (gabung) selesai: "+st.add+" kotoba baru, "+st.dup+" duplikat dilewati, "+st.nf+" folder baru."}
+RL=true;NP=[];ES=[];KE=null;KSEL=null;L=null;Q=null;fixAct();applyFont();save();R();bkm(msg+(v.counts.skip?" ("+v.counts.skip+" data rusak dilewati)":""))}
+function bkImp(mode){var t=document.getElementById("bk"),txt=t?t.value.trim():"";if(!txt){bkm("Pilih berkas atau tempel cadangan dulu.");return}
+var v=bkValidate(txt);if(!v.ok){bkm("Cadangan ditolak: "+v.err);return}
+var c=v.counts,now=0;allF().forEach(function(f){now+=f.words.length});
+var info="Berisi "+c.roots+" folder induk, "+c.folders+" folder, "+c.words+" kotoba, "+c.corr+" koreksi."+(c.skip?"\n"+c.skip+" data rusak akan dilewati.":"");
+if(mode==="replace")dlg({t:"Timpa semua data?",m:info+"\n\nPERINGATAN: "+now+" kotoba dan seluruh folder yang ada sekarang akan DIGANTI oleh isi cadangan. Salinan sebelum impor disimpan sementara sehingga bisa diurungkan.",y:"Ya, Timpa"},function(){bkApply(v,"replace")});
+else dlg({t:"Gabungkan cadangan?",m:info+"\n\nData yang sudah ada tidak ditimpa. Kotoba yang sama (Kanji + Kana) di folder yang sama tidak diduplikasi; versi Anda yang menang.",y:"Ya, Gabung"},function(){bkApply(v,"merge")})}
+function bkUndo(){var raw;try{raw=localStorage.getItem(KEY+".prerestore")}catch(x){}if(!raw)return;dlg({t:"Urungkan impor terakhir?",m:"Data dikembalikan ke kondisi sebelum impor terakhir."},function(){try{S=JSON.parse(raw);mig();localStorage.removeItem(KEY+".prerestore");RL=true;NP=[];ES=[];L=null;Q=null;applyFont();save();R();bkm("Impor diurungkan.")}catch(x){bkm("Gagal mengurungkan.")}})}
+
+/* ===== Kuis: 3 mode active-recall, pengaturan, pengacakan adaptif, batas 10 detik ===== */
+var QM=[["kanji","Tebak Kanji","Lihat bacaan dan arti, lalu pilih kanjinya."],["arti","Tebak Arti","Lihat kosakata Jepang, lalu pilih artinya dalam Bahasa Indonesia."],["kotoba","Tebak Kotoba","Lihat arti Indonesia, lalu pilih kosakata Jepangnya."]];
+var QCAT=[["all","Semua"],["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"],["mixed","Mixed"]];
+var QLIM=10000,QSLOW=7000,QMID=4000,QGL={f:"Lancar",n:"Perlu latihan",s:"Wajib diulang",x:"Prioritas tinggi"};
+function qList(){var r=curRoot();return r?rootFolders(r):[]}
+function qs(){var q=S.qs=S.qs||{};if(!QM.some(function(m){return m[0]===q.mode}))q.mode="kotoba";q.cat="all";if([25,50,100].indexOf(q.n)<0)q.n=25;
+var l=qList();if(!l.some(function(x){return x.f.id===q.from}))q.from=l.length?l[0].f.id:null;if(!l.some(function(x){return x.f.id===q.to}))q.to=l.length?l[l.length-1].f.id:null;return q}
+function qRange(){var q=qs(),l=qList();if(!l.length)return[];var a=0,b=l.length-1;l.forEach(function(x,i){if(x.f.id===q.from)a=i;if(x.f.id===q.to)b=i});if(a>b){var t=a;a=b;b=t}
+var end=b+descF(l[b].f).length-1;return l.slice(a,end+1)}
+function qPool(){var q=qs(),seen={},out=[];qRange().forEach(function(x){x.f.words.forEach(function(w){if(seen[w.id])return;seen[w.id]=1;if(q.cat==="all"||q.cat==="mixed"||w.c===q.cat)out.push(w)})});return out}
+function qSet(k,v){qs();S.qs[k]=v;save();R()}
+function qRoot(id){S.rootId=id;NP=[];fixAct();save();R()}
+
+/* --- bobot adaptif --- */
+function wt(w){var p=S.perf&&S.perf[w.id];if(!p||!p.n)return 1.5;var v=1+3*(p.x/p.n)+1.5*(p.s/p.n);if(p.lr==="x")v+=2;else if(p.lr==="s")v+=1;else if(p.lr==="n")v+=.4;v*=Math.pow(.7,Math.min(p.fs||0,6));return Math.max(.12,Math.min(8,v))}
+function wsample(pool,n){return pool.map(function(w){return{w:w,k:-Math.log(Math.random()||1e-9)/wt(w)}}).sort(function(a,b){return a.k-b.k}).slice(0,n).map(function(x){return x.w})}
+function adjFix(q){for(var i=1;i<q.length;i++){if(q[i].id===q[i-1].id){for(var j=i+1;j<q.length;j++){if(q[j].id!==q[i].id&&(i+1>=q.length||q[j].id!==q[i+1].id)){var t=q[i];q[i]=q[j];q[j]=t;break}}}}return q}
+function buildQueue(pool,n){var q=[],M=pool.length;if(!M)return q;var full=Math.floor(n/M);
+for(var i=0;i<full;i++)q=q.concat(wsample(pool,M));
+var rem=n-q.length;if(rem>0)q=q.concat(wsample(pool,rem));
+return adjFix(q)}
+function buildMixed(pool,n){var g={};pool.forEach(function(w){(g[w.c]=g[w.c]||[]).push(w)});var cats=shuf(Object.keys(g)),qs2={},pt={};cats.forEach(function(c){qs2[c]=buildQueue(g[c],n);pt[c]=0});
+var q=[];for(var s=0;s<n;s++){var c=cats[s%cats.length];q.push(qs2[c][pt[c]++])}return adjFix(q)}
+function perfUpd(id,g,ms){var p=S.perf[id]=S.perf[id]||{n:0,x:0,s:0,ms:0,fs:0,lr:"",t:0};p.n++;if(g==="x")p.x++;if(g==="s")p.s++;p.ms=p.n===1?Math.round(ms):Math.round(p.ms*.6+ms*.4);p.fs=g==="f"?(p.fs||0)+1:0;p.lr=g;p.t=Date.now()}
+function qReins(w){var i=Q.i,n=Q.q.length,c=[];for(var j=i+3;j<Math.min(n,i+11);j++)if(Q.q[j].id!==w.id)c.push(j);if(!c.length)return;c.sort(function(a,b){return wt(Q.q[a])-wt(Q.q[b])+(Math.random()-.5)});Q.q[c[0]]=w}
+
+/* --- pemeriksaan jawaban (Kanji/Kana valid; berdasarkan data tersimpan) --- */
+function okJp(inp,w,mode){var a=hira(nA(inp));if(!a)return false;var k=hira(nA(w.k)),f=hira(nA(w.f||w.k));if(mode==="kanji"){return k===f?a===f:a===k}return a===k||a===f}
+function okId(inp,w){var src=String(w.a||"").replace(/[\(（][^\)）]*[\)）]/g,""),parts=src.split(/[,;\/、，；\n]/).map(nA).filter(Boolean),whole=nA(src);if(whole)parts.push(whole);
+var ia=String(inp||"").replace(/[\(（][^\)）]*[\)）]/g,"").split(/[,;\/、，；]/).map(nA).filter(Boolean);if(!ia.length)return false;return ia.every(function(x){return parts.indexOf(x)>-1})}
+
+/* --- layar pengaturan --- */
+function qSetup(){var q=qs(),l=qList(),pool=qPool(),r=curRoot();
+if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");
+var h=hero()+'<h1>Kuis</h1><div class="box">';
+if(S.roots.length>1)h+='<div class="mu">Folder utama</div><select onchange="qRoot(this.value)">'+S.roots.map(function(x){return'<option value="'+x.id+'"'+(x.id===S.rootId?" selected":"")+'>'+e(x.name)+'</option>'}).join("")+'</select>';
+else h+='<div class="mu">Folder utama: <b>'+e(r.name)+'</b></div>';
+h+='<div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return'<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join("")+'</div><div class="mu" style="margin-top:6px;font-size:13px">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div>';
+var opt=function(sel){return l.map(function(x){return'<option value="'+x.f.id+'"'+(x.f.id===sel?" selected":"")+'>'+(x.d?"  ".repeat(x.d)+"↳ ":"")+e(x.f.name)+'</option>'}).join("")};
+h+='<div class="mu" style="margin-top:14px">Rentang folder (subfolder ikut dihitung)</div><div class="mu" style="font-size:13px">Dari</div><select onchange="qSet(\'from\',this.value)">'+opt(q.from)+'</select><div class="mu" style="font-size:13px;margin-top:8px">Sampai</div><select onchange="qSet(\'to\',this.value)">'+opt(q.to)+'</select>';
+h+='<div class="mu" style="margin-top:14px">Jumlah soal</div><div class="qn3">'+[25,50,100].map(function(n){return'<button class="'+(q.n===n?'on':'')+'" onclick="qSet(\'n\','+n+')">'+n+' soal</button>'}).join("")+'</div>';
+var weak=pool.filter(function(w){var p=S.perf[w.id];return p&&(p.lr==="x"||p.lr==="s")}).length;
+h+='<div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia'+(pool.length&&pool.length<q.n?' — akan diacak dan diulang sampai '+q.n+' soal':'')+(weak?' · '+weak+' kotoba perlu diulang (diprioritaskan)':'')+'</div>';
+h+=pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Tidak ada kotoba yang cocok dengan kategori/rentang ini.</div>';
+return h+'</div>'}
+function vQuiz(){if(Q&&Q.q)return Q.done?qResult():qRun();return qSetup()}
+
+/* --- jalannya kuis --- */
+function qStart(ids){var q=qs(),pool=qPool();if(ids){var set={};ids.forEach(function(i){set[i]=1});pool=pool.filter(function(w){return set[w.id]})}
+if(!pool.length){dlg({t:"Tidak ada kotoba",m:"Tidak ada kotoba yang cocok dengan pengaturan.",single:true,y:"Mengerti"});return}
+var n=ids?pool.length:q.n,qq=(!ids&&q.cat==="mixed")?buildMixed(pool,n):buildQueue(pool,n);
+Q={mode:q.mode,cat:q.cat,n:n,q:qq,i:0,res:[],rep:{},phase:"ask",t0:0,pe:0,paused:false,draft:"",dp:qPool(),o:null,oi:-1,done:false,raf:0,nt:0,last:null,fl:false};R("n");qBegin()}
+function qBegin(){if(!Q)return;Q.t0=performance.now();Q.phase="ask";Q.paused=false;Q.fl=false;qSync();if(!Q.paused)qTick();}
+function qTick(){if(!Q)return;var QX=Q;cancelAnimationFrame(QX.raf);(function f(){if(Q!==QX||QX.phase!=="ask"||QX.paused)return;var el=performance.now()-QX.t0;if(el>=QSLOW)QX.fl=true;
+
+if(el>=QLIM){qFinish("",true,false);return}QX.raf=requestAnimationFrame(f)})()}
+function qSync(){if(!Q||Q.done||Q.phase!=="ask")return;var on=T==="quiz"&&!document.hidden;if(on&&Q.paused){Q.t0=performance.now()-Q.pe;Q.paused=false;qTick()}else if(!on&&!Q.paused){Q.pe=performance.now()-Q.t0;Q.paused=true;cancelAnimationFrame(Q.raf)}}
+document.addEventListener("visibilitychange",qSync);
+function qPick(k){if(!Q||Q.phase!=="ask"||Q.paused)return;qFinish(k,false,false)}
+function qFinish(inp,to,skip){if(!Q||Q.phase!=="ask")return;var QX=Q,el=performance.now()-QX.t0;cancelAnimationFrame(QX.raf);if(to)el=Math.max(el,QLIM);
+var w=QX.q[QX.i],ok=false,pk=(typeof inp==="number")?inp:-1;if(!to&&pk>=0&&QX.o&&QX.o[pk])ok=QX.o[pk].id===w.id;
+if(ok&&el>=QLIM){ok=false;to=true}
+var g=!ok?"x":el<QMID?"f":el<QSLOW?"n":"s";
+var r={id:w.id,ms:Math.round(el),ok:ok,g:g,to:!!to,sk:!!skip,pk:pk};QX.res.push(r);QX.last=r;QX.phase="fb";
+perfUpd(w.id,g,el);if(g==="x"||g==="s"){QX.rep[w.id]=1;qReins(w)}
+stat("q",ok);save();
+(QX.o||[]).forEach(function(x,j){var b=document.getElementById("o"+j);if(!b)return;if(x.id===w.id)b.classList.add("ok");else if(j===pk)b.classList.add("bad")});var fl=document.getElementById("fl");if(fl){var pp=Math.round(QX.res.length/QX.q.length*100);fl.style.width=pp+"%";fl.textContent=pp+"%"}
+clearTimeout(QX.nt);QX.nt=setTimeout(function(){if(Q===QX&&QX.phase==="fb")qNext()},to?1200:600)}
+function qNext(){if(!Q||Q.phase!=="fb")return;clearTimeout(Q.nt);Q.i++;Q.draft="";Q.last=null;
+if(Q.i>=Q.q.length){qEnd(false);return}
+Q.phase="ask";R("n");qBegin()}
+function qEnd(partial){if(!Q||Q.done)return;cancelAnimationFrame(Q.raf);clearTimeout(Q.nt);Q.done=true;Q.partial=!!partial;
+var ok=Q.res.filter(function(x){return x.ok}).length,avg=Q.res.length?Math.round(Q.res.reduce(function(s,x){return s+x.ms},0)/Q.res.length):0;
+S.qh.unshift({t:Date.now(),m:Q.mode,c:Q.cat,n:Q.res.length,of:Q.q.length,ok:ok,avg:avg,rep:Object.keys(Q.rep).length,p:partial?1:0});S.qh=S.qh.slice(0,60);save();R("n")}
+function qExit(){if(!Q)return;if(!Q.res.length){dlg({t:"Keluar dari kuis?",m:"Belum ada soal yang dijawab."},function(){if(Q){cancelAnimationFrame(Q.raf);clearTimeout(Q.nt)}Q=null;R()});return}
+dlg({t:"Akhiri kuis sekarang?",m:Q.res.length+" dari "+Q.q.length+" soal sudah dijawab. Hasil dan progres belajar tetap disimpan dan ditampilkan.",y:"Akhiri & lihat hasil",n:"Lanjut kuis"},function(){qEnd(true)})}
+function qLab(w,m){return m==="arti"?String(w.a||""):String(w.k||w.f||"")}
+function qOpts(w,m){var seen={},out=[w];seen[qLab(w,m)]=1;var add=function(list){shuf(list.slice()).forEach(function(x){if(out.length>=4)return;var l=qLab(x,m);if(x.id===w.id||!l||seen[l])return;seen[l]=1;out.push(x)})};
+add(Q.dp||[]);if(out.length<4){var all=[];qList().forEach(function(x){all=all.concat(x.f.words)});add(all)}return shuf(out)}
+function qRun(){var w=Q.q[Q.i],n=Q.q.length,pct=Math.round(Q.i/n*100),pr,hint,fb=Q.phase==="fb";
+if(Q.mode==="kanji"){pr='<div class="fur" style="font-size:calc(34px*var(--y));margin:0">'+e(w.f)+'</div><div style="font-size:22px">'+e(w.a)+'</div>';hint="Pilih kanjinya"}
+else if(Q.mode==="arti"){pr='<div class="big kz">'+e(w.k)+'</div>';hint="Pilih artinya (Bahasa Indonesia)"}
+else{pr='<div class="big" style="font-size:34px">'+e(w.a)+'</div>';hint="Pilih kosakata Jepangnya"}
+if(!Q.o||Q.oi!==Q.i){Q.o=qOpts(w,Q.mode);Q.oi=Q.i}
+var ob="";Q.o.forEach(function(x,k){var l=qLab(x,Q.mode),c="opt"+(Q.mode!=="arti"&&l.length<=6?" kj":"");if(fb){if(x.id===w.id)c+=" ok";else if(Q.last&&Q.last.pk===k)c+=" bad"}ob+='<button class="'+c+'" id="o'+k+'" onclick="qPick('+k+')">'+e(l)+'</button>'});
+return'<div class="row sp"><button class="btn" style="margin:0" onclick="qExit()">← Keluar</button><span class="tag">'+(Q.i+1)+' / '+n+'</span></div><div class="bar"><div class="fill" id="fl" style="width:'+pct+'%">'+pct+'%</div></div>'
++'<div class="flip" onclick="this.firstElementChild.classList.toggle(\'f\')"><div class="in" style="min-height:190px"><div class="face card" style="min-height:0">'+pr+'<div class="sub">'+hint+' · ketuk untuk lihat bacaan</div></div><div class="face bk card" style="min-height:0"><div class="fur">'+e(w.f)+'</div><div class="big" style="font-size:42px">'+e(w.k)+'</div></div></div></div>'
++ob}
+function qResult(){var n=Math.max(1,Q.res.length),ok=Q.res.filter(function(x){return x.ok}).length,pc=Math.round(ok/n*100),c={f:0,n:0,s:0,x:0},tot=0;Q.res.forEach(function(x){c[x.g]++;tot+=x.ms});
+var ids=Object.keys(Q.rep),h=hero()+'<div class="card"><div class="big" style="color:var(--gold)">'+pc+'%</div><p class="mu">'+(Q.partial?'Kuis dihentikan — ':'')+'Benar '+ok+' dari '+n+' soal'+(Q.partial?' terjawab (dari '+Q.q.length+')':'')+'</p></div>';
+var seen={},rows=[];Q.res.forEach(function(x,i){if(x.g==="f"||x.g==="n"||seen[x.id])return;seen[x.id]=1;var w=Q.q[i]||Q.q.filter(function(z){return z.id===x.id})[0];rows.push('<div class="w"><div><span class="jp" style="font-size:22px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div></div>')});
+h+=rows.length?'<div class="box"><div class="mu">Perlu diulang ('+ids.length+')</div><div class="vscroll">'+rows.join("")+'</div></div>':'<div class="box mu">Semua dijawab benar dan cepat. Mantap!</div>';
+return h+(ids.length?'<button class="btn gold" onclick="qStart(Object.keys(Q.rep))">Latih yang perlu diulang</button>':'')+'<button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="qStart()">Main lagi</button><button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="Q=null;R()">Selesai</button>'}
+
+
 function applyFont(){var r=document.documentElement.style;r.setProperty("--jp",FONTS[S.font]||FONTS.std);r.setProperty("--z",S.size||1.2);r.setProperty("--y",S.fsize||1.4)}
-function go(t){if(dirty()){guard(function(){go(t)});return}if(t==="folder"&&T==="folder"&&!RL){backRoot();return}var I=["folder","learn","quiz","stat"];if(t===T)return;gear=false;var d=I.indexOf(t)>I.indexOf(T);T=t;R(d?"n":"l")}
+function go(t){if(dirty()){guard(function(){go(t)});return}if(t==="folder"&&T==="folder"&&!RL){upNP();return}var I=["folder","learn","quiz","stat"];if(t===T)return;gear=false;var d=I.indexOf(t)>I.indexOf(T);T=t;qSync();R(d?"n":"l")}
 function R(k){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
 var pages=["folder","learn","quiz","stat"];
 pages.forEach(function(t){document.getElementById("t-"+t).className=t===T?"on":""});
@@ -328,50 +818,25 @@ var n=m.querySelector('.pg[data-page="'+T+'"]');
 if(!n){n=document.createElement("div");n.className="pg";n.setAttribute("data-page",T);m.appendChild(n)}
 n.innerHTML=h;
 pages.forEach(function(t){var p=m.querySelector('.pg[data-page="'+t+'"]');if(p)p.classList.toggle("active",t===T)});
-if(k==="n"||k==="l")m.scrollTop=0}
+if(k==="n"||k==="l")m.scrollTop=0;if(gear){kSelUI();aboutRefresh()}}
 var RT=0;
 function empty(t){return '<div class="box mu">'+t+'</div>'}
 
 function hero(){return '<section class="hero"><img class="hero-logo" src="assets/logo.png" alt="Kotoba Card Japanese Study"><div class="hero-message"><strong>Belajar sedikit,<br>maju setiap hari.</strong><span>Satu kartu, satu langkah lebih dekat</span></div></section>'}
-function vFolder(){var f=cur(),h=hero()+'<div class="row sp folder-heading"><h1>Folder <span>🌸</span></h1><button class="btn edit-btn" style="margin:0" onclick="tgGear()" aria-label="Edit">'+(gear?"✓ Selesai":PEN+" Edit")+'</button></div>';
-if(gear)return h+editMenu();
-if(RL||!curRoot())return h+rootList();
-h+='<div class="box'+(gear?'':' fbox')+'"><div class="row sp"><button class="rback jp" onclick="backRoot()" aria-label="Kembali ke daftar folder"><i>‹</i>📁 '+e(curRoot().name)+'</button><span class="mu">'+S.folders.length+' folder</span></div>';
-h+='<div class="chips"><button class="chip on fo'+(FO?' open':'')+'" onclick="FO=!FO;R()">'+(f?e(f.name)+' ('+f.words.length+' kata)':'Pilih folder')+'</button>';
-if(FO){h+='<div class="flist">';S.folders.forEach(function(x){h+='<div class="row" style="gap:4px"><button class="frow'+(x.id===S.active?' on':'')+'" style="flex:1" onclick="pick(\''+x.id+'\')">📁 '+e(x.name)+'<span>'+x.words.length+' kata</span></button>'+(gear?'<button class="x" style="padding:8px" onclick="renameFolder(\''+x.id+'\')">Rename</button>':'')+'</div>'});h+='</div>'}
-h+='</div>';
-h+='</div>';
-if(f){if(gear)h+='<button class="btn gold" onclick="goAdd()">＋ Tambah Kotoba</button>';h+='<div class="box vocab-panel'+(S.vh?' hid':'')+'"><button class="vh mu vocab-count" onclick="tgVh(this)">'+f.words.length+' kata<i></i></button>';
-f.words.forEach(function(w){h+='<div class="w"><div><span class="jp" style="font-size:20px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div>'+(gear?'<button class="x" onclick="delWord(\''+w.id+'\')">Hapus</button>':'')+'</div>'});h+='</div>'}
-return h}
 function renameRoot(){var x=document.getElementById('rootName');if(!x)return;var n=x.value.trim();if(!n)return;S.rootName=n;save();R()}
-function renameFolder(id){renChild(S.rootId,id)}
-function pick(id){S.active=id;curRoot().active=id;arm=null;L=null;Q=null;FO=true;save();R()}
-function addFolder(){addChild(S.rootId,"fn")}
-function delFolder(){var f=cur();if(f)delChild(S.rootId,f.id)}
-function addWord(){var f=cur(),k=document.getElementById("ik").value.trim(),r=document.getElementById("if").value.trim(),a=document.getElementById("ia").value.trim();if(!f||!k||!a)return;f.words.push({id:uid(),k:k,f:r||k,a:a});dictSaveCorrection(k,r||k,a);L=null;Q=null;save();R()}
-function delWord(id){var f=cur();if(f)delWordIn(f.id,id)}
 
 var RL=true,EC=null,ER=null,EF=null;
 function curRoot(){return(S.roots||[]).filter(function(r){return r.id===S.rootId})[0]||null}
-function allF(){var a=[];S.roots.forEach(function(r){a=a.concat(r.folders)});return a}
-function fixAct(){var r=curRoot(),fl=r?r.folders:[],ok=function(i){return fl.some(function(x){return x.id===i})};if(!ok(S.active))S.active=r&&ok(r.active)?r.active:(fl.length?fl[0].id:null)}
-function mig(){if(!S.roots){try{if(!localStorage.getItem(KEY+".premig"))localStorage.setItem(KEY+".premig",JSON.stringify(S))}catch(x){}
-S.roots=[{id:"r1",name:S.rootName||"NIHONGO",locked:false,folders:S.folders||[]}];S.rootId="r1";delete S.folders}
-S.roots.forEach(function(r){r.folders=r.folders||[];r.locked=!!r.locked});
-if(!curRoot())S.rootId=S.roots.length?S.roots[0].id:null;
-Object.defineProperty(S,"folders",{get:function(){var r=curRoot();return r?r.folders:[]},set:function(v){var r=curRoot();if(r)r.folders=v},enumerable:false,configurable:true});fixAct()}
 function rootList(){var h='<div class="box fbox"><div class="mu" style="margin-bottom:10px">'+S.roots.length+' folder utama</div><div class="chips col">';
 S.roots.forEach(function(r){var n=0;r.folders.forEach(function(f){n+=f.words.length});h+='<button class="chip rt" onclick="openRoot(\''+r.id+'\')"><span class="jp">'+(r.locked?'🔒 ':'')+e(r.name)+'</span><span class="mu rc">'+r.folders.length+' folder · '+n+' kata</span></button>'});
 if(!S.roots.length)h+='<div class="box mu">Belum ada folder utama. Buka Edit › Folder Utama untuk membuat.</div>';
 return h+'</div></div>'}
 function ico(p){return'<svg class="ec-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+p+'"/></svg>'}
 function ecI(i,p,t,b){return'<div class="ec'+(EC===i?' open':'')+'" id="ec'+i+'"><button class="ec-h" onclick="ecT('+i+')">'+ico(p)+'<b>'+t+'</b></button><div class="ec-b"><div class="ec-in"><div class="ec-p">'+b+'</div></div></div></div>'}
-function ecT(i){EC=EC===i?null:i;for(var k=0;k<5;k++){var x=document.getElementById("ec"+k);if(x)x.classList.toggle("open",k===EC)}}
+function ecT(i){EC=EC===i?null:i;for(var k=0;k<8;k++){var x=document.getElementById("ec"+k);if(x)x.classList.toggle("open",k===EC)}}
 function dirty(){var l=document.querySelectorAll("[data-dr]");for(var i=0;i<l.length;i++){var x=l[i],v=x.value.trim();if(x.hasAttribute("data-o")?(v&&v!==x.getAttribute("data-o")):v)return true}return false}
-function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}gear=false;S.rootId=id;fixAct();RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
 function backRoot(){if(dirty()){guard(backRoot);return}RL=true;gear=false;FO=false;arm=null;R("n")}
-function tgGear(){if(gear&&dirty()){guard(function(){gear=false;R()});return}gear=!gear;EC=null;ER=null;EF=null;KE=null;KQ="";ES=[];R()}
+function tgGear(){if(gear&&dirty()){guard(function(){gear=false;R()});return}gear=!gear;EC=null;ER=null;EF=null;KE=null;KSEL=null;KQ="";ES=[];R()}
 function drt(){}
 var DGF=null,DGC=null,DGI=false;
 function dlg(o,ok,no){var i=document.getElementById("dgi"),n=document.getElementById("dgn");document.getElementById("dgt").textContent=o.t;document.getElementById("dgm").textContent=o.m||"";DGI=!!o.inp;i.style.display=o.inp?"block":"none";i.value=o.v||"";n.textContent=o.n||"Batal";n.style.display=o.single?"none":"";document.getElementById("dgy").textContent=o.y||"Ya, Terapkan";DGF=ok||null;DGC=no||null;document.getElementById("dg").classList.add("show");if(o.inp)i.focus()}
@@ -383,118 +848,8 @@ function renRoot(id){var x=document.getElementById("rn_"+id),v=x?x.value.trim():
 function lockRoot(id){var r=rootOf(id);if(!r)return;dlg({t:r.locked?"Buka gembok?":"Kunci folder?",m:r.locked?'Folder "'+r.name+'" bisa dihapus setelah gembok dibuka.':'Folder "'+r.name+'" tidak bisa dihapus selama terkunci.'},function(){r.locked=!r.locked;save();R()})}
 function delRoot(id){var r=rootOf(id);if(!r)return;if(r.locked){dlg({t:"Folder terkunci",m:"Buka gembok folder ini dulu lewat menu Edit sebelum menghapus.",single:true,y:"Mengerti"});return}
 dlg({t:"Hapus folder induk?",m:'Folder "'+r.name+'" dihapus beserta seluruh isinya, termasuk subfolder dan kosakata. Tidak bisa dikembalikan.'},function(){S.roots=S.roots.filter(function(z){return z.id!==id});if(S.rootId===id){S.rootId=S.roots.length?S.roots[0].id:null;RL=true}fixAct();L=null;Q=null;ES=ES.slice(0,1);save();R()})}
-function addChild(rid,iid){var x=document.getElementById(iid||"nf_"+rid),n=x?x.value.trim():"",r=rootOf(rid);if(!n||!r)return;dlg({t:"Buat folder anak?",m:'Folder "'+n+'" dibuat di dalam '+r.name+'.'},function(){var f={id:uid(),name:n,words:[]};r.folders.push(f);r.active=f.id;if(S.rootId===rid)S.active=f.id;L=null;Q=null;save();R()})}
-function renChild(rid,fid){var r=rootOf(rid),f=r&&r.folders.filter(function(z){return z.id===fid})[0];if(!f)return;dlg({t:"Ganti nama folder",inp:true,v:f.name},function(v){f.name=v;save();R()})}
-function delChild(rid,fid){var r=rootOf(rid),f=r&&r.folders.filter(function(z){return z.id===fid})[0];if(!f)return;dlg({t:"Hapus folder?",m:'Folder "'+f.name+'" dan seluruh kosakatanya akan dihapus.'},function(){r.folders=r.folders.filter(function(z){return z.id!==fid});if(r.active===fid)r.active=null;if(S.rootId===rid)fixAct();L=null;Q=null;ES=ES.slice(0,2);save();R()})}
 function chFont(v){if(v===(S.font||"std"))return;dlg({t:"Ganti jenis font?",m:"Jenis font Jepang akan diubah."},function(){S.font=v;applyFont();save();R()})}
-function erT(id){ER=ER===id?null:id;S.roots.forEach(function(r){var x=document.getElementById("er_"+r.id);if(x)x.classList.toggle("open",r.id===ER)})}
-function folderCard(r,f){return'<div class="kid"><span class="jp">'+e(f.name)+' <span class="mu">'+f.words.length+' kata</span></span><span><button class="x" onclick="renChild(\''+r.id+'\',\''+f.id+'\')">Rename</button><button class="x" onclick="delChild(\''+r.id+'\',\''+f.id+'\')">Hapus</button></span></div>'}
 function findF(fid){return allF().filter(function(x){return x.id===fid})[0]}
-function efT(id){EF=EF===id?null:id;allF().forEach(function(f){var x=document.getElementById("ef_"+f.id);if(x)x.classList.toggle("open",f.id===EF)})}
-
-/* ===== Smart Kotoba Dictionary (offline starter index + private corrections) =====
-   Dictionary entries are kept separately from the user's localStorage word data.
-   The bundled starter list is intentionally small; it is not represented as a full JMdict dump.
-*/
-var KDB_NAME="kotoba-dictionary-v1",KDB=null,KDB_READY=null,KDB_STATUS="Memuat indeks lokal…",DICT_TIMER=null,DICT_FORM=null;
-var DICT_SEED=[
- {id:"s001",k:"食べます",f:"たべます",a:"Makan",rom:"tabemasu",base:"食べる",pos:"v1",lesson:6},
- {id:"s002",k:"飲みます",f:"のみます",a:"Minum",rom:"nomimasu",base:"飲む",pos:"v1",lesson:6},
- {id:"s003",k:"行きます",f:"いきます",a:"Pergi",rom:"ikimasu",base:"行く",pos:"v5",lesson:5},
- {id:"s004",k:"買います",f:"かいます",a:"Membeli",rom:"kaimasu",base:"買う",pos:"v5",lesson:6},
- {id:"s005",k:"書きます",f:"かきます",a:"Menulis",rom:"kakimasu",base:"書く",pos:"v5",lesson:6},
- {id:"s006",k:"読みます",f:"よみます",a:"Membaca",rom:"yomimasu",base:"読む",pos:"v5",lesson:6},
- {id:"s007",k:"見ます",f:"みます",a:"Melihat, menonton",rom:"mimasu",base:"見る",pos:"v1",lesson:6},
- {id:"s008",k:"聞きます",f:"ききます",a:"Mendengar, bertanya",rom:"kikimasu",base:"聞く",pos:"v5",lesson:7},
- {id:"s009",k:"話します",f:"はなします",a:"Berbicara",rom:"hanashimasu",base:"話す",pos:"v5",lesson:7},
- {id:"s010",k:"します",f:"します",a:"Melakukan",rom:"shimasu",base:"する",pos:"vs",lesson:5},
- {id:"s011",k:"来ます",f:"きます",a:"Datang",rom:"kimasu",base:"来る",pos:"vk",lesson:13},
- {id:"s012",k:"帰ります",f:"かえります",a:"Pulang",rom:"kaerimasu",base:"帰る",pos:"v5",lesson:5},
- {id:"s013",k:"学校",f:"がっこう",a:"Sekolah",rom:"gakkou",pos:"n",lesson:1},
- {id:"s014",k:"先生",f:"せんせい",a:"Guru, dosen",rom:"sensei",pos:"n",lesson:1},
- {id:"s015",k:"学生",f:"がくせい",a:"Pelajar, mahasiswa",rom:"gakusei",pos:"n",lesson:1},
- {id:"s016",k:"日本語",f:"にほんご",a:"Bahasa Jepang",rom:"nihongo",pos:"n",lesson:1},
- {id:"s017",k:"本",f:"ほん",a:"Buku",rom:"hon",pos:"n",lesson:1},
- {id:"s018",k:"水",f:"みず",a:"Air",rom:"mizu",pos:"n",lesson:8},
- {id:"s019",k:"大きい",f:"おおきい",a:"Besar",rom:"おおきい",pos:"adj-i",lesson:8},
- {id:"s020",k:"静か",f:"しずか",a:"Tenang, sepi",rom:"shizuka",pos:"adj-na",lesson:8}
-];
-function kdbOpen(){
- if(KDB_READY)return KDB_READY;
- KDB_READY=new Promise(function(resolve){
-  if(!window.indexedDB){KDB_STATUS="IndexedDB tidak tersedia; gunakan daftar bawaan.";resolve(null);return}
-  var q=indexedDB.open(KDB_NAME,1);
-  q.onupgradeneeded=function(){var d=q.result;if(!d.objectStoreNames.contains("entries")){var st=d.createObjectStore("entries",{keyPath:"id"});st.createIndex("k","k",{unique:false});st.createIndex("f","f",{unique:false});st.createIndex("a","a",{unique:false})}if(!d.objectStoreNames.contains("corrections"))d.createObjectStore("corrections",{keyPath:"key"});if(!d.objectStoreNames.contains("meta"))d.createObjectStore("meta",{keyPath:"key"})};
-  q.onsuccess=function(){KDB=q.result;var tx=KDB.transaction(["entries","meta"],"readwrite"),st=tx.objectStore("entries"),meta=tx.objectStore("meta"),c=st.count();c.onsuccess=function(){if(!c.result)DICT_SEED.forEach(function(x){st.put(x)})};meta.put({key:"seedVersion",value:"starter-1"});tx.oncomplete=function(){KDB_STATUS="Indeks lokal aktif · daftar awal Minna no Nihongo";resolve(KDB)};tx.onerror=function(){KDB_STATUS="Indeks lokal gagal dibuka.";resolve(KDB)}};
-  q.onerror=function(){KDB_STATUS="Gagal membuka IndexedDB; daftar bawaan sementara digunakan.";resolve(null)};
- });
- return KDB_READY;
-}
-function kanaFromRomaji(v){
- var x=(v||"").toLowerCase().replace(/[^a-z]/g,""),map={kya:"きゃ",kyu:"きゅ",kyo:"きょ",sha:"しゃ",shu:"しゅ",sho:"しょ",cha:"ちゃ",chu:"ちゅ",cho:"ちょ",nya:"にゃ",nyu:"にゅ",nyo:"にょ",hya:"ひゃ",hyu:"ひゅ",hyo:"ひょ",mya:"みゃ",myu:"みゅ",myo:"みょ",rya:"りゃ",ryu:"りゅ",ryo:"りょ",gya:"ぎゃ",gyu:"ぎゅ",gyo:"ぎょ",ja:"じゃ",ju:"じゅ",jo:"じょ",shi:"し",chi:"ち",tsu:"つ",fu:"ふ",ji:"じ",ka:"か",ki:"き",ku:"く",ke:"け",ko:"こ",sa:"さ",si:"し",su:"す",se:"せ",so:"そ",ta:"た",ti:"ち",tu:"つ",te:"て",to:"と",na:"な",ni:"に",nu:"ぬ",ne:"ね",no:"の",ha:"は",hi:"ひ",hu:"ふ",he:"へ",ho:"ほ",ma:"ま",mi:"み",mu:"む",me:"め",mo:"も",ya:"や",yu:"ゆ",yo:"よ",ra:"ら",ri:"り",ru:"る",re:"れ",ro:"ろ",wa:"わ",wo:"を",ga:"が",gi:"ぎ",gu:"ぐ",ge:"げ",go:"ご",za:"ざ",zi:"じ",zu:"ず",ze:"ぜ",zo:"ぞ",da:"だ",di:"ぢ",du:"づ",de:"で",do:"ど",ba:"ば",bi:"び",bu:"ぶ",be:"べ",bo:"ぼ",pa:"ぱ",pi:"ぴ",pu:"ぷ",pe:"ぺ",po:"ぽ",a:"あ",i:"い",u:"う",e:"え",o:"お",n:"ん"};
- var out="",i=0;while(i<x.length){if(i+1<x.length&&x[i]===x[i+1]&&/[bcdfghjklmpqrstvwxyz]/.test(x[i])&&x[i]!=="n"){out+="っ";i++;continue}var hit="";for(var z=3;z>=1;z--){if(map[x.slice(i,i+z)]){hit=x.slice(i,i+z);break}}if(hit){out+=map[hit];i+=hit.length}else{i++}}return out;
-}
-function dictNorm(v){return String(v||"").toLowerCase().normalize("NFKC").replace(/\s+/g,"").trim()}
-function dictMatch(x,q){
- var n=dictNorm(q),kana=dictNorm(kanaFromRomaji(q));if(!n)return false;
- return [x.k,x.f,x.a,x.rom,x.base].some(function(v){var t=dictNorm(v);return t&&t.indexOf(n)>-1})||([x.k,x.f].some(function(v){return dictNorm(v).indexOf(kana)>-1}));
-}
-function dictSearch(q,done){
- kdbOpen().then(function(db){
-  var list=DICT_SEED.slice();
-  if(db){try{var tx=db.transaction(["entries","corrections"],"readonly"),es=tx.objectStore("entries"),cs=tx.objectStore("corrections"),all=es.getAll(),cor=cs.getAll();tx.oncomplete=function(){var merged=all.result||[];(cor.result||[]).forEach(function(c){merged=merged.filter(function(x){return dictNorm(x.k)!==dictNorm(c.k)&&dictNorm(x.f)!==dictNorm(c.f)});merged.unshift(c)});finish(merged)};tx.onerror=function(){finish(list)}}catch(ex){finish(list)}}else finish(list);
-  function finish(src){var qn=dictNorm(q);var out=src.filter(function(x){return dictMatch(x,q)});out.sort(function(a,b){var av=(dictNorm(a.k)===qn||dictNorm(a.f)===qn)?0:1,bv=(dictNorm(b.k)===qn||dictNorm(b.f)===qn)?0:1;if(av!==bv)return av-bv;if(a.pos&&a.pos.indexOf("v")===0&&b.pos&&b.pos.indexOf("v")!==0)return -1;if(b.pos&&b.pos.indexOf("v")===0&&a.pos&&a.pos.indexOf("v")!==0)return 1;return (a.lesson||99)-(b.lesson||99)});done(out.slice(0,8))}
- });
-}
-function dictSuggest(input,field){
- var form=input.getAttribute("data-dict-form")||"main",box=document.getElementById("ds_"+form);if(!box)return;
- DICT_FORM=form;var q=input.value.trim();if(DICT_TIMER)clearTimeout(DICT_TIMER);
- if(!q){box.classList.remove("show");box.innerHTML="";return}
- DICT_TIMER=setTimeout(function(){dictSearch(q,function(rows){
-  if(!document.getElementById("ds_"+form))return;
-  if(!rows.length){box.innerHTML='<div class="dict-status">Tidak ada saran lokal. Kolom tetap bisa diisi manual.</div>';box.classList.add("show");return}
-  box.innerHTML=rows.map(function(x,i){return'<button type="button" class="dict-hit" onclick="dictChoose(\''+form+'\','+i+')"><b>'+e(x.k)+'</b><em>'+e(x.f)+'</em><small>'+e(x.a||"Arti belum tersedia di daftar lokal")+'</small></button>'}).join("");
-  box._rows=rows;box.classList.add("show");
- })},200);
-}
-function dictChoose(form,i){
- var box=document.getElementById("ds_"+form),x=box&&box._rows&&box._rows[i];if(!x)return;
- var ids=form==="main"?["ik","if","ia"]:["ik_"+form,"if_"+form,"ia_"+form];
- var vals=[x.k,x.f,x.a||""];ids.forEach(function(id,j){var el=document.getElementById(id);if(el)el.value=vals[j]});
- box.classList.remove("show");box.innerHTML="";
-}
-function dictSaveCorrection(k,f,a){
- if(!window.indexedDB||!k||!f)return;
- kdbOpen().then(function(db){if(!db)return;try{var tx=db.transaction("corrections","readwrite");tx.objectStore("corrections").put({key:dictNorm(k)+"|"+dictNorm(f),id:"personal:"+dictNorm(k)+"|"+dictNorm(f),k:k,f:f,a:a||"",personal:true,updatedAt:Date.now()})}catch(x){}});
-}
-function dictPanel(id){return'<div id="ds_'+id+'" class="dict-suggest" aria-live="polite"></div>'}
-function dictStatus(){return'<div class="dict-status" id="dictStatus">'+e(KDB_STATUS)+'<br>Daftar offline bawaan masih terbatas; pembaruan JMdict penuh belum dipasang.</div>'}
-
-function addWordTo(fid){var g=function(p){var x=document.getElementById(p+fid);return x?x.value.trim():""},f=findF(fid),k=g("ik_"),r=g("if_"),a=g("ia_");if(!f||!k||!a)return;kPut(f,k,r,a);dictSaveCorrection(k,r||k,a);L=null;Q=null;save();R()}
-function delWordIn(fid,wid){var f=findF(fid),w=f&&f.words.filter(function(x){return x.id===wid})[0];if(!w)return;dlg({t:"Hapus kotoba?",m:'"'+w.k+'" dihapus dari '+f.name+'.'},function(){f.words=f.words.filter(function(x){return x.id!==wid});L=null;Q=null;save();R()})}
-function rootCard(r){var i=r.id,k=r.folders.map(function(f){return folderCard(r,f)}).join("")||'<div class="mu">Belum ada folder anak.</div>';
-return'<div class="ec'+(ER===i?' open':'')+'" id="er_'+i+'"><div class="ec-top"><button class="ec-h" onclick="erT(\''+i+'\')">'+ico("M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z")+'<b class="jp">'+(r.locked?'🔒 ':'')+e(r.name)+'</b><span class="mu">'+r.folders.length+'</span></button><button class="addi" aria-label="Tambah folder anak" onclick="erT(\''+i+'\')">＋</button></div><div class="ec-b"><div class="ec-in"><div class="ec-p"><div class="mu">Tambah folder anak</div><input id="nf_'+i+'" data-dr="nf" data-id="'+i+'" placeholder="Nama folder anak" oninput="drt()"><button class="btn gold" onclick="addChild(\''+i+'\')">＋ Tambah Folder Anak</button><div class="mu" style="margin-top:14px">Folder anak ('+r.folders.length+')</div>'+k+'<div class="rr"><div class="mu">Nama folder induk</div><div class="row"><input id="rn_'+i+'" data-dr="rn" data-id="'+i+'" data-o="'+e(r.name)+'" value="'+e(r.name)+'" oninput="drt()" aria-label="Nama folder induk"><button class="btn" onclick="renRoot(\''+i+'\')">Rename</button></div><div class="row sp"><button class="btn" onclick="lockRoot(\''+i+'\')">'+(r.locked?'🔓 Buka gembok':'🔒 Kunci')+'</button><button class="x'+(r.locked?' dis':'')+'" onclick="delRoot(\''+i+'\')">Hapus folder induk</button></div></div></div></div></div></div>'}
-function bodyRoots(){var h='<div class="mu">Buat folder induk baru</div><div class="row"><input id="nr" data-dr="n" placeholder="mis. ENGLISH, CATATAN" oninput="drt()"><button class="btn" onclick="addRoot()">Buat</button></div>';S.roots.forEach(function(r){h+=rootCard(r)});return h}
-function editMenu(){if(ES.length)return editPage();var f=cur(),r=curRoot(),sf=function(v){return S.font===v?" selected":""};
-var ft='<label class="mu">Jenis font Jepang</label><div class="fps">'+[["std","Standar / Rounded"],["min","Klasik / Mincho"],["hand","Tulisan tangan"]].map(function(p){return'<button class="fp'+((S.font||"std")===p[0]?' on':'')+'" style="font-family:'+e(FONTS[p[0]])+'" onclick="chFont(\''+p[0]+'\')"><b>日本語 にほんご</b><small>'+p[1]+'</small></button>'}).join("")+'</div>';
-var kz='<label class="mu">Ukuran kanji flashcard</label><input type="range" min="1" max="2" step="0.1" value="'+(S.size||1.2)+'" oninput="S.size=+this.value;applyFont();save()"><div class="jp" style="text-align:center;font-size:calc(46px*var(--z));margin-top:8px">日本語</div>';
-var fz='<label class="mu">Ukuran furigana (kuning)</label><input type="range" min="1" max="2.4" step="0.1" value="'+(S.fsize||1.4)+'" oninput="S.fsize=+this.value;applyFont();save()"><div class="fur" style="text-align:center;margin-top:8px">にほんご</div>';
-var bk='<div class="mu">Cadangan data</div><div class="row"><button class="btn" onclick="bkExp()">Ekspor</button><button class="btn" onclick="bkImp(this)">Impor</button></div><div class="mu" id="bm"></div><textarea id="bk" placeholder="Ekspor menampilkan cadangan di sini. Untuk impor, tempel cadangan lalu ketuk Impor." style="width:100%;height:90px;margin-top:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--tx);padding:10px;font:12px monospace"></textarea>';
-var mo=(!RL&&r)?'<div class="mu">Buat folder di dalam '+e(r.name)+'</div><div class="row"><input id="fn" data-dr="w" oninput="drt()" placeholder="Nama folder baru"><button class="btn" onclick="addFolder()">Buat</button></div>'+(f?'<button class="x" style="margin-top:10px" onclick="delFolder()">Hapus folder aktif</button>':''):'<div class="mu">Buka salah satu folder utama untuk mengatur folder di dalamnya.</div>';
-return'<div class="em">'+esRow()+ecI(1,"M4 5h13a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3zM8 9h8M8 13h6","Kotoba",bodyKotoba())+ecI(2,"M5 6V4h14v2M12 4v16M9 20h6","Tampilan Teks",ft+'<div style="height:1px;background:var(--line);margin:14px 0"></div>'+kz+fz)+ecI(3,"M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7","Backup & Data",bk)+ecI(4,"M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1","Pengaturan Lainnya",'<button class="btn" style="width:100%;margin-top:0" onclick="S.vh=!S.vh;save();R()">'+(S.vh?"Tampilkan":"Sembunyikan")+' daftar kotoba di halaman Folder</button>')+'</div>'}
-function commit(){var g=function(i){var x=document.getElementById(i);return x?x.value.trim():""},ok=true;
-allF().forEach(function(f){var k=g("ik_"+f.id),a=g("ia_"+f.id),fr=g("if_"+f.id);if(k||fr||a){if(k&&a)kPut(f,k,fr,a);else ok=false}});
-document.querySelectorAll('[data-dr="rn"]').forEach(function(x){var v=x.value.trim(),rr=rootOf(x.getAttribute("data-id"));if(rr&&v)rr.name=v});
-document.querySelectorAll('[data-dr="nf"]').forEach(function(x){var v=x.value.trim(),rr=rootOf(x.getAttribute("data-id"));if(rr&&v){var nf={id:uid(),name:v,words:[]};rr.folders.push(nf);rr.active=nf.id}});
-if(g("nr"))S.roots.push({id:uid(),name:g("nr"),locked:false,folders:[]});
-if(g("fn")&&curRoot()){var nf={id:uid(),name:g("fn"),words:[]};S.folders.push(nf);S.active=nf.id;curRoot().active=nf.id}
-fixAct();save();return ok}
-document.addEventListener("keydown",function(ev){if(ev.key==="Enter"&&document.activeElement&&document.activeElement.id==="dgi")dgx(1)});
-function mk(src,n){var a=[],last=null;if(!src.length)return a;while(a.length<n){var r=shuf(src);if(r.length>1&&r[0].id===last)r.push(r.shift());for(var i=0;i<r.length&&a.length<n;i++)a.push(r[i]);last=a[a.length-1].id}return a}
-function setQn(v){v=parseInt(v,10);if(isNaN(v))v=S.qn||10;S.qn=Math.max(1,Math.min(100,v));save();R()}
-function addQn(d){setQn((S.qn||10)+d)}
-function typQn(x){var v=parseInt(x.value,10);if(v>=1&&v<=100){S.qn=v;save()}}
-function clampQn(x){var v=parseInt(x.value,10);if(isNaN(v))v=S.qn||10;S.qn=Math.max(1,Math.min(100,v));x.value=S.qn;save()}
 
 var ES=[],ESC=[],FICO="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z";
 function esPush(x){var m=document.getElementById("m");if(dirty()){guard(function(){esPush(x)});return}ESC[ES.length]=m.scrollTop;ES.push(x);R();m.scrollTop=0}
@@ -502,27 +857,6 @@ function esBack(){var m=document.getElementById("m");if(dirty()){guard(esBack);r
 function esRow(){return'<div class="ec go"><button class="ec-h" onclick="esPush(\'fu\')">'+ico(FICO)+'<b>Folder Utama</b><span class="mu">'+S.roots.length+'</span></button></div>'}
 function esItem(t,s,c,lk){return'<div class="ec go"><button class="ec-h" onclick="'+c+'">'+ico(FICO)+'<b class="jp">'+(lk?'\uD83D\uDD12 ':'')+e(t)+'</b><span class="mu">'+s+'</span></button></div>'}
 function esBk(t){return'<button class="rback jp" onclick="esBack()" aria-label="Kembali ke '+e(t)+'"><i>\u2039</i>'+e(t)+'</button>'}
-function editCrumb(r,f){var h='<div class="crumb-edit"><button onclick="esJump(0)">Folder Utama</button>';if(r)h+='<span>›</span><button onclick="esJump(1)">'+e(r.name)+'</button>';if(f)h+='<span>›</span><b>'+e(f.name)+'</b>';return h+'</div>'}
-function esJump(n){var m=document.getElementById("m");if(dirty()){guard(function(){esJump(n)});return}ES=ES.slice(0,n+1);R();m.scrollTop=0}
-function editPage(){var r=ES[1]?rootOf(ES[1]):null,f=null,h;if(ES[1]&&!r)ES.length=1;if(r&&ES[2]){f=r.folders.filter(function(z){return z.id===ES[2]})[0]||null;if(!f)ES.length=2}
-if(!r){h=editCrumb(null,null)+esBk("Edit")+'<h1 style="margin:10px 0 0">Folder Utama</h1><div class="mu" style="margin-top:12px">Buat folder induk baru</div><div class="row"><input id="nr" data-dr="n" placeholder="mis. ENGLISH, CATATAN"><button class="btn" onclick="addRoot()">Buat</button></div><div class="em">'+S.roots.map(function(x){return esItem(x.name,x.folders.length+" folder","esPush('"+x.id+"')",x.locked)}).join("")+'</div>'}
-else if(!f){var i=r.id;h=editCrumb(r,null)+esBk("Folder Utama")+'<h1 class="jp" style="margin:10px 0 0">'+(r.locked?'\uD83D\uDD12 ':'')+e(r.name)+'</h1><div class="mu" style="margin-top:12px">Buat folder anak</div><div class="row"><input id="nf_'+i+'" data-dr="nf" data-id="'+i+'" placeholder="Nama folder anak"><button class="btn" onclick="addChild(\''+i+'\')">Buat</button></div><div class="em">'+(r.folders.map(function(z){return esItem(z.name,z.words.length+" kata","esPush('"+z.id+"')")}).join("")||'<div class="mu">Belum ada folder anak.</div>')+'</div><div class="rr"><div class="mu">Nama folder induk</div><div class="row"><input id="rn_'+i+'" data-dr="rn" data-id="'+i+'" data-o="'+e(r.name)+'" value="'+e(r.name)+'" aria-label="Nama folder induk"><button class="btn" onclick="renRoot(\''+i+'\')">Rename</button></div><div class="row sp"><button class="btn" onclick="lockRoot(\''+i+'\')">'+(r.locked?'\uD83D\uDD13 Buka gembok':'\uD83D\uDD12 Kunci')+'</button><button class="x'+(r.locked?' dis':'')+'" onclick="delRoot(\''+i+'\')">Hapus folder induk</button></div></div>'}
-else{h=editCrumb(r,f)+esBk(r.name)+'<h1 class="jp" style="margin:10px 0 0">'+e(f.name)+'</h1><div class="row sp" style="margin-top:12px"><button class="btn" onclick="renChild(\''+r.id+'\',\''+f.id+'\')">Rename</button><button class="x" onclick="delChild(\''+r.id+'\',\''+f.id+'\')">Hapus folder</button></div><div class="mu" style="margin-top:14px">Isi folder ('+f.words.length+' kata)</div>'+(f.words.map(function(w){return'<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></span></div>'}).join("")||'<div class="mu">Belum ada kotoba.</div>')+'<button class="btn gold" onclick="KF=\''+f.id+'\';EC=1;ES=[];KE=null;KQ=\'\';R()">Kelola kotoba</button>'}
-return h}
-var KF=null,KQ="",KE=null;
-function kPut(f,k,r,a){if(KE){var w=f.words.filter(function(x){return x.id===KE})[0];if(w){w.k=k;w.f=r||k;w.a=a;KE=null;return}KE=null}f.words.push({id:uid(),k:k,f:r||k,a:a})}
-function kRows(f){var q=KQ.trim().toLowerCase(),ws=f.words.filter(function(w){return !q||(w.k+" "+w.f+" "+w.a).toLowerCase().indexOf(q)>-1});
-return ws.map(function(w){return'<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></span><span><button class="x" onclick="editWord(\''+w.id+'\')">Edit</button><button class="x" onclick="delWordIn(\''+f.id+'\',\''+w.id+'\')">Hapus</button></span></div>'}).join("")||'<div class="mu">'+(q?"Tidak ada kotoba yang cocok.":"Belum ada kotoba.")+'</div>'}
-function kList(){var f=findF(KF),x=document.getElementById("kl");if(f&&x)x.innerHTML=kRows(f)}
-function editWord(id){var f=findF(KF),w=f&&f.words.filter(function(x){return x.id===id})[0];if(!w)return;KE=id;R();var s=function(p,v){var x=document.getElementById(p+KF);if(x)x.value=v};s("ik_",w.k);s("if_",w.f);s("ia_",w.a);var b=document.getElementById("ik_"+KF);if(b&&b.scrollIntoView)b.scrollIntoView({block:"center",behavior:"smooth"})}
-function cancelEdit(){KE=null;R()}
-function bodyKotoba(){var all=allF();if(!KF||!findF(KF))KF=(S.active&&findF(S.active))?S.active:(all[0]?all[0].id:null);var f=findF(KF);
-if(!f)return'<div class="mu">Buat folder anak dulu di Folder Utama.</div>';
-var o="";S.roots.forEach(function(r){r.folders.forEach(function(z){o+='<option value="'+z.id+'"'+(z.id===KF?" selected":"")+'>'+e(r.name)+' \u203a '+e(z.name)+'</option>'})});var i=f.id;
-return'<div class="mu">Folder tujuan</div><select id="kf" onchange="KF=this.value;KE=null;R()">'+o+'</select><div class="mu" style="margin-top:14px">'+(KE?"Edit kotoba":"Tambah kotoba")+'</div><input id="ik_'+i+'" data-dr="w" data-dict-form="'+i+'" oninput="dictSuggest(this,&#39;kanji&#39;)" placeholder="Kanji / Kotoba"><input id="if_'+i+'" data-dr="w" data-dict-form="'+i+'" oninput="dictSuggest(this,&#39;kana&#39;)" placeholder="Kana / Furigana"><input id="ia_'+i+'" data-dr="w" data-dict-form="'+i+'" oninput="dictSuggest(this,&#39;arti&#39;)" placeholder="Arti (Bahasa Indonesia)">'+dictPanel(i)+dictStatus()+'<button class="btn gold" onclick="addWordTo(KF)">'+(KE?"Simpan perubahan":"Tambah")+'</button>'+(KE?'<button class="btn" style="width:100%" onclick="cancelEdit()">Batal edit</button>':'')+'<div class="mu" style="margin-top:14px">Kotoba ('+f.words.length+')</div><input id="ks" type="search" placeholder="Cari kotoba" value="'+e(KQ)+'" oninput="KQ=this.value;kList()"><div id="kl">'+kRows(f)+'</div>'}
-function goAdd(){EC=1;KF=S.active;KQ="";KE=null;R();setTimeout(function(){var f=document.getElementById("ik_"+KF);if(f&&f.scrollIntoView)f.scrollIntoView({block:"center",behavior:"smooth"})},330)}
-function qnUI(){var n=S.qn||10;return'<div class="qn"><div class="qnh">JUMLAH SOAL</div><div class="qns"><button class="qb" onclick="addQn(-10)">\u221210</button><button class="qb" onclick="addQn(-5)">\u22125</button><input class="qv" type="number" inputmode="numeric" min="1" max="100" value="'+n+'" aria-label="Jumlah soal" oninput="typQn(this)" onchange="clampQn(this)"><button class="qb" onclick="addQn(5)">+5</button><button class="qb" onclick="addQn(10)">+10</button></div></div>'}
-function wordForm(f){return '<div class="rr"><div class="mu">Tambah kosakata ke '+e(f.name)+'</div><input id="ik" data-dr="w" data-dict-form="main" oninput="drt();dictSuggest(this,&#39;kanji&#39;)" placeholder="Kanji / Kotoba"><input id="if" data-dr="w" data-dict-form="main" oninput="drt();dictSuggest(this,&#39;kana&#39;)" placeholder="Kana / Furigana"><input id="ia" data-dr="w" data-dict-form="main" oninput="drt();dictSuggest(this,&#39;arti&#39;)" placeholder="Arti (Bahasa Indonesia)">'+dictPanel("main")+dictStatus()+'<button class="btn gold" onclick="addWord()">Tambah</button></div>'}
 function tgVh(b){S.vh=!S.vh;save();b.parentNode.classList.toggle("hid",!!S.vh)}
 function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5)}
 function sr(w,r){var i=w.ivl||0,z=w.ease||2.5;if(r===0)return{ivl:0,ease:Math.max(1.3,z-.2)};if(r===1)return{ivl:Math.max(1,Math.round(i*1.2)),ease:Math.max(1.3,z-.15)};if(r===2)return{ivl:i<1?2:Math.round(i*z),ease:z};return{ivl:i<1?4:Math.round(i*z*1.3),ease:z+.15}}
@@ -540,21 +874,6 @@ h+='<div class="grid"><div class="stat"><b>'+fm(tot)+'</b><span class="mu">Total
 h+='<div class="box"><div class="mu">Waktu belajar 7 hari (menit)</div><div class="bars">';
 v.forEach(function(a){h+='<div class="bar1"><span>'+a[1]+'</span><i style="height:'+Math.round(a[1]/mx*80)+'px"></i>'+a[0]+'</div>'});
 return h+'</div></div>'}
-function vStatOld(){var t=today(),st=S.st||{},d=st[t]||{r:0,g:0,q:0,qo:0},tot=0,due=0,lr=0,mt=0,i,s=0,k,dy=["Min","Sen","Sel","Rab","Kam","Jum","Sab"],v=[],mx=1,w7=0;
-S.folders.forEach(function(f){f.words.forEach(function(w){tot++;if(!w.due||w.due<=t)due++;if(w.due)lr++;if((w.ivl||0)>=21)mt++})});
-k=(st[t]&&(st[t].r+st[t].q))?t:t-1;while(st[k]&&(st[k].r+st[k].q)>0){s++;k--}
-for(i=6;i>=0;i--){var x=st[t-i]||{r:0,q:0};w7+=x.s||0;v.push([dy[new Date((t-i)*864e5).getUTCDay()],x.r+x.q]);mx=Math.max(mx,x.r+x.q)}
-function bx(n,l){return '<div class="stat"><b>'+n+'</b><span class="mu">'+l+'</span></div>'}
-var h='<h1>Statistik</h1><div class="grid">'+bx(s+" hari","Runtutan belajar")+bx(due,"Kartu jatuh tempo")+bx(d.r?Math.round(d.g/d.r*100)+"%":"-","Flashcard hari ini ("+d.r+")")+bx(d.q?Math.round(d.qo/d.q*100)+"%":"-","Kuis hari ini ("+d.q+")")+bx(fm(d.s||0),"Waktu belajar hari ini")+bx(fm(w7),"Waktu belajar 7 hari")+bx(lr+" / "+tot,"Kata sudah dipelajari")+bx(mt,"Kata dikuasai")+'</div><div class="box"><div class="mu">Aktivitas 7 hari terakhir</div><div class="bars">';
-v.forEach(function(a){h+='<div class="bar1"><span>'+a[1]+'</span><i style="height:'+Math.round(a[1]/mx*80)+'px"></i>'+a[0]+'</div>'});
-return h+'</div></div>'}
-var bkArm=false;
-function bkm(t){document.getElementById("bm").textContent=t}
-function bkExp(){var t=document.getElementById("bk");t.value=JSON.stringify(S);if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t.value).then(function(){bkm("Tersalin. Simpan di catatan atau kirim ke dirimu sendiri.")},function(){bkm("Salin teks di bawah secara manual.");t.focus();t.select()})}else{bkm("Salin teks di bawah secara manual.");t.focus();t.select()}}
-function bkImp(b){var t=document.getElementById("bk"),d;try{d=JSON.parse(t.value)}catch(x){}
-if(!d||!((d.roots&&d.roots.length)||(d.folders&&d.folders.length))){bkm("Cadangan tidak valid.");return}
-if(!bkArm){bkArm=true;b.textContent="Yakin timpa? Ketuk lagi";setTimeout(function(){bkArm=false;b.textContent="Impor"},4000);return}
-S=d;mig();RL=true;L=null;Q=null;bkArm=false;applyFont();save();R()}
 function vLearn(){var f=cur();if(!f||!f.words.length)return empty("Tambahkan kosakata dulu di tab Folder.");
 if(!L||L.fid!==f.id)startL();
 if(!L.q.length)return '<div class="card"><div class="big">おつかれさま！</div><p class="mu">'+(L.total?'Semua kartu selesai ('+L.total+' kartu)':'Tidak ada kartu jatuh tempo hari ini')+'</p></div><button class="btn gold" onclick="startL(true);R()">Latihan semua kartu (tanpa jadwal)</button>';
@@ -563,30 +882,7 @@ return hero()+'<div class="row sp"><span class="tag">'+e(f.name)+'</span><span c
 function flipC(){document.getElementById("in").classList.toggle("f");document.getElementById("ev").classList.add("show")}
 function rate(r){var id=L.q.shift(),w=cur().words.filter(function(x){return x.id===id})[0];if(w){stat("r",r>=2);if(!L.cram){var s=sr(w,r);w.ivl=s.ivl;w.ease=s.ease;w.due=today()+s.ivl;save()}}if(r===0)L.q.splice(Math.min(2,L.q.length),0,id);else if(r===1)L.q.splice(Math.min(5,L.q.length),0,id);R("n")}
 
-function retry(){var b=Q.ws.filter(function(w,i){return !Q.res[i]}).map(function(w){return w.id});startQ(Q.mode,b)}
-function startQ(mode,ids){var f=cur(),src=ids?f.words.filter(function(w){return ids.indexOf(w.id)>-1}):f.words;Q={fid:f.id,mode:mode,ws:mk(src,ids?src.length:(S.qn||10)),pool:f.words,i:0,res:[],lock:false,o:null};R("n")}
-function lab(x){return Q.mode==="arti"?x.a:x.k}
-function vQuiz(){var f=cur();if(!f||f.words.length<2)return empty("Kuis butuh minimal 2 kata di folder aktif.");
-if(!Q||Q.fid!==f.id)return hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder: '+e(f.name)+' ('+f.words.length+' kata)</div>'+qnUI()+'<button class="btn gold" onclick="startQ(\'arti\')">Tebak Arti</button><button class="btn gold" onclick="startQ(\'kanji\')">Tebak Kanji</button></div>';
-var n=Q.ws.length;
-if(Q.i>=n){var sc=Q.res.filter(Boolean).length,pc=Math.round(sc/n*100),bad=Q.ws.filter(function(w,i){return !Q.res[i]}),h2='<div class="card"><div class="big" style="color:var(--gold)">'+pc+'%</div><p class="mu">Benar '+sc+' dari '+n+' soal</p></div>';
-h2+=bad.length?'<div class="box"><div class="mu">Kata yang salah ('+bad.length+')</div>'+bad.map(function(w){return '<div class="w"><div><span class="jp" style="font-size:22px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div></div>'}).join("")+'</div>':'<div class="box mu">Semua jawaban benar. Mantap!</div>';
-return h2+(bad.length?'<button class="btn gold" onclick="retry()">Latih yang salah</button>':'')+'<button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="startQ(\''+Q.mode+'\')">Main lagi</button><button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="Q=null;R()">Selesai</button>'}
-var c=Q.ws[Q.i];
-if(!Q.o||Q.oi!==Q.i){var seen={},oth=[];shuf(Q.pool).forEach(function(x){var l=lab(x);if(x.id!==c.id&&l!==lab(c)&&!seen[l]){seen[l]=1;oth.push(x)}});Q.o=shuf([c].concat(oth.slice(0,3)));Q.oi=Q.i}
-var pct=Math.round(Q.res.length/n*100),d="";for(var i=0;i<(n>20?0:n);i++)d+='<span class="dot'+(i<Q.res.length?" d":i===Q.i?" c":"")+'" id="d'+i+'"></span>';
-var main=Q.mode==="arti"?'<div class="big">'+e(c.k)+'</div>':'<div class="big" style="font-size:28px;font-family:system-ui">'+e(c.a)+'</div>';
-var h='<div class="row sp"><button class="btn" style="margin:0" onclick="Q=null;R()">\u2190 Keluar</button><span class="tag">'+e(f.name)+'</span></div><div class="bar"><div class="fill" id="fl" style="width:'+pct+'%">'+pct+'%</div></div><div class="dots">'+d+'</div><div class="flip" onclick="this.firstElementChild.classList.toggle(\'f\')"><div class="in" style="min-height:190px"><div class="face card" style="min-height:0">'+main+'<div class="sub">'+(Q.mode==="arti"?"Pilih Arti":"Pilih Kanji")+' · ketuk untuk lihat bacaan</div></div><div class="face bk card" style="min-height:0"><div class="fur">'+e(c.f)+'</div><div class="big" style="font-size:42px">'+e(c.k)+'</div></div></div></div>';
-Q.o.forEach(function(x,k){h+='<button class="opt'+(Q.mode==="kanji"?" kj":"")+'" id="o'+k+'" onclick="ans('+k+')">'+e(lab(x))+'</button>'});
-return h}
-function ans(k){if(Q.lock)return;Q.lock=true;var c=Q.ws[Q.i],ok=Q.o[k].id===c.id;Q.res.push(ok);stat("q",ok);
-document.getElementById("o"+k).classList.add(ok?"ok":"bad");
-if(!ok)Q.o.forEach(function(x,j){if(x.id===c.id)document.getElementById("o"+j).classList.add("ok")});
-var p=Math.round(Q.res.length/Q.ws.length*100),fl=document.getElementById("fl");fl.style.width=p+"%";fl.textContent=p+"%";
-var dd=document.getElementById("d"+Q.i);if(dd)dd.className="dot d";
-setTimeout(function(){if(!Q)return;Q.i++;Q.lock=false;R("n")},600)}
 document.addEventListener("click",function(ev){var a=document.activeElement;if(a&&/INPUT|SELECT/.test(a.tagName)&&!ev.target.closest("input,select"))a.blur()});
-document.addEventListener("keydown",function(ev){if(ev.key!=="Enter")return;var a=document.activeElement;if(a&&/^ia_/.test(a.id))addWordTo(a.id.slice(3));else if(a&&a.id==="fn")addFolder()});
 var lastAct=Date.now(),tk6=0;
 ["pointerdown","keydown","touchstart"].forEach(function(n){document.addEventListener(n,function(){lastAct=Date.now()},true)});
 setInterval(function(){if(document.hidden||(T!=="learn"&&T!=="quiz")||Date.now()-lastAct>60000)return;var t=today();S.st=S.st||{};var d=S.st[t]=S.st[t]||{r:0,g:0,q:0,qo:0};d.s=(d.s||0)+5;if(++tk6%6===0)save()},5000);
@@ -617,5 +913,5 @@ fit();setTimeout(fit,300);setTimeout(fit,1200);["resize","orientationchange","pa
 if("serviceWorker"in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(function(){});
 
 ["gesturestart","gesturechange","gestureend"].forEach(function(n){document.addEventListener(n,function(ev){ev.preventDefault()})});
-load();mig();save();applyFont();R();kdbOpen();
+load();mig();save();applyFont();R();mirrorRecover();try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(x){}setTimeout(autoCheck,3500);
 </script></body></html>
