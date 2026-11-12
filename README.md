@@ -66,7 +66,7 @@ Bungkus URL GitHub Pages-mu (atau folder ini) memakai Capacitor, Cordova, atau k
 | Ilustrasi / latar / logo | Timpa file di `assets/` dengan nama yang sama |
 | Warna tema | Ubah variabel di `:root` pada blok CSS `Kotoba Card — sakura night theme` |
 | Kosakata awal | Ubah data `folders` di fungsi `load()` pada `index.html` |
-| Versi cache offline | Naikkan `kotoba-v2` di `sw.js` setiap kali file berubah |
+| Versi cache offline | Naikkan `kotoba-v3` di `sw.js` setiap kali file berubah |
 
 > **Catatan font:** font Jepang dimuat dari Google Fonts. Saat offline, aplikasi memakai font Jepang bawaan perangkat.
 
