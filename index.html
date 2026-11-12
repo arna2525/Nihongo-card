@@ -140,9 +140,7 @@ nav button.on .nav-ico{color:#ffd21f;filter:drop-shadow(0 0 6px rgba(255,210,31,
 nav button:after{left:22%;right:22%;bottom:0}
 main{padding-bottom:70px}
 /* 3. header mini: muncul saat banner besar sudah tergulung */
-.topbar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;height:calc(var(--sat) + 48px);padding:var(--sat) 16px 0;background:linear-gradient(90deg,rgba(11,16,48,.97),rgba(34,20,78,.94));border-bottom:1px solid var(--glow);box-shadow:0 6px 18px rgba(0,0,0,.35);transform:translateY(-105%);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none}
-.topbar.on{transform:none;opacity:1}
-.topbar img{height:36px;width:auto;display:block}
+.topbar{display:none!important}
 @media(max-width:360px){.hero{min-height:calc(var(--sat) + 164px)}.hero-message strong{font-size:16px}}
 
 /* folder dropdown */
@@ -160,7 +158,7 @@ main{padding-bottom:70px}
 input,select{font-size:16px!important}
 html{-webkit-text-size-adjust:100%}
 
-</style></head><body><div id="app"><div class="topbar" id="tb"><img src="assets/logo.png" alt="Kotoba Card"></div><main id="m"></main>
+</style></head><body><div id="app"><main id="m"></main>
 <nav><button id="t-folder" onclick="go('folder')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><circle cx='12' cy='13' r='2' fill='#0d1035'/></svg><span>Folder</span></button><button id="t-learn" onclick="go('learn')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M2.5 5.5C5.5 4 9 4 12 5.5c3-1.5 6.5-1.5 9.5 0V19c-3-1.5-6.5-1.5-9.5 0-3-1.5-6.5-1.5-9.5 0z'/><path d='M12 5.5V19' stroke='#0d1035' stroke-width='1.4'/></svg><span>Belajar</span></button><button id="t-quiz" onclick="go('quiz')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3A2.6 2.6 0 0 1 15.5 17l-.7-1.2H9.2L8.5 17a2.6 2.6 0 0 1-5.4-.6l-.9-3A5 5 0 0 1 7 7z'/><path d='M8 10v4M6 12h4' stroke='#0d1035' stroke-width='1.6' stroke-linecap='round'/><circle cx='15.5' cy='11' r='1' fill='#0d1035'/><circle cx='17.8' cy='13' r='1' fill='#0d1035'/></svg><span>Kuis</span></button><button id="t-stat" onclick="go('stat')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><rect x='4' y='11' width='4.4' height='9' rx='1.3'/><rect x='9.8' y='4' width='4.4' height='16' rx='1.3'/><rect x='15.6' y='8' width='4.4' height='12' rx='1.3'/></svg><span>Statistik</span></button></nav></div>
 <script>
 var PEN='<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
@@ -170,7 +168,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 function load(){try{S=JSON.parse(localStorage.getItem(KEY))}catch(x){}
-if(!S||!S.folders){S={font:"std",active:"f1",folders:[{id:"f1",name:"Kotoba \u2022 BAB 1",words:[
+if(!S||!S.folders){S={font:"std",rootName:"NIHONGO",active:"f1",folders:[{id:"f1",name:"Kotoba \u2022 BAB 1",words:[
 {id:"w1",k:"\u301cさん",f:"さん",a:"Saudara, bapak, ibu"},
 {id:"w2",k:"あの人",f:"あのひと",a:"Orang itu/beliau"},
 {id:"w3",k:"何歳",f:"なんさい",a:"Berapa umurnya"},
@@ -193,23 +191,24 @@ var RT=0;
 function empty(t){return '<div class="box mu">'+t+'</div>'}
 
 function hero(){return '<section class="hero"><img class="hero-logo" src="assets/logo.png" alt="Kotoba Card Japanese Study"><div class="hero-message"><strong>Belajar sedikit,<br>maju setiap hari.</strong><span>Satu kartu, satu langkah lebih dekat</span></div></section>'}
-function vFolder(){var f=cur(),h=hero()+'<div class="row sp folder-heading"><h1>Folder <span>🌸</span></h1><button class="btn edit-btn" style="margin:0" onclick="gear=!gear;R(\'f\')" aria-label="Edit">'+(gear?"✓ Selesai":PEN+" Edit")+'</button></div>';
+function vFolder(){var f=cur(),h=hero()+'<div class="row sp folder-heading"><h1>Folder <span>🌸</span></h1><button class="btn edit-btn" style="margin:0" onclick="gear=!gear;R()" aria-label="Edit">'+(gear?"✓ Selesai":PEN+" Edit")+'</button></div>';
+if(gear){h+='<div class="box"><div class="mu">Folder utama</div><div class="row"><input id="rootName" value="'+e(S.rootName)+'" aria-label="Nama folder utama"><button class="btn" onclick="renameRoot()">Simpan</button></div><div class="mu" style="margin-top:8px">Semua folder dan kosakata disimpan di dalam folder utama ini.</div></div>';}
 if(gear)h+='<div class="box"><label class="mu">Jenis font Jepang</label><select onchange="S.font=this.value;applyFont();save();R()"><option value="std"'+(S.font==="std"?" selected":"")+'>Standar / Rounded</option><option value="min"'+(S.font==="min"?" selected":"")+'>Klasik / Mincho</option><option value="hand"'+(S.font==="hand"?" selected":"")+'>Tulisan tangan</option></select><label class="mu" style="display:block;margin-top:14px">Ukuran kanji flashcard</label><input type="range" min="1" max="2" step="0.1" value="'+(S.size||1.2)+'" oninput="S.size=+this.value;applyFont();save()"><div class="jp" style="text-align:center;font-size:calc(46px*var(--z));margin-top:8px">日本語</div><label class="mu" style="display:block;margin-top:14px">Ukuran furigana (kuning)</label><input type="range" min="1" max="2.4" step="0.1" value="'+(S.fsize||1.4)+'" oninput="S.fsize=+this.value;applyFont();save()"><div class="fur" style="text-align:center;margin-top:8px">にほんご</div></div><div class="box"><div class="mu">Cadangan data</div><div class="row"><button class="btn" onclick="bkExp()">Ekspor</button><button class="btn" onclick="bkImp(this)">Impor</button></div><div class="mu" id="bm"></div><textarea id="bk" placeholder="Ekspor menampilkan cadangan di sini. Untuk impor, tempel cadangan lalu ketuk Impor." style="width:100%;height:90px;margin-top:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--tx);padding:10px;font:12px monospace"></textarea></div>';
-h+='<div class="box'+(gear?'':' fbox')+'">'+(gear?'<div class="mu">Folder baru</div><div class="row"><input id="fn" placeholder="Contoh: Kotoba \u2022 BAB 2"><button class="btn" onclick="addFolder()">Buat</button></div>':'')+'<div class="chips">';
-var af=cur(),gs=[],gm={};S.folders.forEach(function(x){var i=x.name.indexOf(" \u2022 "),g=i>0?x.name.slice(0,i):"",n=i>0?x.name.slice(i+3):x.name;if(!g){gs.push({g:"",it:[[x,n]]});return}if(!gm[g]){gm[g]={g:g,it:[]};gs.push(gm[g])}gm[g].it.push([x,n])});
-h+='<button class="chip on fo'+(FO?' open':'')+'" onclick="FO=!FO;R(\'f\')">'+(af?e(af.name)+' ('+af.words.length+')':'Pilih folder')+'</button>';
-if(FO){h+='<div class="flist">';gs.forEach(function(G){if(G.g)h+='<div class="fg">'+e(G.g)+'</div>';G.it.forEach(function(p){h+='<button class="frow'+(G.g?' sub':'')+(p[0].id===S.active?' on':'')+'" onclick="pick(\''+p[0].id+'\')">'+e(p[1])+'<span>'+p[0].words.length+'</span></button>'})});h+='</div>'}
+h+='<div class="box'+(gear?'':' fbox')+'"><div class="row sp"><strong class="jp" style="font-size:18px">📁 '+e(S.rootName)+'</strong><span class="mu">'+S.folders.length+' folder</span></div>';
+if(gear)h+='<div class="mu" style="margin-top:12px">Buat folder di dalam '+e(S.rootName)+'</div><div class="row"><input id="fn" placeholder="Nama folder baru"><button class="btn" onclick="addFolder()">Buat</button></div>';
+h+='<div class="chips"><button class="chip on fo'+(FO?' open':'')+'" onclick="FO=!FO;R()">'+(f?e(f.name)+' ('+f.words.length+' kata)':'Pilih folder')+'</button>';
+if(FO){h+='<div class="flist">';S.folders.forEach(function(x){h+='<div class="row" style="gap:4px"><button class="frow'+(x.id===S.active?' on':'')+'" style="flex:1" onclick="pick(\''+x.id+'\')">📁 '+e(x.name)+'<span>'+x.words.length+' kata</span></button>'+(gear?'<button class="x" style="padding:8px" onclick="renameFolder(\''+x.id+'\')">Rename</button>':'')+'</div>'});h+='</div>'}
 h+='</div>';
-if(f&&gear)h+='<button class="x" style="margin-top:10px" onclick="delFolder()">'+(arm===f.id?"Yakin hapus folder ini? Ketuk lagi":"Hapus folder aktif")+'</button>';
+if(f&&gear)h+='<button class="x" style="margin-top:10px" onclick="delFolder()">'+(arm===f.id?'Yakin hapus folder ini? Ketuk lagi':'Hapus folder aktif')+'</button>';
 h+='</div>';
 if(f){if(gear)h+='<div class="box"><div class="mu">Tambah kosakata ke '+e(f.name)+'</div><input id="ik" placeholder="Kanji / Kotoba"><input id="if" placeholder="Furigana (cara baca)"><input id="ia" placeholder="Arti (Bahasa Indonesia)"><button class="btn gold" onclick="addWord()">Tambah</button></div>';h+='<div class="box vocab-panel"><div class="mu vocab-count">'+f.words.length+' kata</div>';
-f.words.forEach(function(w){h+='<div class="w"><div><span class="jp" style="font-size:20px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div>'+(gear?'<button class="x" onclick="delWord(\''+w.id+'\')">Hapus</button>':'')+'</div>'});
-h+='</div>'}
-
+f.words.forEach(function(w){h+='<div class="w"><div><span class="jp" style="font-size:20px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div>'+(gear?'<button class="x" onclick="delWord(\''+w.id+'\')">Hapus</button>':'')+'</div>'});h+='</div>'}
 return h}
-function pick(id){FO=false;S.active=id;arm=null;L=null;Q=null;save();R()}
-function addFolder(){var n=document.getElementById("fn").value.trim();if(!n)return;var f={id:uid(),name:n,words:[]};S.folders.push(f);S.active=f.id;L=null;Q=null;save();R()}
-function delFolder(){var f=cur();if(!f)return;if(arm!==f.id){arm=f.id;R();return}S.folders=S.folders.filter(function(x){return x.id!==f.id});S.active=S.folders.length?S.folders[0].id:null;arm=null;L=null;Q=null;save();R()}
+function renameRoot(){var x=document.getElementById('rootName');if(!x)return;var n=x.value.trim();if(!n)return;S.rootName=n;save();R()}
+function renameFolder(id){var f=S.folders.filter(function(x){return x.id===id})[0];if(!f)return;var n=prompt('Nama folder baru:',f.name);if(n===null)return;n=n.trim();if(!n)return;f.name=n;save();R()}
+function pick(id){S.active=id;arm=null;L=null;Q=null;FO=true;save();R()}
+function addFolder(){var el=document.getElementById('fn'),n=el?el.value.trim():'';if(!n)return;var f={id:uid(),name:n,words:[]};S.folders.push(f);S.active=f.id;FO=true;L=null;Q=null;save();R()}
+function delFolder(){var f=cur();if(!f)return;if(arm!==f.id){arm=f.id;R();return}S.folders=S.folders.filter(function(x){return x.id!==f.id});S.active=S.folders.length?S.folders[0].id:null;arm=null;L=null;Q=null;FO=true;save();R()}
 function addWord(){var f=cur(),k=document.getElementById("ik").value.trim(),r=document.getElementById("if").value.trim(),a=document.getElementById("ia").value.trim();if(!f||!k||!a)return;f.words.push({id:uid(),k:k,f:r||k,a:a});L=null;Q=null;save();R()}
 function delWord(id){var f=cur();f.words=f.words.filter(function(w){return w.id!==id});L=null;Q=null;save();R()}
 
@@ -282,7 +281,7 @@ setInterval(function(){if(document.hidden||(T!=="learn"&&T!=="quiz")||Date.now()
 document.addEventListener("visibilitychange",function(){if(document.hidden)save()});
 (function(){if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;var p=document.createElement("div");p.className="petals";for(var i=0;i<14;i++){var q=document.createElement("i");q.style.cssText="left:"+(Math.random()*100)+"%;width:"+(7+Math.random()*7)+"px;height:"+(5+Math.random()*6)+"px;opacity:"+(.3+Math.random()*.4)+";animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";p.appendChild(q)}document.getElementById("app").appendChild(p)})();
 if("serviceWorker"in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(function(){});
-(function(){var m=document.getElementById("m"),t=document.getElementById("tb");m.addEventListener("scroll",function(){var h=m.querySelector(".hero");t.classList.toggle("on",m.scrollTop>(h?h.offsetHeight-70:120))},{passive:true})})();
+
 ["gesturestart","gesturechange","gestureend"].forEach(function(n){document.addEventListener(n,function(ev){ev.preventDefault()})});
-load();applyFont();R();
+load();if(!S.rootName)S.rootName="NIHONGO";save();applyFont();R();
 </script></body></html>
