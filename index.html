@@ -42,7 +42,7 @@ input,select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid va
 .card .sub{margin-top:14px;padding-top:14px;border-top:2px dotted var(--mu);width:80%;color:var(--mu);font-size:15px}
 .fur{color:var(--gold);font-family:var(--jp);font-size:calc(28px*var(--y));margin-bottom:8px}
 .flip{perspective:1000px;cursor:pointer;margin-top:16px;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
-.in{position:relative;min-height:240px;transition:transform .45s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
+.in{position:relative;min-height:240px;transition:transform .3s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
 .in.f{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:translateZ(0);box-shadow:none}
 .face.bk{transform:rotateY(180deg)}
@@ -189,7 +189,7 @@ nav button{min-width:0}
 .hero{-webkit-transform:translateZ(0);transform:translateZ(0)}
 .hero:before,.petals,.face{top:0;right:0;bottom:0;left:0}
 .flip{-webkit-perspective:1000px}
-.in{-webkit-transition:-webkit-transform .45s cubic-bezier(.4,0,.2,1)}
+.in{-webkit-transition:-webkit-transform .3s cubic-bezier(.4,0,.2,1)}
 .in.f{-webkit-transform:rotateY(180deg)}
 .face.bk{-webkit-transform:rotateY(180deg)}
 button,input:not([type=range]),textarea{-webkit-appearance:none;appearance:none}
@@ -862,16 +862,18 @@ function okId(inp,w){var src=String(w.a||"").replace(/[\(（][^\)）]*[\)）]/g,
 var ia=String(inp||"").replace(/[\(（][^\)）]*[\)）]/g,"").split(/[,;\/、，；]/).map(nA).filter(Boolean);if(!ia.length)return false;return ia.every(function(x){return parts.indexOf(x)>-1})}
 
 /* --- layar pengaturan --- */
-function qSetup(){var q=qs(),pool=qPool(),r=curRoot(),folders=qList(),scope=q.scope==="all"?"Semua BAB":((folders.filter(function(x){return x.f.id===q.scope})[0]||{}).f||{}).name||"Pilih BAB";if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");var h=hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder utama: <b>'+e(r.name)+'</b></div><div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return '<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join('')+'</div><div class="qdesc">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div><div class="qn"><div class="qnh">PENGATURAN KUIS</div><div class="qcycles"><button class="qcycle" onclick="qCycle(\'n\')"><small>TOTAL KOTOBA</small><b>'+q.n+'</b><span>25 · 50 · 100 kotoba</span></button><button class="qcycle" onclick="qCycle(\'scope\')"><small>CAKUPAN</small><b>'+e(scope)+'</b><span>Ketuk untuk ubah</span></button></div></div><div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia · total kuis '+q.n+' kotoba, dibagi otomatis menjadi sesi seimbang'+'</div>'+ (pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Belum ada kotoba untuk kuis.</div>')+'</div>';return h}
+function qSetup(){var q=qs(),pool=qPool(),r=curRoot(),folders=qList(),scope=q.scope==="all"?"Semua BAB":((folders.filter(function(x){return x.f.id===q.scope})[0]||{}).f||{}).name||"Pilih BAB";if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");var h=hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder utama: <b>'+e(r.name)+'</b></div><div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return '<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join('')+'</div><div class="qdesc">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div><div class="qn"><div class="qnh">PENGATURAN KUIS</div><div class="qcycles"><button class="qcycle" onclick="qCycle(\'n\')"><small>TOTAL KOTOBA</small><b>'+q.n+'</b><span>25 · 50 · 100 kotoba</span></button><button class="qcycle" onclick="qCycle(\'scope\')"><small>CAKUPAN</small><b>'+e(scope)+'</b><span>Ketuk untuk ubah</span></button></div></div><div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia · total kuis '+qTotal(pool)+' kotoba'+(qTotal(pool)<q.n?' (hanya '+pool.length+' yang tersedia)':'')+', '+sessSizes(qTotal(pool)).length+' sesi: '+sessSizes(qTotal(pool)).join(' · ')+'</div>'+ (pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Belum ada kotoba untuk kuis.</div>')+'</div>';return h}
 function vQuiz(){if(Q&&Q.q)return Q.done?qResult():qRun();return qSetup()}
 
 /* --- jalannya kuis --- */
-function qStart(ids){var q=qs(),pool=qPool();if(ids){var set={};ids.forEach(function(i){set[i]=1});pool=pool.filter(function(w){return set[w.id]})}
-if(!pool.length){dlg({t:"Tidak ada kotoba",m:"Tidak ada kotoba yang cocok dengan pengaturan.",single:true,y:"Mengerti"});return}
-var total=ids?pool.length:Math.max(1,Math.min(100,+q.n||25)),picked=ids?shuf(pool.slice()):buildQueue(pool,total),sessions=[],sessionSize=5;
-for(var at=0;at<picked.length;at+=sessionSize)sessions.push(picked.slice(at,at+sessionSize));
-function uniq(a){var o={};a.forEach(function(w){o[w.id]=1});return Object.keys(o).length}
-Q={mode:q.mode,cat:q.cat,n:total,q:sessions[0].slice(),i:0,res:[],first:{},rep:{},retryQueued:{},phase:"ask",t0:0,pe:0,paused:false,draft:"",dp:qPool(),o:null,oi:-1,done:false,nt:0,last:null,fl:false,initialIds:sessions[0].map(function(w){return w.id}),sessions:sessions,sessionIndex:0,sessionCount:sessions.length,sessionUnique:uniq(sessions[0]),allTotal:total,firstTry:{}};R("n");qBegin()}
+var SESS={25:[5,5,5,5,5],50:[8,8,8,8,9,9],100:[13,13,13,13,12,12,12,12]};
+function sessSizes(n){if(n<=0)return[];if(SESS[n])return SESS[n].slice();var k=n<=25?Math.ceil(n/5):(n<=50?6:8);k=Math.max(1,Math.min(k,n,8));var b=Math.floor(n/k),r=n%k,o=[];for(var i=0;i<k;i++)o.push(b+(i<r?1:0));return o}
+function qTotal(pool){var q=qs();return Math.min(Math.max(1,Math.min(100,+q.n||25)),pool.length)}
+function qStart(){var q=qs(),pool=qPool();if(!pool.length){dlg({t:"Tidak ada kotoba",m:"Tidak ada kotoba yang cocok dengan pengaturan.",single:true,y:"Mengerti"});return}
+qLaunch(wsample(pool,qTotal(pool)),false,{})}
+function qRetryAll(){if(!Q)return;var ws=Object.keys(Q.unm||{}).map(function(i){return Q.unm[i]});if(!ws.length)return;qLaunch(shuf(ws),true,Q.unm)}
+function qLaunch(picked,retry,unm){var q=qs(),sizes=retry?[picked.length]:sessSizes(picked.length),sessions=[],at=0;sizes.forEach(function(z){sessions.push(picked.slice(at,at+z));at+=z});
+Q={mode:q.mode,cat:q.cat,n:picked.length,q:sessions[0].slice(),i:0,res:[],first:{},rep:{},retryQueued:{},phase:"ask",t0:0,paused:false,draft:"",dp:qPool(),o:null,oi:-1,done:false,nt:0,last:null,sessions:sessions,sessionIndex:0,sessionCount:sessions.length,sessionUnique:sessions[0].length,allTotal:picked.length,unm:unm||{},sum:[],retry:!!retry};R("n");qBegin()}
 function qBegin(){if(!Q)return;Q.t0=performance.now();Q.phase="ask";Q.paused=!!document.hidden;qSync()}
 
 function qSync(){if(!Q||Q.done||Q.phase!=="ask")return;Q.paused=(T!=="quiz"||!!document.hidden)}
@@ -879,39 +881,43 @@ document.addEventListener("visibilitychange",qSync);
 function qPick(k){if(!Q||Q.phase!=="ask"||Q.paused)return;qFinish(k,false,false)}
 function qFinish(inp,to,skip){if(!Q||Q.phase!=="ask")return;var QX=Q,el=performance.now()-QX.t0;
 var w=QX.q[QX.i],ok=false,pk=(typeof inp==="number")?inp:-1;if(!to&&pk>=0&&QX.o&&QX.o[pk])ok=QX.o[pk].id===w.id;
-var g=!ok?"x":"f";
-var r={id:w.id,ms:Math.round(el),ok:ok,g:g,to:!!to,sk:!!skip,pk:pk};QX.res.push(r);if(!QX.first[w.id])QX.first[w.id]=r;QX.last=r;QX.phase="fb";
-perfUpd(w.id,g,el);if(g==="x"){QX.rep[w.id]=1;qReins(w)}else{delete QX.rep[w.id];delete QX.retryQueued[w.id]}
+QX.phase="fb";var g=ok?"f":"x",r={id:w.id,ms:Math.round(el),ok:ok,g:g,to:!!to,sk:!!skip,pk:pk};QX.res.push(r);var fst=!QX.first[w.id];if(fst)QX.first[w.id]=r;QX.last=r;
+perfUpd(w.id,g,el);if(ok){delete QX.retryQueued[w.id];delete QX.rep[w.id]}else{qReins(w);QX.rep[w.id]=1}if(fst){if(ok){if(QX.retry)delete QX.unm[w.id]}else QX.unm[w.id]=w}
 stat("q",ok);save();
-(QX.o||[]).forEach(function(x,j){var b=document.getElementById("o"+j);if(!b)return;if(x.id===w.id)b.classList.add("ok");else if(j===pk)b.classList.add("bad")});var fl=document.getElementById("fl");if(fl){var pp=Math.round(QX.res.length/QX.q.length*100);fl.style.width=pp+"%";fl.textContent=pp+"%"}
-clearTimeout(QX.nt);R("stay");if(ok){QX.nt=setTimeout(function(){if(Q===QX&&QX.phase==="fb")qNext()},550)}}
-function qNext(){if(!Q||Q.phase!=="fb")return;clearTimeout(Q.nt);if(Q.last&&!Q.last.ok)delete Q.retryQueued[Q.last.id];Q.i++;Q.draft="";Q.last=null;
+var b=document.getElementById("o"+pk);if(b)b.classList.add(ok?"ok":"bad");
+var fl=document.getElementById("fl");if(fl){var pp=Math.round(QX.res.length/QX.q.length*100);fl.style.width=pp+"%";fl.textContent=pp+"%"}
+var fb=document.getElementById("qfb");if(fb)fb.innerHTML=qFbHtml();
+clearTimeout(QX.nt);if(ok){QX.nt=setTimeout(function(){if(Q===QX&&QX.phase==="fb"&&!QX.done)qNext()},420)}}
+function qNext(){if(!Q||Q.phase!=="fb"||Q.done)return;clearTimeout(Q.nt);if(Q.last&&!Q.last.ok)delete Q.retryQueued[Q.last.id];Q.i++;Q.draft="";Q.last=null;
 if(Q.i>=Q.q.length){qEnd(false);return}Q.phase="ask";R("n");qBegin()}
 function qEnd(partial){if(!Q||Q.done)return;clearTimeout(Q.nt);Q.done=true;Q.partial=!!partial;
 var ok=Q.res.filter(function(x){return x.ok}).length,avg=Q.res.length?Math.round(Q.res.reduce(function(s,x){return s+x.ms},0)/Q.res.length):0;
-S.qh.unshift({t:Date.now(),m:Q.mode,c:Q.cat,n:Q.res.length,of:Q.q.length,ok:ok,avg:avg,rep:Object.keys(Q.rep).length,p:partial?1:0});S.qh=S.qh.slice(0,60);save();R("n")}
-function qContinue(){if(!Q||!Q.done||Q.partial||Object.keys(Q.rep||{}).length||Q.sessionIndex+1>=Q.sessionCount)return;var ix=Q.sessionIndex+1,words=Q.sessions[ix];Q.sessionIndex=ix;Q.sessionUnique=Object.keys(words.reduce(function(o,w){o[w.id]=1;return o},{})).length;Q.q=words.slice();Q.i=0;Q.res=[];Q.first={};Q.rep={};Q.retryQueued={};Q.phase="ask";Q.t0=0;Q.o=null;Q.oi=-1;Q.last=null;Q.done=false;Q.partial=false;Q.initialIds=words.map(function(w){return w.id});R("n");qBegin()}
-function qRetrySession(){if(!Q)return;var ids=Object.keys(Q.rep||{});if(ids.length)qStart(ids)}
+var fr=Object.keys(Q.first||{}).map(function(i){return Q.first[i]});(Q.sum=Q.sum||[]).push({n:fr.length,ok:fr.filter(function(x){return x.ok}).length});S.qh.unshift({t:Date.now(),m:Q.mode,c:Q.cat,n:Q.res.length,of:Q.q.length,ok:ok,avg:avg,rep:Object.keys(Q.rep).length,p:partial?1:0});S.qh=S.qh.slice(0,60);save();R("n")}
+function qContinue(){if(!Q||!Q.done||Q.partial||Q.sessionIndex+1>=Q.sessionCount)return;var ix=Q.sessionIndex+1,words=Q.sessions[ix];Q.sessionIndex=ix;Q.sessionUnique=words.length;Q.q=words.slice();Q.i=0;Q.res=[];Q.first={};Q.rep={};Q.retryQueued={};Q.phase="ask";Q.t0=0;Q.o=null;Q.oi=-1;Q.last=null;Q.done=false;Q.partial=false;R("n");qBegin()}
 function qExit(){if(!Q)return;if(!Q.res.length){dlg({t:"Keluar dari kuis?",m:"Belum ada soal yang dijawab."},function(){if(Q){clearTimeout(Q.nt)}Q=null;R()});return}
 dlg({t:"Akhiri kuis sekarang?",m:Q.res.length+" dari "+Q.q.length+" soal sudah dijawab. Hasil dan progres belajar tetap disimpan dan ditampilkan.",y:"Akhiri & lihat hasil",n:"Lanjut kuis"},function(){qEnd(true)})}
 function qLab(w,m){return m==="arti"?String(w.a||""):String(w.k||w.f||"")}
 function qOpts(w,m){var seen={},out=[w];seen[qLab(w,m)]=1;var add=function(list){shuf(list.slice()).forEach(function(x){if(out.length>=4)return;var l=qLab(x,m);if(x.id===w.id||!l||seen[l])return;seen[l]=1;out.push(x)})};
 add(Q.dp||[]);if(out.length<4){var all=[];qList().forEach(function(x){all=all.concat(x.f.words)});add(all)}return shuf(out)}
-function qRun(){var w=Q.q[Q.i],n=Q.q.length,pct=Math.round(Q.i/n*100),pr,hint,fb=Q.phase==="fb";
+function qFbHtml(){return Q.phase==="fb"&&Q.last?(Q.last.ok?'<div class="mu" style="text-align:center;color:var(--ok);margin-top:12px">Benar!</div>':'<button class="btn gold" style="width:100%;min-height:48px;margin-top:12px" onclick="qNext()">Lanjut →</button>'):''}
+function qRun(){var w=Q.q[Q.i],n=Q.q.length,pct=Math.round(Q.res.length/n*100),pr,hint,fb=Q.phase==="fb";
 if(Q.mode==="kanji"){pr='<div class="fur" style="font-size:calc(42px*var(--y));margin:0">'+e(w.f)+'</div>';hint="Pilih kanji yang sesuai"}
 else if(Q.mode==="arti"){pr='<div class="big kz">'+e(w.k)+'</div>';hint="Pilih artinya (Bahasa Indonesia)"}
 else{pr='<div class="big" style="font-size:34px">'+e(w.a)+'</div>';hint="Pilih kosakata Jepangnya"}
 if(!Q.o||Q.oi!==Q.i){Q.o=qOpts(w,Q.mode);Q.oi=Q.i}
 var ob="";Q.o.forEach(function(x,k){var l=qLab(x,Q.mode),c="opt"+(Q.mode!=="arti"&&l.length<=6?" kj":"");if(fb&&Q.last&&Q.last.pk===k)c+=Q.last.ok?" ok":" bad";ob+='<button class="'+c+'" id="o'+k+'" onclick="qPick('+k+')">'+e(l)+'</button>'});
-return'<div class="row sp"><button class="btn" style="margin:0" onclick="qExit()">← Keluar</button><span class="tag">'+(Q.i+1)+' / '+n+'</span></div><div class="bar"><div class="fill" id="fl" style="width:'+pct+'%">'+pct+'%</div></div>'
-+'<div class="flip"'+(fb?'':' onclick="this.firstElementChild.classList.toggle(\'f\')"')+'><div class="in" style="min-height:190px"><div class="face card" style="min-height:0">'+pr+'<div class="sub">'+hint+' · ketuk untuk lihat bacaan</div></div><div class="face bk card" style="min-height:0"><div class="big" style="font-size:42px">'+e(w.k)+'</div><div class="mu" style="font-size:20px;margin-top:10px">'+e(w.a)+'</div></div></div></div>'
-+ob+(fb?(Q.last&&Q.last.ok?'<div class="mu" style="text-align:center;color:var(--ok);margin-top:12px">Benar!</div>':'<button class="btn gold" style="width:100%;min-height:48px;margin-top:12px" onclick="qNext()">Lanjut →</button>'):'')}
-function qResult(){var first=Object.keys(Q.first||{}).map(function(id){return Q.first[id]}),n=Math.max(1,first.length),ok=first.filter(function(x){return x.ok}).length,pc=Math.round(ok/n*100),c={f:0,n:0,s:0,x:0},tot=0;Q.res.forEach(function(x){c[x.g]++;tot+=x.ms});
-var ids=Object.keys(Q.rep),h=hero()+'<div class="mu" style="margin-bottom:8px">Sesi '+(Q.sessionIndex+1)+' dari '+Q.sessionCount+' · '+Q.sessionUnique+' kotoba unik</div><div class="card"><div class="big qpercent" style="color:var(--gold)">'+pc+'%</div><p class="mu">'+(Q.partial?'Kuis dihentikan — ':'')+'Benar '+ok+' dari '+n+' soal'+(Q.partial?' terjawab (dari '+Q.q.length+')':'')+'</p></div>';
-var rows=[];first.forEach(function(x){var w=Q.sessions[Q.sessionIndex].filter(function(z){return z.id===x.id})[0];if(!w)return;rows.push('<div class="w"><div><span class="jp" style="font-size:22px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div><span class="tag" style="color:'+(x.ok?'var(--ok)':'var(--bad)')+'">'+(x.ok?'Benar pertama':'Perlu pengulangan')+'</span></div>')});
+var tg=(Q.sessionCount>1?'Sesi '+(Q.sessionIndex+1)+'/'+Q.sessionCount+' · ':'')+(Q.i+1)+' / '+n;
+return'<div class="row sp"><button class="btn" style="margin:0" onclick="qExit()">← Keluar</button><span class="tag">'+tg+'</span></div><div class="bar"><div class="fill" id="fl" style="width:'+pct+'%">'+pct+'%</div></div>'
++'<div class="flip" onclick="this.firstElementChild.classList.toggle(\'f\')"><div class="in" style="min-height:190px"><div class="face card" style="min-height:0">'+pr+'<div class="sub">'+hint+' · ketuk untuk lihat bacaan</div></div><div class="face bk card" style="min-height:0"><div class="big" style="font-size:42px">'+e(w.k)+'</div><div class="mu" style="font-size:20px;margin-top:10px">'+e(w.a)+'</div></div></div></div>'
++ob+'<div id="qfb">'+qFbHtml()+'</div>'}
+function qResult(){var first=Object.keys(Q.first||{}).map(function(id){return Q.first[id]}),n=Math.max(1,first.length),ok=first.filter(function(x){return x.ok}).length,pc=Math.round(ok/n*100),last=Q.sessionIndex+1>=Q.sessionCount,allDone=!Q.partial&&last,unm=Object.keys(Q.unm||{}).length;
+var h=hero()+'<div class="mu" style="margin-bottom:8px">'+(Q.retry?'Pengulangan kotoba yang belum dihafal':'Sesi '+(Q.sessionIndex+1)+' dari '+Q.sessionCount)+' · '+Q.sessionUnique+' kotoba unik</div><div class="card"><div class="big qpercent" style="color:var(--gold)">'+pc+'%</div><p class="mu">'+(Q.partial?'Kuis dihentikan — ':'')+'Benar '+ok+' dari '+n+' soal'+(Q.partial?' terjawab (dari '+Q.q.length+')':'')+'</p></div>';
+var rows=[];first.forEach(function(x){var w=Q.sessions[Q.sessionIndex].filter(function(z){return z.id===x.id})[0];if(!w)return;rows.push('<div class="w"><div><span class="jp" style="font-size:22px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div><span class="tag" style="color:'+(x.ok?'var(--ok)':'var(--bad)')+'">'+(x.ok?'Benar':'Salah')+'</span></div>')});
 h+='<div class="box result-words-box"><div class="mu">Kotoba sesi ini · '+first.length+' kata</div><div class="vscroll result-words-scroll">'+rows.join("")+'</div></div>';
-var allDone=!Q.partial&&Q.sessionIndex+1>=Q.sessionCount;return h+(ids.length?'<div class="mu">Ada kotoba yang perlu diulang.</div><button class="btn gold" onclick="qRetrySession()">Ulangi yang salah</button>':(allDone?'<div class="session-done">✓ Semua sesi telah selesai</div>':''))+(!Q.partial&&Q.sessionIndex+1<Q.sessionCount?'<button class="btn gold" onclick="qContinue()">Sesi Selanjutnya →</button>':'')+'<button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="Q=null;R()">Selesai</button>'}
-
+if(allDone&&!Q.retry&&Q.sessionCount>1){var tn=0,tk=0;(Q.sum||[]).forEach(function(x){tn+=x.n;tk+=x.ok});h+='<div class="box"><div class="mu">Hasil akhir keseluruhan</div><div class="big qpercent" style="color:var(--gold)">'+Math.round(tk/Math.max(1,tn)*100)+'%</div><div class="mu">Benar '+tk+' dari '+tn+' soal · '+Q.sessionCount+' sesi</div></div>'}
+if(!Q.partial&&!last)return h+'<button class="btn gold" onclick="qContinue()">Sesi Selanjutnya →</button>';
+if(allDone){h+='<div class="session-done">✓ '+(Q.retry?'Pengulangan selesai':'Semua sesi telah selesai')+'</div>';h+=unm?'<div class="mu" style="margin-top:6px">'+unm+' kotoba belum dihafal.</div><button class="btn gold" onclick="qRetryAll()">Ulangi Kotoba yang Belum Dihafal</button>':'<div class="mu" style="text-align:center;color:var(--ok)">Semua kotoba sudah dikuasai.</div>'}
+return h+'<button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="Q=null;R()">Selesai</button>'}
 
 function applyFont(){var r=document.documentElement.style;r.setProperty("--jp",FONTS[S.font]||FONTS.std);r.setProperty("--z",S.size||1.2);r.setProperty("--y",S.fsize||1.4)}
 function go(t){if(dirty()){guard(function(){go(t)});return}if(t==="folder"&&T==="folder"&&!RL){upNP();return}var I=["folder","learn","quiz","stat"];if(t===T)return;gear=false;var d=I.indexOf(t)>I.indexOf(T);T=t;qSync();R(d?"n":"l")}
