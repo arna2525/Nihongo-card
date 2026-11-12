@@ -65,11 +65,7 @@ input,select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid va
 .bar1{flex:1;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;font-size:12px;color:var(--mu);gap:3px}
 .bar1 i{display:block;background:var(--gold);border-radius:6px 6px 0 0;min-height:3px}
 .tag{padding:8px 16px;border-radius:999px;background:#1b2b66;color:#6ea8fe;font-size:15px}
-.pg.n,.pg.l,.pg.f{animation:pageFade .15s ease-out both}
-.pg.o{position:absolute;left:16px;right:16px;top:16px;animation:pageFadeOut .12s ease-in both;pointer-events:none}
-.pg.o.r,.pg.o.f{animation-name:pageFadeOut}
-@keyframes pageFade{from{opacity:0}to{opacity:1}}
-@keyframes pageFadeOut{from{opacity:1}to{opacity:0}}
+.pg{display:none;min-height:100%}\n.pg.active{display:block}
 @keyframes shk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 @keyframes pop{50%{transform:scale(1.03)}}
 button{transition:transform .12s,background-color .25s,opacity .2s}
@@ -80,14 +76,14 @@ nav button:after{content:"";position:absolute;left:30%;right:30%;bottom:0;height
 nav button.on:after{transform:scaleX(1)}
 .opt.bad{animation:shk .32s}
 .opt.ok{animation:pop .32s}
-@media(prefers-reduced-motion:reduce){.pg,.opt{animation:none!important}.in{transition:none}}
+@media(prefers-reduced-motion:reduce){.opt{animation:none!important}.in{transition:none}}
 
 /* ===== Kotoba Card — sakura night theme (visual only) ===== */
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--bg:#0b1030;--card:#171b45;--line:rgba(190,151,255,.28);--tx:#fff;--mu:#c9c5ea;--gold:#ffd21f;--pink:#f4a6d6;--glass:rgba(14,18,60,.6);--glow:rgba(194,153,255,.42)}
 html,body{background:#0b1030;-webkit-tap-highlight-color:transparent}
 body{-webkit-user-select:none;user-select:none;overscroll-behavior:none}
 input,select{-webkit-user-select:text;user-select:text}
-#app{padding-top:0;background:linear-gradient(180deg,rgba(9,11,38,.25),rgba(9,11,38,.55)),url("assets/bg.webp") center bottom/cover no-repeat,#0b1030}
+body{background:linear-gradient(180deg,rgba(9,11,38,.25),rgba(9,11,38,.55)),url("assets/bg.webp") center bottom/cover no-repeat,#0b1030}#app{padding-top:0;background:transparent}
 main{z-index:2;padding:0 14px calc(92px + var(--sab));background:none}
 .petals{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .petals i{position:absolute;top:-20px;border-radius:80% 0 80% 0;background:linear-gradient(135deg,#ffc2e4,#f08fc9);animation:fall linear infinite}
@@ -183,12 +179,15 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(x){}}
 function cur(){return S.folders.filter(function(f){return f.id===S.active})[0]||null}
 function applyFont(){var r=document.documentElement.style;r.setProperty("--jp",FONTS[S.font]||FONTS.std);r.setProperty("--z",S.size||1.2);r.setProperty("--y",S.fsize||1.4)}
 function go(t){var I=["folder","learn","quiz","stat"];if(t===T)return;var d=I.indexOf(t)>I.indexOf(T);T=t;R(d?"n":"l")}
-function R(k){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();["folder","learn","quiz","stat"].forEach(function(t){document.getElementById("t-"+t).className=t===T?"on":""});
-var m=document.getElementById("m"),h=T==="folder"?vFolder():T==="learn"?vLearn():T==="stat"?vStat():vQuiz(),n=document.createElement("div");
-n.className="pg "+(k||"");n.innerHTML=h;
-if(k==="n"||k==="l")m.scrollTop=0;
-/* Ganti halaman tanpa menggeser halaman lama ke posisi absolute agar transisi tidak terasa goyang. */
-m.innerHTML="";m.appendChild(n)}
+function R(k){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+var pages=["folder","learn","quiz","stat"];
+pages.forEach(function(t){document.getElementById("t-"+t).className=t===T?"on":""});
+var m=document.getElementById("m"),h=T==="folder"?vFolder():T==="learn"?vLearn():T==="stat"?vStat():vQuiz();
+var n=m.querySelector('.pg[data-page="'+T+'"]');
+if(!n){n=document.createElement("div");n.className="pg";n.setAttribute("data-page",T);m.appendChild(n)}
+n.innerHTML=h;
+pages.forEach(function(t){var p=m.querySelector('.pg[data-page="'+t+'"]');if(p)p.classList.toggle("active",t===T)});
+if(k==="n"||k==="l")m.scrollTop=0}
 var RT=0;
 function empty(t){return '<div class="box mu">'+t+'</div>'}
 
@@ -205,7 +204,7 @@ h+='</div>';
 if(f){if(gear)h+='<div class="box"><div class="mu">Tambah kosakata ke '+e(f.name)+'</div><input id="ik" placeholder="Kanji / Kotoba"><input id="if" placeholder="Furigana (cara baca)"><input id="ia" placeholder="Arti (Bahasa Indonesia)"><button class="btn gold" onclick="addWord()">Tambah</button></div>';h+='<div class="box vocab-panel"><div class="mu vocab-count">'+f.words.length+' kata</div>';
 f.words.forEach(function(w){h+='<div class="w"><div><span class="jp" style="font-size:20px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div>'+(gear?'<button class="x" onclick="delWord(\''+w.id+'\')">Hapus</button>':'')+'</div>'});
 h+='</div>'}
-if(f&&!gear)h+='<div class="edit-float"><button class="btn edit-btn" style="margin:0" onclick="gear=true;R(\'f\')" aria-label="Edit">'+PEN+' Edit</button></div>';
+
 return h}
 function pick(id){FO=false;S.active=id;arm=null;L=null;Q=null;save();R()}
 function addFolder(){var n=document.getElementById("fn").value.trim();if(!n)return;var f={id:uid(),name:n,words:[]};S.folders.push(f);S.active=f.id;L=null;Q=null;save();R()}
