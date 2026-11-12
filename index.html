@@ -196,7 +196,7 @@ button,input:not([type=range]),textarea{-webkit-appearance:none;appearance:none}
 input,select,textarea{-webkit-user-select:text;user-select:text}
 .flist{max-height:38dvh}
 }
-.crumb{display:flex;align-items:center;gap:8px;margin:0 0 6px;padding:0 2px;font-size:14px;color:var(--mu)}
+.crumb{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:4px 8px;font-size:14px;color:var(--mu);width:100%;min-width:0;max-width:100%;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;white-space:nowrap;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:thin}
 .crumb button{background:none;border:0;color:var(--gold);font:inherit;font-weight:600;padding:6px 0;margin:0;min-height:36px}
 .crumb b{color:#fff;font-weight:600}
 .ec .ec{margin-top:8px;background:rgba(10,13,44,.45)}
@@ -305,8 +305,8 @@ html{background:#0d1035}
 /* ===== V1.0: tambahan (mengikuti tema asli) ===== */
 .vscroll{max-height:46vh;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .cattag{display:inline-block;margin-left:4px;padding:1px 8px;border-radius:999px;font:600 11px/1.5 system-ui,sans-serif;color:#eadcff;background:rgba(122,70,176,.3);border:1px solid var(--glow);vertical-align:middle}
-.crumb{overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
-.crumb button{flex:none}.crumb span{color:var(--mu)}.crumb b{flex:none}
+.crumb{overflow-x:auto;overflow-y:hidden;white-space:nowrap;scrollbar-width:thin;flex-wrap:nowrap;min-width:0;max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x}
+.crumb button,.crumb b,.crumb span{flex:0 0 auto}.crumb span{color:var(--mu)}
 .kr{cursor:pointer;border-radius:12px;padding:6px 8px}
 .kr.sel{background:rgba(124,58,196,.45);box-shadow:inset 0 0 0 1px rgba(255,210,31,.55)}
 .ctl{margin-top:14px;padding:12px}
@@ -346,6 +346,16 @@ main{overflow-y:auto;overscroll-behavior-y:contain;touch-action:pan-y;min-height
 /* Efek visual tetap aktif di semua ukuran layar; optimasi dilakukan pada area render/scroll. */
 @media (max-width:380px){.vscroll,.flist,.dict-suggest{max-height:54vh}}
 
+/* Folder Home: header tetap, hanya isi daftar folder/kotoba yang bergerak vertikal. */
+.pg.folder-fixed{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
+.pg.folder-fixed>.hero,.pg.folder-fixed>.folder-heading{flex:0 0 auto;}
+.pg.folder-fixed>.fbox{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
+.pg.folder-fixed>.fbox>.chips{min-height:0;flex:1 1 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;}
+.pg.folder-fixed>.fbox>.vscroll{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y;}
+/* Breadcrumb satu bar seperti address bar File Explorer; satu-satunya scroll container horizontal. */
+.crumb{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;width:100%;min-width:0;max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:thin;}
+.crumb>*{flex:0 0 auto!important;white-space:nowrap!important;}
+.fbox>.vscroll{overflow-y:auto;overflow-x:hidden;max-height:48vh;min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y;}
 /* Quiz controls: stable geometry, tap-to-cycle settings, no countdown UI */
 .qg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
 .qg .qc{min-width:0;min-height:44px;padding:8px 5px;font-size:clamp(11px,3.2vw,14px);white-space:normal}
@@ -367,7 +377,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.0.3",APP_BUILD="2026-11-12",SCHEMA=3,NP=[];
+var FRESH=false,APP_VERSION="1.0.4",APP_BUILD="2026-11-12",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
@@ -440,17 +450,20 @@ Object.defineProperty(S,"folders",{get:function(){var r=curRoot();return r?r.fol
 
 /* --- halaman Folder: navigasi seperti File Explorer --- */
 function vFolder(){var h=hero()+'<div class="row sp folder-heading"><h1>Folder <span>🌸</span></h1><button class="btn edit-btn" style="margin:0" onclick="tgGear()" aria-label="Edit">'+(gear?"✓ Selesai":PEN+" Edit")+'</button></div>';
-if(gear)return h+editMenu();
-var r=curRoot();if(RL||!r)return h+rootList();
-var cf=NP.length?findF(NP[0]):null;
-if(!cf){h+='<div class="box fbox"><div class="row sp"><b>📁 '+e(r.name)+'</b><span class="mu">'+r.folders.length+' BAB</span></div><div class="chips col">';
-r.folders.forEach(function(x){h+='<button class="chip rt" onclick="openNP(\''+x.id+'\')"><span class="jp">'+e(x.name)+'</span><span class="mu rc">'+x.words.length+' kata</span></button>'});
-if(!r.folders.length)h+='<div class="mu">Belum ada folder BAB.</div>';return h+'</div></div>'}
-h+='<div class="box fbox"><div class="row sp"><button class="rback jp" onclick="upNP()"><i>‹</i> '+e(r.name)+'</button><span class="mu">'+cf.words.length+' kotoba</span></div><div class="crumb"><button onclick="upNP()">'+e(r.name)+'</button><span>›</span><b>'+e(cf.name)+'</b></div><div class="vscroll">';
-cf.words.forEach(function(w){h+='<div class="kid word-row"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></span><span class="row word-actions"><button class="btn" onclick="editWord(\''+w.id+'\')">Edit</button><button class="x" onclick="delWordIn(\''+cf.id+'\',\''+w.id+'\')">Hapus</button></span></div>'});
-if(!cf.words.length)h+='<div class="mu">Belum ada kotoba.</div>';return h+'</div></div>'}
-function crumbNP(r){var h='<div class="crumb"><button onclick="jumpNP(-1)">'+e(r.name)+'</button>';NP.forEach(function(id,i){var l=locF(id);if(!l)return;h+='<span>›</span>'+(i===NP.length-1?'<b>'+e(l.f.name)+'</b>':'<button onclick="jumpNP('+i+')">'+e(l.f.name)+'</button>')});return h+'</div>'}
-function openNP(id){NP=[id];S.active=id;var l=locF(id);if(l)l.r.active=id;L=null;save();R("n")}
+if(gear)return h+editMenu();var r=curRoot();if(RL||!r)return h+rootList();
+if(!NP.length){h+='<div class="box fbox"><div class="row sp"><b>📁 '+e(r.name)+'</b><span class="mu">'+r.folders.length+' BAB</span></div><div class="chips col">';
+ r.folders.forEach(function(x){h+='<button class="chip rt" onclick="openNP(\''+x.id+'\')"><span class="jp">'+e(x.name)+'</span><span class="mu rc">'+x.words.length+' kata</span></button>'});
+ if(!r.folders.length)h+='<div class="mu">Belum ada folder BAB.</div>';return h+'</div></div>'}
+var fp=[],cur=null;NP.forEach(function(id){var arr=cur?cur.children:r.folders;cur=arr.filter(function(x){return x.id===id})[0]||null;if(cur)fp.push(cur)});if(!cur){NP=[];return vFolder()}
+h+='<div class="box fbox"><div class="crumb" role="navigation" aria-label="Lokasi folder"><button onclick="jumpNP(-1)">'+e(r.name)+'</button>';
+fp.forEach(function(f,i){h+='<span>›</span>'+(i===fp.length-1?'<b>'+e(f.name)+'</b>':'<button onclick="jumpNP('+i+')">'+e(f.name)+'</button>')});
+h+='</div><div class="row sp"><span class="mu">'+cur.words.length+' kotoba · '+cur.children.length+' subfolder</span></div>';
+if(cur.children.length){h+='<div class="chips col">';cur.children.forEach(function(ch){h+='<button class="chip rt" onclick="openNP(\''+ch.id+'\')"><span class="jp">📁 '+e(ch.name)+'</span><span class="mu rc">'+ch.words.length+' kata</span></button>'});h+='</div>'}
+h+='<div class="vscroll" style="max-height:48vh;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain">';
+cur.words.forEach(function(w){h+='<div class="kid word-row"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></span><span class="row word-actions"><button class="btn" onclick="editWord(\''+w.id+'\')">Edit</button><button class="x" onclick="delWordIn(\''+cur.id+'\',\''+w.id+'\')">Hapus</button></span></div>'});
+if(!cur.words.length)h+='<div class="mu">Belum ada kotoba.</div>';return h+'</div></div>'}
+function crumbNP(r){var h='<div class="crumb" role="navigation" aria-label="Lokasi folder"><button onclick="jumpNP(-1)">'+e(r.name)+'</button>';NP.forEach(function(id,i){var l=locF(id);if(!l)return;h+='<span>›</span>'+(i===NP.length-1?'<b>'+e(l.f.name)+'</b>':'<button onclick="jumpNP('+i+')">'+e(l.f.name)+'</button>')});return h+'</div>'}
+function openNP(id){var at=NP.indexOf(id);NP=at>=0?NP.slice(0,at+1):NP.concat([id]);S.active=id;var l=locF(id);if(l)l.r.active=id;L=null;save();R("n")}
 function jumpNP(i){NP=NP.slice(0,i+1);if(NP.length){S.active=NP[NP.length-1]}L=null;R("n")}
 function upNP(){if(NP.length)jumpNP(NP.length-2);else backRoot()}
 function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}gear=false;S.rootId=id;NP=[];fixAct();RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
@@ -482,7 +495,7 @@ return false}
 
 document.addEventListener("keydown",function(ev){if(ev.key!=="Enter"||ev.isComposing||ev.keyCode===229)return;var a=document.activeElement;
 if(a&&/^ia_/.test(a.id))addWordTo(a.id.slice(3));
-else if(Q&&Q.phase==="fb"&&T==="quiz"&&!(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName)))qNext()});
+});
 
 /* ===== Kamus lokal (IndexedDB), autocomplete, koreksi pengguna, update kamus & aplikasi ===== */
 /* Toko: entries (kamus Jepang), trans (terjemahan Indonesia), corrections (koreksi pengguna),
@@ -609,11 +622,11 @@ await reg.update();if(!reg.installing&&!reg.waiting){go();return}setTimeout(go,7
 function btnRecover(){dlg({t:"Bersihkan cache aplikasi?",m:"Hanya cache milik Kotoba Card yang dihapus, lalu aplikasi dimuat ulang. Kosakata, progres, dan database kamus TIDAK dihapus.",y:"Bersihkan"},async function(){try{var ks=await caches.keys();await Promise.all(ks.filter(function(k){return k.indexOf("kotoba-")===0}).map(function(k){return caches.delete(k)}));var rg=await navigator.serviceWorker.getRegistration();if(rg)await rg.unregister()}catch(x){}location.reload()})}
 
 /* --- toast & pemeriksaan otomatis (hanya memeriksa; pembaruan tetap manual) --- */
-var TT=null;
+var TT=null,autoCheckBusy=false;
 function toast(msg,label,fn){var t=document.getElementById("tst");if(!t)return;document.getElementById("tstm").textContent=msg;var b=document.getElementById("tstb");b.style.display=label?"":"none";b.textContent=label||"";b.onclick=function(){t.classList.remove("show");if(fn)fn()};t.classList.add("show");clearTimeout(TT);TT=setTimeout(function(){t.classList.remove("show")},label?12000:5000)}
-async function autoCheck(){if(S.auto===false||navigator.onLine===false)return;if(Date.now()-(S.lastChk||0)<6*3600e3)return;S.lastChk=Date.now();save();
+async function autoCheck(){if(autoCheckBusy||S.auto===false||navigator.onLine===false)return;if(Date.now()-(S.lastChk||0)<6*3600e3)return;S.lastChk=Date.now();save();autoCheckBusy=true;
 try{var j=await appRemote();if(vcmp(j.version,APP_VERSION)>0)toast("Pembaruan aplikasi "+j.version+" tersedia.","Lihat",function(){gear=true;ES=[];EC=5;R();ecT(5);ecT(5)})}catch(x){}
-try{var p=await dictCheckPlan();if(p.needE||p.needT)toast("Pembaruan database kamus tersedia ("+p.m.version+").","Lihat",function(){gear=true;ES=[];R();ecT(5)})}catch(x){}}
+try{var p=await dictCheckPlan();if(p.needE||p.needT)toast("Pembaruan database kamus tersedia ("+p.m.version+").","Lihat",function(){gear=true;ES=[];R();ecT(5)})}catch(x){}finally{autoCheckBusy=false}}
 
 /* ===== Menu Edit: Folder Utama (bertingkat), Kotoba (satu area kontrol), Backup, About ===== */
 function editMenu(){if(ES.length)return editPage();var r=curRoot();
@@ -641,7 +654,7 @@ fixAct();save();return ok}
 
 /* --- halaman Edit › Folder Utama (kedalaman bebas) --- */
 function esJump(n){var m=document.getElementById("m");if(dirty()){guard(function(){esJump(n)});return}ES=ES.slice(0,n+1);R();m.scrollTop=0}
-function editCrumb(r,fp){var h='<div class="crumb"><button onclick="esJump(-1)">Edit</button><span>›</span><button onclick="esJump(0)">Folder Utama</button>';if(r)h+='<span>›</span>'+(fp.length?'<button onclick="esJump(1)">'+e(r.name)+'</button>':'<b>'+e(r.name)+'</b>');fp.forEach(function(f,i){h+='<span>›</span>'+(i===fp.length-1?'<b>'+e(f.name)+'</b>':'<button onclick="esJump('+(2+i)+')">'+e(f.name)+'</button>')});return h+'</div>'}
+function editCrumb(r,fp){var h='<div class="crumb" role="navigation" aria-label="Lokasi folder"><button onclick="esJump(0)">Folder Utama</button>';if(r)h+='<span>›</span>'+(fp.length?'<button onclick="esJump(1)">'+e(r.name)+'</button>':'<b>'+e(r.name)+'</b>');fp.forEach(function(f,i){h+='<span>›</span>'+(i===fp.length-1?'<b>'+e(f.name)+'</b>':'<button onclick="esJump('+(2+i)+')">'+e(f.name)+'</button>')});return h+'</div>'}
 function kidWords(f){return f.words.map(function(w){return'<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span> <span class="cattag">'+e(catLabel(w.c))+'</span><div class="mu">'+e(w.a)+'</div></span></div>'}).join("")||'<div class="mu">Belum ada kotoba.</div>'}
 function subCount(z){return(z.children.length?z.children.length+" sub · ":"")+z.words.length+" kata"}
 function editPage(){var r=ES[1]?rootOf(ES[1]):null,f=null,fp=[],h;if(ES[1]&&!r)ES.length=1;
@@ -760,14 +773,15 @@ function okId(inp,w){var src=String(w.a||"").replace(/[\(（][^\)）]*[\)）]/g,
 var ia=String(inp||"").replace(/[\(（][^\)）]*[\)）]/g,"").split(/[,;\/、，；]/).map(nA).filter(Boolean);if(!ia.length)return false;return ia.every(function(x){return parts.indexOf(x)>-1})}
 
 /* --- layar pengaturan --- */
-function qSetup(){var q=qs(),pool=qPool(),r=curRoot(),folders=qList(),scope=q.scope==="all"?"Semua BAB":((folders.filter(function(x){return x.f.id===q.scope})[0]||{}).f||{}).name||"Pilih BAB";if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");var h=hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder utama: <b>'+e(r.name)+'</b></div><div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return '<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join('')+'</div><div class="qdesc">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div><div class="qn"><div class="qnh">PENGATURAN KUIS</div><div class="qcycles"><button class="qcycle" onclick="qCycle(\'n\')"><small>KOTOBa PER SESI</small><b>8</b><span>Ketuk untuk ubah</span></button><button class="qcycle" onclick="qCycle(\'scope\')"><small>CAKUPAN</small><b>'+e(scope)+'</b><span>Ketuk untuk ubah</span></button></div></div><div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia · maksimal 8 kotoba unik per sesi'+'</div>'+ (pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Belum ada kotoba untuk kuis.</div>')+'</div>';return h}
+function qSetup(){var q=qs(),pool=qPool(),r=curRoot(),folders=qList(),scope=q.scope==="all"?"Semua BAB":((folders.filter(function(x){return x.f.id===q.scope})[0]||{}).f||{}).name||"Pilih BAB";if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");var h=hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder utama: <b>'+e(r.name)+'</b></div><div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return '<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join('')+'</div><div class="qdesc">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div><div class="qn"><div class="qnh">PENGATURAN KUIS</div><div class="qcycles"><button class="qcycle" onclick="qCycle(\'n\')"><small>TOTAL KOTOBA</small><b>'+q.n+'</b><span>25 · 50 · 100 kotoba</span></button><button class="qcycle" onclick="qCycle(\'scope\')"><small>CAKUPAN</small><b>'+e(scope)+'</b><span>Ketuk untuk ubah</span></button></div></div><div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia · total kuis '+q.n+' kotoba, dibagi otomatis menjadi sesi seimbang'+'</div>'+ (pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Belum ada kotoba untuk kuis.</div>')+'</div>';return h}
 function vQuiz(){if(Q&&Q.q)return Q.done?qResult():qRun();return qSetup()}
 
 /* --- jalannya kuis --- */
 function qStart(ids){var q=qs(),pool=qPool();if(ids){var set={};ids.forEach(function(i){set[i]=1});pool=pool.filter(function(w){return set[w.id]})}
 if(!pool.length){dlg({t:"Tidak ada kotoba",m:"Tidak ada kotoba yang cocok dengan pengaturan.",single:true,y:"Mengerti"});return}
-var n=ids?pool.length:Math.min(8,pool.length),qq=shuf(pool.slice()).slice(0,n);
-Q={mode:q.mode,cat:q.cat,n:n,q:qq,i:0,res:[],first:{},rep:{},retryQueued:{},phase:"ask",t0:0,pe:0,paused:false,draft:"",dp:qPool(),o:null,oi:-1,done:false,raf:0,nt:0,last:null,fl:false,initialIds:qq.map(function(w){return w.id})};R("n");qBegin()}
+var total=ids?pool.length:Math.min(+q.n||25,pool.length),picked=ids?shuf(pool.slice()):wsample(pool,total),sessionCount=Math.min(8,Math.max(1,Math.floor(total/5))),base=Math.floor(total/sessionCount),extra=total%sessionCount,sessions=[],at=0;
+for(var si=0;si<sessionCount;si++){var take=base+(si<extra?1:0);sessions.push(picked.slice(at,at+take));at+=take}
+Q={mode:q.mode,cat:q.cat,n:total,q:sessions[0].slice(),i:0,res:[],first:{},rep:{},retryQueued:{},phase:"ask",t0:0,pe:0,paused:false,draft:"",dp:qPool(),o:null,oi:-1,done:false,nt:0,last:null,fl:false,initialIds:sessions[0].map(function(w){return w.id}),sessions:sessions,sessionIndex:0,sessionCount:sessionCount,sessionUnique:sessions[0].length,allTotal:total,firstTry:{}};R("n");qBegin()}
 function qBegin(){if(!Q)return;Q.t0=performance.now();Q.phase="ask";Q.paused=!!document.hidden;qSync()}
 
 function qSync(){if(!Q||Q.done||Q.phase!=="ask")return;Q.paused=(T!=="quiz"||!!document.hidden)}
@@ -780,14 +794,14 @@ var r={id:w.id,ms:Math.round(el),ok:ok,g:g,to:!!to,sk:!!skip,pk:pk};QX.res.push(
 perfUpd(w.id,g,el);if(g==="x"){QX.rep[w.id]=1;qReins(w)}else{delete QX.rep[w.id];delete QX.retryQueued[w.id]}
 stat("q",ok);save();
 (QX.o||[]).forEach(function(x,j){var b=document.getElementById("o"+j);if(!b)return;if(x.id===w.id)b.classList.add("ok");else if(j===pk)b.classList.add("bad")});var fl=document.getElementById("fl");if(fl){var pp=Math.round(QX.res.length/QX.q.length*100);fl.style.width=pp+"%";fl.textContent=pp+"%"}
-clearTimeout(QX.nt)}
-function qNext(){if(!Q||Q.phase!=="fb")return;clearTimeout(Q.nt);if(Q.last&&!Q.last.ok)delete Q.retryQueued[Q.last.id];Q.i++;Q.draft="";Q.last=null;
-if(Q.i>=Q.q.length){if(Object.keys(Q.rep).length){var pending=Q.q.slice(Q.initialIds.length),seenPending={};pending=pending.filter(function(w){if(!Q.rep[w.id]||seenPending[w.id])return false;seenPending[w.id]=1;return true});Q.i=Q.initialIds.length;Q.q=Q.q.slice(0,Q.initialIds.length).concat(pending);if(Q.i<Q.q.length){Q.phase="ask";R("n");qBegin();return}}qEnd(false);return}
-Q.phase="ask";R("n");qBegin()}
-function qEnd(partial){if(!Q||Q.done)return;cancelAnimationFrame(Q.raf);clearTimeout(Q.nt);Q.done=true;Q.partial=!!partial;
+clearTimeout(QX.nt);if(ok){qNext();return}}
+function qNext(){if(!Q||Q.phase!=="fb")return;if(Q.last&&!Q.last.ok)delete Q.retryQueued[Q.last.id];Q.i++;Q.draft="";Q.last=null;
+if(Q.i>=Q.q.length){qEnd(false);return}Q.phase="ask";R("n");qBegin()}
+function qEnd(partial){if(!Q||Q.done)return;clearTimeout(Q.nt);Q.done=true;Q.partial=!!partial;
 var ok=Q.res.filter(function(x){return x.ok}).length,avg=Q.res.length?Math.round(Q.res.reduce(function(s,x){return s+x.ms},0)/Q.res.length):0;
 S.qh.unshift({t:Date.now(),m:Q.mode,c:Q.cat,n:Q.res.length,of:Q.q.length,ok:ok,avg:avg,rep:Object.keys(Q.rep).length,p:partial?1:0});S.qh=S.qh.slice(0,60);save();R("n")}
-function qExit(){if(!Q)return;if(!Q.res.length){dlg({t:"Keluar dari kuis?",m:"Belum ada soal yang dijawab."},function(){if(Q){cancelAnimationFrame(Q.raf);clearTimeout(Q.nt)}Q=null;R()});return}
+function qContinue(){if(!Q||!Q.done||Q.partial||Object.keys(Q.rep||{}).length||Q.sessionIndex+1>=Q.sessionCount)return;var ix=Q.sessionIndex+1,words=Q.sessions[ix];Q.sessionIndex=ix;Q.sessionUnique=words.length;Q.q=words.slice();Q.i=0;Q.res=[];Q.first={};Q.rep={};Q.retryQueued={};Q.phase="ask";Q.t0=0;Q.o=null;Q.oi=-1;Q.last=null;Q.done=false;Q.partial=false;Q.initialIds=words.map(function(w){return w.id});R("n");qBegin()}
+function qExit(){if(!Q)return;if(!Q.res.length){dlg({t:"Keluar dari kuis?",m:"Belum ada soal yang dijawab."},function(){if(Q){clearTimeout(Q.nt)}Q=null;R()});return}
 dlg({t:"Akhiri kuis sekarang?",m:Q.res.length+" dari "+Q.q.length+" soal sudah dijawab. Hasil dan progres belajar tetap disimpan dan ditampilkan.",y:"Akhiri & lihat hasil",n:"Lanjut kuis"},function(){qEnd(true)})}
 function qLab(w,m){return m==="arti"?String(w.a||""):String(w.k||w.f||"")}
 function qOpts(w,m){var seen={},out=[w];seen[qLab(w,m)]=1;var add=function(list){shuf(list.slice()).forEach(function(x){if(out.length>=4)return;var l=qLab(x,m);if(x.id===w.id||!l||seen[l])return;seen[l]=1;out.push(x)})};
@@ -799,13 +813,13 @@ else{pr='<div class="big" style="font-size:34px">'+e(w.a)+'</div>';hint="Pilih k
 if(!Q.o||Q.oi!==Q.i){Q.o=qOpts(w,Q.mode);Q.oi=Q.i}
 var ob="";Q.o.forEach(function(x,k){var l=qLab(x,Q.mode),c="opt"+(Q.mode!=="arti"&&l.length<=6?" kj":"");if(fb){if(x.id===w.id)c+=" ok";else if(Q.last&&Q.last.pk===k)c+=" bad"}ob+='<button class="'+c+'" id="o'+k+'" onclick="qPick('+k+')">'+e(l)+'</button>'});
 return'<div class="row sp"><button class="btn" style="margin:0" onclick="qExit()">← Keluar</button><span class="tag">'+(Q.i+1)+' / '+n+'</span></div><div class="bar"><div class="fill" id="fl" style="width:'+pct+'%">'+pct+'%</div></div>'
-+(fb?((Q.last&&!Q.last.ok?'<div class="qwrong-note">Belum tepat. Coba ingat kembali; kamu bisa balik kartu untuk melihat jawabannya.</div>':'<div class="qwrong-note">Benar! Bagus, lanjut ke kotoba berikutnya.</div>')+'<button class="btn gold" onclick="qNext()">Lanjutkan</button>'):'')+'<div class="flip" onclick="this.firstElementChild.classList.toggle(\'f\')"><div class="in" style="min-height:190px"><div class="face card" style="min-height:0">'+pr+'<div class="sub">'+hint+' · ketuk untuk lihat bacaan</div></div><div class="face bk card" style="min-height:0"><div class="fur">'+e(w.f)+'</div><div class="big" style="font-size:42px">'+e(w.k)+'</div></div></div></div>'
-+ob}
++'<div class="flip" onclick="this.firstElementChild.classList.toggle(\'f\')"><div class="in" style="min-height:190px"><div class="face card" style="min-height:0">'+pr+'<div class="sub">'+hint+' · ketuk untuk lihat bacaan</div></div><div class="face bk card" style="min-height:0"><div class="fur">'+e(w.f)+'</div><div class="big" style="font-size:42px">'+e(w.k)+'</div></div></div></div>'
++ob+(fb?'<div class="qwrong-note">Belum tepat. Coba ingat kembali; kamu bisa balik kartu untuk melihat jawabannya.</div><button class="btn gold" onclick="qNext()">Lanjutkan</button>':'')}
 function qResult(){var first=Object.keys(Q.first||{}).map(function(id){return Q.first[id]}),n=Math.max(1,first.length),ok=first.filter(function(x){return x.ok}).length,pc=Math.round(ok/n*100),c={f:0,n:0,s:0,x:0},tot=0;Q.res.forEach(function(x){c[x.g]++;tot+=x.ms});
-var ids=Object.keys(Q.rep),h=hero()+'<div class="card"><div class="big qpercent" style="color:var(--gold)">'+pc+'%</div><p class="mu">'+(Q.partial?'Kuis dihentikan — ':'')+'Benar '+ok+' dari '+n+' soal'+(Q.partial?' terjawab (dari '+Q.q.length+')':'')+'</p></div>';
-var seen={},rows=[];first.forEach(function(x,i){if(x.g==="f"||x.g==="n"||seen[x.id])return;seen[x.id]=1;var w=Q.q[i]||Q.q.filter(function(z){return z.id===x.id})[0];rows.push('<div class="w"><div><span class="jp" style="font-size:22px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div></div>')});
-h+=rows.length?'<div class="box"><div class="mu">Perlu diulang ('+ids.length+')</div><div class="vscroll">'+rows.join("")+'</div></div>':'<div class="box mu">Semua jawaban benar. Mantap!</div>';
-return h+(ids.length?'<button class="btn gold" onclick="qStart(Object.keys(Q.rep))">Latih yang perlu diulang</button>':'')+'<button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="qStart()">Main lagi</button><button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="Q=null;R()">Selesai</button>'}
+var ids=Object.keys(Q.rep),h=hero()+'<div class="mu" style="margin-bottom:8px">Sesi '+(Q.sessionIndex+1)+' dari '+Q.sessionCount+' · '+Q.sessionUnique+' kotoba unik</div><div class="card"><div class="big qpercent" style="color:var(--gold)">'+pc+'%</div><p class="mu">'+(Q.partial?'Kuis dihentikan — ':'')+'Benar '+ok+' dari '+n+' soal'+(Q.partial?' terjawab (dari '+Q.q.length+')':'')+'</p></div>';
+var rows=[];first.forEach(function(x){var w=Q.sessions[Q.sessionIndex].filter(function(z){return z.id===x.id})[0];if(!w)return;rows.push('<div class="w"><div><span class="jp" style="font-size:22px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></div><span class="tag" style="color:'+(x.ok?'var(--ok)':'var(--bad)')+'">'+(x.ok?'Benar pertama':'Perlu pengulangan')+'</span></div>')});
+h+='<div class="box"><div class="mu">Daftar kotoba sesi ini · benar percobaan pertama: '+ok+' dari '+first.length+'</div><div class="vscroll">'+rows.join("")+'</div></div>';
+return h+(ids.length?'<div class="mu">Sesi belum selesai karena masih ada kotoba yang perlu diulang.</div>':'')+(!Q.partial&&Q.sessionIndex+1<Q.sessionCount?'<button class="btn gold" onclick="qContinue()">Mulai Sesi Berikutnya</button>':'')+'<button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="qStart()">Main lagi</button><button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="Q=null;R()">Selesai</button>'}
 
 
 function applyFont(){var r=document.documentElement.style;r.setProperty("--jp",FONTS[S.font]||FONTS.std);r.setProperty("--z",S.size||1.2);r.setProperty("--y",S.fsize||1.4)}
@@ -816,7 +830,7 @@ pages.forEach(function(t){document.getElementById("t-"+t).className=t===T?"on":"
 var m=document.getElementById("m"),h=T==="folder"?vFolder():T==="learn"?vLearn():T==="stat"?vStat():vQuiz();
 var n=m.querySelector('.pg[data-page="'+T+'"]');
 if(!n){n=document.createElement("div");n.className="pg";n.setAttribute("data-page",T);m.appendChild(n)}
-n.innerHTML=h;
+n.innerHTML=h;n.classList.toggle("folder-fixed",T==="folder"&&!gear);
 pages.forEach(function(t){var p=m.querySelector('.pg[data-page="'+t+'"]');if(p)p.classList.toggle("active",t===T)});
 if(k==="n"||k==="l")m.scrollTop=0;if(gear){kSelUI();aboutRefresh()}}
 var RT=0;
@@ -885,10 +899,11 @@ function flipC(){document.getElementById("in").classList.toggle("f");document.ge
 function rate(r){var id=L.q.shift(),w=cur().words.filter(function(x){return x.id===id})[0];if(w){stat("r",r>=2);perfUpd(id,r===0?"x":r===1?"s":"f",0);if(!L.cram){var s=sr(w,r);w.ivl=s.ivl;w.ease=s.ease;w.due=today()+s.ivl;save()}}if(r===0)L.q.splice(Math.min(2,L.q.length),0,id);else if(r===1)L.q.splice(Math.min(5,L.q.length),0,id);R("n")}
 
 document.addEventListener("click",function(ev){var a=document.activeElement;if(a&&/INPUT|SELECT/.test(a.tagName)&&!ev.target.closest("input,select"))a.blur()});
-var lastAct=Date.now(),tk6=0;
+var lastAct=Date.now(),tk6=0,studyStamp=Date.now();
 ["pointerdown","keydown","touchstart"].forEach(function(n){document.addEventListener(n,function(){lastAct=Date.now()},true)});
-setInterval(function(){if(document.hidden||(T!=="learn"&&T!=="quiz")||Date.now()-lastAct>60000)return;var t=today();S.st=S.st||{};var d=S.st[t]=S.st[t]||{r:0,g:0,q:0,qo:0};d.s=(d.s||0)+30;if(++tk6%2===0)save()},30000);
-document.addEventListener("visibilitychange",function(){if(document.hidden)save()});
+function flushStudyTime(){var now=Date.now(),elapsed=Math.max(0,Math.min(60000,now-studyStamp));studyStamp=now;if(!document.hidden&&(T==="learn"||T==="quiz")&&Date.now()-lastAct<=60000&&elapsed>=1000){var t=today();S.st=S.st||{};var d=S.st[t]=S.st[t]||{r:0,g:0,q:0,qo:0};d.s=(d.s||0)+Math.round(elapsed/1000);save()}}
+setInterval(flushStudyTime,60000);
+document.addEventListener("visibilitychange",function(){flushStudyTime();save()});window.addEventListener("pagehide",function(){flushStudyTime();save()});
 (function(){if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;var p=document.createElement("div");p.className="petals";for(var i=0;i<14;i++){var q=document.createElement("i");q.style.cssText="left:"+(Math.random()*100)+"%;width:"+(7+Math.random()*7)+"px;height:"+(5+Math.random()*6)+"px;opacity:"+(.3+Math.random()*.4)+";animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";p.appendChild(q)}document.getElementById("app").appendChild(p)})();
 (function(){var o=document.createElement("div");o.id="op";
 o.innerHTML='<div id="olg" role="button" tabindex="0" aria-label="Kotoba Card. Tekan dan tahan logo untuk membuka, atau tekan Enter."><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a855f7"/><stop offset="1" stop-color="#FACC15"/></linearGradient></defs><circle class="or-o" cx="50" cy="50" r="49.5" pathLength="100" stroke-dasharray="1.2 2.3"/><circle class="or-b" cx="50" cy="50" r="47"/><circle class="or-g" cx="50" cy="50" r="43"/><circle class="or-p" id="orp" cx="50" cy="50" r="47" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg><img src="assets/logo.png" alt="" draggable="false"><i class="scan"></i><i class="sweep"></i></div>';

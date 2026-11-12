@@ -3,7 +3,7 @@
    - Tidak menyentuh IndexedDB/localStorage sama sekali.
    - Berkas kamus (dict/) dan version.json selalu ke jaringan (tidak di-cache) agar pemeriksaan update akurat.
    - Pemulihan: versi cache lama dihapus HANYA setelah versi baru sukses ter-install & aktif. */
-var CACHE_NAME = "kotoba-v1.0.5";
+var CACHE_NAME = "kotoba-v1.0.6";
 var CORE = ["./", "index.html", "manifest.webmanifest"];
 var ART = ["assets/header.webp", "assets/bg.webp", "assets/logo.png", "assets/icon-192.png", "assets/icon-512.png"];
 
@@ -37,6 +37,19 @@ self.addEventListener("fetch", function (event) {
   var request = event.request;
   if (request.method !== "GET") return;
   var url = new URL(request.url);
+  // Google Fonts: cache-first agar font CSS dan file font dipakai ulang saat kunjungan berikutnya.
+  if (url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com") {
+    event.respondWith(caches.open(CACHE_NAME).then(function (cache) {
+      return cache.match(request).then(function (hit) {
+        var fresh = fetch(request).then(function (res) {
+          if (res && (res.ok || res.type === "opaque")) cache.put(request, res.clone()).catch(function () {});
+          return res;
+        });
+        return hit || fresh;
+      });
+    }));
+    return;
+  }
   if (url.origin !== self.location.origin) return;
   if (/\/dict\//.test(url.pathname) || /\/version\.json$/.test(url.pathname)) return; // jaringan langsung
 
