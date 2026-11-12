@@ -143,6 +143,7 @@ main{padding-bottom:70px}
 .topbar{display:none!important}
 @media(max-width:360px){.hero{min-height:calc(var(--sat) + 164px)}.hero-message strong{font-size:16px}}
 
+.word-row{align-items:center}.word-actions{gap:6px;flex:none}.word-actions .btn,.word-actions .x{margin:0;padding:7px 10px;font-size:12px;min-height:32px}.kid .row button{margin:0;padding:7px 10px;font-size:12px;min-height:32px}
 /* folder dropdown */
 .chip.fo{align-self:flex-start}
 .chip.fo:after{transform:rotate(90deg);transition:transform .2s}
@@ -336,6 +337,14 @@ html{background:#0d1035}
 .qfb.ok{border-color:rgba(16,185,129,.8)}.qfb.bad{border-color:rgba(239,68,68,.85)}
 .qfb .btn{width:100%}
 select{width:100%;padding:12px 14px;border-radius:12px;margin-top:8px;font:inherit}
+/* ===== Optimasi Android: scroll area + rendering ringan ===== */
+main{overflow-y:auto;overscroll-behavior-y:contain;touch-action:pan-y;min-height:0;contain:layout style}
+.vscroll,.flist,.dict-suggest{min-height:0;max-height:min(58vh,520px);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y;pointer-events:auto;scrollbar-gutter:stable}
+.vscroll{position:relative;contain:layout style}
+/* Nested scroll tetap bisa menerima gesture saat berada di dalam panel accordion */
+.ec-in,.ec-b,.ec-p{min-height:0}.ec-in{-webkit-overflow-scrolling:touch}
+/* Efek visual tetap aktif di semua ukuran layar; optimasi dilakukan pada area render/scroll. */
+@media (max-width:380px){.vscroll,.flist,.dict-suggest{max-height:54vh}}
 </style></head><body><div id="app"><main id="m"></main>
 <nav><button id="t-folder" onclick="go('folder')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><circle cx='12' cy='13' r='2' fill='#0d1035'/></svg><span>Folder</span></button><button id="t-learn" onclick="go('learn')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M2.5 5.5C5.5 4 9 4 12 5.5c3-1.5 6.5-1.5 9.5 0V19c-3-1.5-6.5-1.5-9.5 0-3-1.5-6.5-1.5-9.5 0z'/><path d='M12 5.5V19' stroke='#0d1035' stroke-width='1.4'/></svg><span>Belajar</span></button><button id="t-quiz" onclick="go('quiz')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3A2.6 2.6 0 0 1 15.5 17l-.7-1.2H9.2L8.5 17a2.6 2.6 0 0 1-5.4-.6l-.9-3A5 5 0 0 1 7 7z'/><path d='M8 10v4M6 12h4' stroke='#0d1035' stroke-width='1.6' stroke-linecap='round'/><circle cx='15.5' cy='11' r='1' fill='#0d1035'/><circle cx='17.8' cy='13' r='1' fill='#0d1035'/></svg><span>Kuis</span></button><button id="t-stat" onclick="go('stat')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><rect x='4' y='11' width='4.4' height='9' rx='1.3'/><rect x='9.8' y='4' width='4.4' height='16' rx='1.3'/><rect x='15.6' y='8' width='4.4' height='12' rx='1.3'/></svg><span>Statistik</span></button></nav><div id="tst" class="sv" role="status"><span id="tstm"></span><button id="tstb" type="button"></button></div><div id="dg" class="dg"><div class="dgc" role="dialog"><h3 id="dgt"></h3><p id="dgm"></p><input id="dgi" autocomplete="off"><div class="dgb"><button id="dgn" onclick="dgx(0)">Batal</button><button id="dgy" onclick="dgx(1)">Ya, Terapkan</button></div></div></div></div>
 <script>
@@ -346,7 +355,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.0.0",APP_BUILD="2026-11-12",SCHEMA=2,NP=[];
+var FRESH=false,APP_VERSION="1.0.3",APP_BUILD="2026-11-12",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
@@ -409,7 +418,10 @@ function fixTree(a){a.forEach(function(f){f.words=f.words||[];f.children=f.child
 function mig(){if(!S.roots){try{if(!localStorage.getItem(KEY+".premig"))localStorage.setItem(KEY+".premig",JSON.stringify(S))}catch(x){}
 S.roots=[{id:"r1",name:S.rootName||"NIHONGO",locked:false,folders:S.folders||[]}];S.rootId="r1";delete S.folders}
 if((S.schema||1)<SCHEMA){try{var raw=localStorage.getItem(KEY);if(raw&&!localStorage.getItem(KEY+".premig2"))localStorage.setItem(KEY+".premig2",raw)}catch(x){}}
-S.roots.forEach(function(r){r.folders=r.folders||[];r.locked=!!r.locked;fixTree(r.folders)});
+S.roots.forEach(function(r){r.folders=r.folders||[];r.locked=!!r.locked;fixTree(r.folders);
+// Migrasi satu kali: semua kosakata dari subfolder digabung ke BAB induk, tanpa menghapus data/progres.
+if((S.schema||1)<3){r.folders.forEach(function(top){var moved=[];function collect(node){(node.children||[]).forEach(function(ch){moved=moved.concat(ch.words||[]);collect(ch)})}collect(top);top.words=top.words.concat(moved);top.children=[]})}
+});
 S.schema=SCHEMA;S.perf=S.perf||{};S.qh=S.qh||[];S.qs=S.qs||{};if(S.auto===undefined)S.auto=true;
 if(!curRoot())S.rootId=S.roots.length?S.roots[0].id:null;
 Object.defineProperty(S,"folders",{get:function(){var r=curRoot();return r?r.folders:[]},set:function(v){var r=curRoot();if(r)r.folders=v},enumerable:false,configurable:true});fixAct()}
@@ -418,26 +430,22 @@ Object.defineProperty(S,"folders",{get:function(){var r=curRoot();return r?r.fol
 function vFolder(){var h=hero()+'<div class="row sp folder-heading"><h1>Folder <span>🌸</span></h1><button class="btn edit-btn" style="margin:0" onclick="tgGear()" aria-label="Edit">'+(gear?"✓ Selesai":PEN+" Edit")+'</button></div>';
 if(gear)return h+editMenu();
 var r=curRoot();if(RL||!r)return h+rootList();
-var cf=null;if(NP.length){var lc=locF(NP[NP.length-1]);if(lc&&lc.r.id===r.id)cf=lc.f;else NP=[]}
-var list=cf?cf.children:r.folders;
-h+='<div class="box fbox"><div class="row sp"><button class="rback jp" onclick="upNP()" aria-label="Kembali"><i>‹</i>📁 '+e(cf?cf.name:r.name)+'</button><span class="mu">'+list.length+' folder</span></div>'+crumbNP(r)+'<div class="chips col">';
-list.forEach(function(x){var ns=x.children.length;h+='<button class="chip rt'+(x.id===S.active?' on':'')+'" onclick="openNP(\''+x.id+'\')"><span class="jp">'+e(x.name)+'</span><span class="mu rc">'+(ns?ns+' sub · ':'')+x.words.length+' kata</span></button>'});
-if(!list.length)h+='<div class="mu">Tidak ada subfolder.</div>';
-h+='</div></div>';
-if(cf){h+='<div class="box vocab-panel'+(S.vh?' hid':'')+'"><button class="vh mu vocab-count" onclick="tgVh(this)">'+cf.words.length+' kata<i></i></button><div class="vscroll">';
-cf.words.forEach(function(w){h+='<div class="w"><div><span class="jp" style="font-size:20px">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span> <span class="cattag">'+e(catLabel(w.c))+'</span><div class="mu">'+e(w.a)+'</div></div></div>'});
-if(!cf.words.length)h+='<div class="mu" style="padding:8px 0">Belum ada kotoba.</div>';
-h+='</div></div>'}
-return h}
+var cf=NP.length?findF(NP[0]):null;
+if(!cf){h+='<div class="box fbox"><div class="row sp"><b>📁 '+e(r.name)+'</b><span class="mu">'+r.folders.length+' BAB</span></div><div class="chips col">';
+r.folders.forEach(function(x){h+='<button class="chip rt" onclick="openNP(\''+x.id+'\')"><span class="jp">'+e(x.name)+'</span><span class="mu rc">'+x.words.length+' kata</span></button>'});
+if(!r.folders.length)h+='<div class="mu">Belum ada folder BAB.</div>';return h+'</div></div>'}
+h+='<div class="box fbox"><div class="row sp"><button class="rback jp" onclick="upNP()"><i>‹</i> '+e(r.name)+'</button><span class="mu">'+cf.words.length+' kotoba</span></div><div class="crumb"><button onclick="upNP()">'+e(r.name)+'</button><span>›</span><b>'+e(cf.name)+'</b></div><div class="vscroll">';
+cf.words.forEach(function(w){h+='<div class="kid word-row"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></span><span class="row word-actions"><button class="btn" onclick="editWord(\''+w.id+'\')">Edit</button><button class="x" onclick="delWordIn(\''+cf.id+'\',\''+w.id+'\')">Hapus</button></span></div>'});
+if(!cf.words.length)h+='<div class="mu">Belum ada kotoba.</div>';return h+'</div></div>'}
 function crumbNP(r){var h='<div class="crumb"><button onclick="jumpNP(-1)">'+e(r.name)+'</button>';NP.forEach(function(id,i){var l=locF(id);if(!l)return;h+='<span>›</span>'+(i===NP.length-1?'<b>'+e(l.f.name)+'</b>':'<button onclick="jumpNP('+i+')">'+e(l.f.name)+'</button>')});return h+'</div>'}
-function openNP(id){NP.push(id);S.active=id;var l=locF(id);if(l)l.r.active=id;L=null;save();R("n")}
+function openNP(id){NP=[id];S.active=id;var l=locF(id);if(l)l.r.active=id;L=null;save();R("n")}
 function jumpNP(i){NP=NP.slice(0,i+1);if(NP.length){S.active=NP[NP.length-1]}L=null;R("n")}
 function upNP(){if(NP.length)jumpNP(NP.length-2);else backRoot()}
 function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}gear=false;S.rootId=id;NP=[];fixAct();RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
 
 /* --- CRUD folder --- */
 function addChild(pid,iid){var x=document.getElementById(iid||"nf_"+pid),n=x?x.value.trim():"",a=childArr(pid);if(!n||!a)return;var pr=rootOf(pid),pl=pr?null:locF(pid),pn=pr?pr.name:(pl?pl.f.name:"");
-dlg({t:"Buat folder anak?",m:'Folder "'+n+'" dibuat di dalam '+pn+'.'},function(){var f={id:uid(),name:n,words:[],children:[]};a.push(f);var l=locF(f.id);if(l&&l.r.id===S.rootId){S.active=f.id;l.r.active=f.id}L=null;Q=null;save();R()})}
+dlg({t:"Daftar folder BAB?",m:'Folder "'+n+'" dibuat di dalam '+pn+'.'},function(){var f={id:uid(),name:n,words:[],children:[]};a.push(f);var l=locF(f.id);if(l&&l.r.id===S.rootId){S.active=f.id;l.r.active=f.id}L=null;Q=null;save();R()})}
 function renChild(rid,fid){var f=findF(fid);if(!f)return;dlg({t:"Ganti nama folder",inp:true,v:f.name},function(v){f.name=v;save();R()})}
 function delChild(rid,fid){var l=locF(fid);if(!l)return;var ds=descF(l.f),n=ds.reduce(function(s,z){return s+z.words.length},0);
 dlg({t:"Hapus folder?",m:'Folder "'+l.f.name+'" beserta '+(ds.length-1)+' subfolder dan '+n+' kosakatanya akan dihapus. Tidak bisa dikembalikan.'},function(){
@@ -627,8 +635,8 @@ function subCount(z){return(z.children.length?z.children.length+" sub · ":"")+z
 function editPage(){var r=ES[1]?rootOf(ES[1]):null,f=null,fp=[],h;if(ES[1]&&!r)ES.length=1;
 if(r){for(var i=2;i<ES.length;i++){var cands=f?f.children:r.folders,id=ES[i],x=null;for(var j=0;j<cands.length;j++)if(cands[j].id===id)x=cands[j];if(!x){ES.length=i;break}f=x;fp.push(x)}}
 if(!r){h=esBk("Edit")+editCrumb(null,[])+'<h1 style="margin:10px 0 0">Folder Utama</h1><div class="mu" style="margin-top:12px">Buat folder induk baru</div><div class="row"><input id="nr" data-dr="n" placeholder="mis. ENGLISH, CATATAN"><button class="btn" onclick="addRoot()">Buat</button></div><div class="em">'+S.roots.map(function(x){return esItem(x.name,x.folders.length+" folder","esPush('"+x.id+"')",x.locked)}).join("")+'</div>'}
-else if(!f){var i2=r.id;h=esBk("Folder Utama")+editCrumb(r,[])+'<h1 class="jp" style="margin:10px 0 0">'+(r.locked?'🔒 ':'')+e(r.name)+'</h1><div class="mu" style="margin-top:12px">Buat folder anak</div><div class="row"><input id="nf_'+i2+'" data-dr="nf" data-id="'+i2+'" placeholder="Nama folder anak"><button class="btn" onclick="addChild(\''+i2+'\')">Buat</button></div><div class="em">'+(r.folders.map(function(z){return esItem(z.name,subCount(z),"esPush('"+z.id+"')")}).join("")||'<div class="mu">Belum ada folder anak.</div>')+'</div><div class="rr"><div class="mu">Nama folder induk</div><div class="row"><input id="rn_'+i2+'" data-dr="rn" data-id="'+i2+'" data-o="'+e(r.name)+'" value="'+e(r.name)+'" aria-label="Nama folder induk"><button class="btn" onclick="renRoot(\''+i2+'\')">Rename</button></div><div class="row sp"><button class="btn" onclick="lockRoot(\''+i2+'\')">'+(r.locked?'🔓 Buka gembok':'🔒 Kunci')+'</button><button class="x'+(r.locked?' dis':'')+'" onclick="delRoot(\''+i2+'\')">Hapus folder induk</button></div></div>'}
-else{var par=fp.length>1?fp[fp.length-2].name:r.name;h=esBk(par)+editCrumb(r,fp)+'<h1 class="jp" style="margin:10px 0 0">'+e(f.name)+'</h1><div class="row sp" style="margin-top:12px"><button class="btn" onclick="renChild(\''+r.id+'\',\''+f.id+'\')">Rename</button><button class="x" onclick="delChild(\''+r.id+'\',\''+f.id+'\')">Hapus folder</button></div><div class="mu" style="margin-top:14px">Buat subfolder</div><div class="row"><input id="nf_'+f.id+'" data-dr="nf" data-id="'+f.id+'" placeholder="Nama subfolder"><button class="btn" onclick="addChild(\''+f.id+'\')">Buat</button></div><div class="em">'+(f.children.map(function(z){return esItem(z.name,subCount(z),"esPush('"+z.id+"')")}).join("")||'<div class="mu">Belum ada subfolder.</div>')+'</div><div class="mu" style="margin-top:18px"></div>'+bodyKotoba(f.id)}
+else if(!f){var i2=r.id;h=esBk("Folder Utama")+editCrumb(r,[])+'<h1 class="jp" style="margin:10px 0 0">'+(r.locked?'🔒 ':'')+e(r.name)+'</h1><div class="mu" style="margin-top:12px">Daftar folder BAB</div><div class="row"><input id="nf_'+i2+'" data-dr="nf" data-id="'+i2+'" placeholder="Nama BAB, mis. BAB 2"><button class="btn" onclick="addChild(\''+i2+'\')">Buat</button></div><div class="em">'+(r.folders.map(function(z){return esItem(z.name,subCount(z),"esPush('"+z.id+"')")}).join("")||'<div class="mu">Belum ada folder BAB.</div>')+'</div><div class="rr"><div class="mu">Nama folder induk</div><div class="row"><input id="rn_'+i2+'" data-dr="rn" data-id="'+i2+'" data-o="'+e(r.name)+'" value="'+e(r.name)+'" aria-label="Nama folder induk"><button class="btn" onclick="renRoot(\''+i2+'\')">Rename</button></div><div class="row sp"><button class="btn" onclick="lockRoot(\''+i2+'\')">'+(r.locked?'🔓 Buka gembok':'🔒 Kunci')+'</button><button class="x'+(r.locked?' dis':'')+'" onclick="delRoot(\''+i2+'\')">Hapus folder induk</button></div></div>'}
+else{h=esBk(r.name)+'<div class="crumb"><button onclick="esJump(-1)">NIHONGO</button><span>›</span><button onclick="esJump(1)">Edit</button><span>›</span><b>Kotoba • '+e(f.name)+'</b></div><h1 class="jp" style="margin:10px 0 0">'+e(f.name)+'</h1><div class="row sp" style="margin-top:12px"><button class="btn" onclick="renChild(\''+r.id+'\',\''+f.id+'\')">Rename</button><button class="x" onclick="delChild(\''+r.id+'\',\''+f.id+'\')">Hapus BAB</button></div><div class="mu" style="margin-top:14px">'+f.words.length+' kotoba</div><div class="vscroll">'+f.words.map(function(w){return '<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></span><span class="row"><button class="btn" onclick="editWord(\''+w.id+'\')">Edit</button><button class="x" onclick="delWordIn(\''+f.id+'\',\''+w.id+'\')">Hapus</button></span></div>'}).join('')+'</div>'}
 return h}
 
 /* --- Edit › Kotoba: form tambah + satu area kontrol (Cari, Edit, Hapus) --- */
@@ -645,23 +653,16 @@ function kSel(id){KSEL=KSEL===id?null:id;kList()}
 function kScope(s){KS=s;KSEL=null;R()}
 function kEditSel(){if(KSEL)editWord(KSEL)}
 function kDelSel(){var l=KSEL?wordLoc(KSEL):null;if(l)delWordIn(l.f.id,KSEL)}
-function editWord(id){var l=wordLoc(id);if(!l)return;KF=l.f.id;KE=id;R();var s=function(p,v){var x=document.getElementById(p+KF);if(x)x.value=v};s("ik_",l.w.k);s("if_",l.w.f);s("ia_",l.w.a);s("ic_",l.w.c||"noun");var cs=document.getElementById("ic_"+KF);if(cs)cs.setAttribute("data-u","1");var b=document.getElementById("ik_"+KF);if(b&&b.scrollIntoView)b.scrollIntoView({block:"center",behavior:"smooth"})}
+function editWord(id){var l=wordLoc(id);if(!l)return;KF=l.f.id;KE=id;gear=true;EC=1;ES=[];R();var s=function(p,v){var x=document.getElementById(p+KF);if(x)x.value=v};s("ik_",l.w.k);s("if_",l.w.f);s("ia_",l.w.a);s("ic_",l.w.c||"noun");var cs=document.getElementById("ic_"+KF);if(cs)cs.setAttribute("data-u","1");var b=document.getElementById("ik_"+KF);if(b&&b.scrollIntoView)b.scrollIntoView({block:"center",behavior:"smooth"})}
 function cancelEdit(){KE=null;R()}
 function catAuto(){var k=document.getElementById("ik_"+KF),f=document.getElementById("if_"+KF),c=document.getElementById("ic_"+KF);if(c&&!c.getAttribute("data-u"))c.value=guessCat(k?k.value.trim():"",f?f.value.trim():"")}
 function onWF(x){dictSuggest(x);catAuto()}
-function bodyKotoba(fx){var all=allF();if(fx&&findF(fx)){KF=fx;KS="f"}else if(!KF||!findF(KF))KF=(S.active&&findF(S.active))?S.active:(all[0]?all[0].id:null);var f=findF(KF);
-if(!f)return'<div class="mu">Buat folder anak dulu di Folder Utama.</div>';
-var o="";S.roots.forEach(function(r){walkF(r.folders,function(z){o+='<option value="'+z.id+'"'+(z.id===KF?" selected":"")+'>'+e(pathLabel(z.id))+'</option>'})});var i=f.id;
-var wf=function(id,fld,ph){return'<div class="dict-wrap"><input id="'+id+i+'" data-dr="w" data-fld="'+fld+'" autocomplete="off" autocapitalize="none" spellcheck="false" oninput="onWF(this)" placeholder="'+ph+'"><div class="dict-suggest" id="ds_'+fld+'"></div></div>'};
-return(fx?'':'<div class="mu">Folder tujuan</div><select id="kf" onchange="KF=this.value;KE=null;KSEL=null;R()">'+o+'</select>')+'<div class="mu" style="margin-top:'+(fx?'0':'14')+'px">'+(KE?"Edit kotoba":"Tambah kotoba")+'</div>'
-+wf("ik_","k","Kanji / Kotoba")+wf("if_","f","Furigana (cara baca)")+wf("ia_","a","Arti (Bahasa Indonesia)")
-+'<select id="ic_'+i+'" aria-label="Kategori" onchange="this.setAttribute(\'data-u\',1)">'+catOpts("noun")+'</select>'
-+'<button class="btn gold" onclick="addWordTo(KF)">'+(KE?"Simpan perubahan":"Tambah Kotoba")+'</button>'+(KE?'<button class="btn" style="width:100%" onclick="cancelEdit()">Batal edit</button>':'')
-+'<div class="dict-status" id="dictStatus">'+dictStatusLine()+'</div>'
-+'<div class="box ctl"><div class="mu">Cari · Edit · Hapus kotoba</div><input id="ks" type="search" placeholder="Cari: Kanji, Kana, Romaji, atau Arti" value="'+e(KQ)+'" oninput="KQ=this.value;kList()">'
-+(fx?'':'<div class="qg" style="margin-top:8px"><button class="qc'+(KS==="f"?' on':'')+'" onclick="kScope(\'f\')">Folder ini</button><button class="qc'+(KS==="a"?' on':'')+'" onclick="kScope(\'a\')">Semua folder</button></div>')
-+'<div class="mu ksel" id="ksel"></div><div class="row"><button class="btn" id="kEdit" style="flex:1" onclick="kEditSel()" disabled>Edit</button><button class="btn" id="kDel" style="flex:1;color:#ff7b8a" onclick="kDelSel()" disabled>Hapus</button></div>'
-+'<div class="mu" style="margin-top:10px">Daftar kotoba ('+f.words.length+')</div><div id="kl" class="vscroll">'+kRows(f)+'</div></div>'}
+function bodyKotoba(fx){var all=allF();if(!KF||!findF(KF))KF=(S.active&&findF(S.active))?S.active:(all[0]?all[0].id:null);var f=findF(KF);if(!f)return '<div class="mu">Buat folder BAB terlebih dahulu.</div>';var i=f.id;
+var wf=function(id,fld,ph){return '<div class="dict-wrap"><input id="'+id+i+'" data-dr="w" data-fld="'+fld+'" autocomplete="off" autocapitalize="none" spellcheck="false" oninput="onWF(this)" placeholder="'+ph+'"><div class="dict-suggest" id="ds_'+fld+'"></div></div>'};
+var rows=[];all.forEach(function(z){z.words.forEach(function(w){rows.push('<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+' · <small>'+e(z.name)+'</small></div></span><button class="x" onclick="delWordIn(\''+z.id+'\',\''+w.id+'\')">Hapus</button></div>')})});
+var opts=all.map(function(z){return '<option value="'+z.id+'"'+(z.id===KF?' selected':'')+'>'+e(z.name)+'</option>'}).join('');
+return '<div class="crumb"><b>NIHONGO</b><span>›</span><b>Edit</b><span>›</span><b>Kotoba</b></div><div class="mu">Folder BAB tujuan</div><select id="kf" onchange="KF=this.value;KE=null;R()">'+opts+'</select><div class="mu" style="margin-top:14px">'+(KE?'Edit kotoba':'Tambah kotoba')+'</div>'+wf('ik_','k','Kanji / Kotoba')+wf('if_','f','Furigana (cara baca)')+wf('ia_','a','Arti (Bahasa Indonesia)')+'<select id="ic_'+i+'" aria-label="Kategori" onchange="this.setAttribute(\'data-u\',1)">'+catOpts('noun')+'</select><button class="btn gold" onclick="addWordTo(KF)">'+(KE?'Simpan perubahan':'Tambah Kotoba')+'</button>'+(KE?'<button class="btn" style="width:100%" onclick="cancelEdit()">Batal edit</button>':'')+'<div class="dict-status" id="dictStatus">'+dictStatusLine()+'</div><div class="box ctl"><div class="mu">Daftar Kotoba · '+rows.length+'</div><div class="vscroll">'+(rows.join('')||'<div class="mu">Belum ada kotoba.</div>')+'</div></div>'}
+
 
 /* ===== Backup & Restore (tervalidasi, tanpa duplikasi, dengan peringatan) ===== */
 var BKF="kotoba-card-backup";
@@ -718,10 +719,8 @@ var QM=[["kanji","Tebak Kanji","Lihat bacaan dan arti, lalu pilih kanjinya."],["
 var QCAT=[["all","Semua"],["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"],["mixed","Mixed"]];
 var QLIM=10000,QSLOW=7000,QMID=4000,QGL={f:"Lancar",n:"Perlu latihan",s:"Wajib diulang",x:"Prioritas tinggi"};
 function qList(){var r=curRoot();return r?rootFolders(r):[]}
-function qs(){var q=S.qs=S.qs||{};if(!QM.some(function(m){return m[0]===q.mode}))q.mode="kotoba";q.cat="all";if([25,50,100].indexOf(q.n)<0)q.n=25;
-var l=qList();if(!l.some(function(x){return x.f.id===q.from}))q.from=l.length?l[0].f.id:null;if(!l.some(function(x){return x.f.id===q.to}))q.to=l.length?l[l.length-1].f.id:null;return q}
-function qRange(){var q=qs(),l=qList();if(!l.length)return[];var a=0,b=l.length-1;l.forEach(function(x,i){if(x.f.id===q.from)a=i;if(x.f.id===q.to)b=i});if(a>b){var t=a;a=b;b=t}
-var end=b+descF(l[b].f).length-1;return l.slice(a,end+1)}
+function qs(){var q=S.qs=S.qs||{};if(!QM.some(function(m){return m[0]===q.mode}))q.mode="kotoba";q.cat="all";q.n=25;return q}
+function qRange(){return qList()}
 function qPool(){var q=qs(),seen={},out=[];qRange().forEach(function(x){x.f.words.forEach(function(w){if(seen[w.id])return;seen[w.id]=1;if(q.cat==="all"||q.cat==="mixed"||w.c===q.cat)out.push(w)})});return out}
 function qSet(k,v){qs();S.qs[k]=v;save();R()}
 function qRoot(id){S.rootId=id;NP=[];fixAct();save();R()}
@@ -745,19 +744,7 @@ function okId(inp,w){var src=String(w.a||"").replace(/[\(（][^\)）]*[\)）]/g,
 var ia=String(inp||"").replace(/[\(（][^\)）]*[\)）]/g,"").split(/[,;\/、，；]/).map(nA).filter(Boolean);if(!ia.length)return false;return ia.every(function(x){return parts.indexOf(x)>-1})}
 
 /* --- layar pengaturan --- */
-function qSetup(){var q=qs(),l=qList(),pool=qPool(),r=curRoot();
-if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");
-var h=hero()+'<h1>Kuis</h1><div class="box">';
-if(S.roots.length>1)h+='<div class="mu">Folder utama</div><select onchange="qRoot(this.value)">'+S.roots.map(function(x){return'<option value="'+x.id+'"'+(x.id===S.rootId?" selected":"")+'>'+e(x.name)+'</option>'}).join("")+'</select>';
-else h+='<div class="mu">Folder utama: <b>'+e(r.name)+'</b></div>';
-h+='<div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return'<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join("")+'</div><div class="mu" style="margin-top:6px;font-size:13px">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div>';
-var opt=function(sel){return l.map(function(x){return'<option value="'+x.f.id+'"'+(x.f.id===sel?" selected":"")+'>'+(x.d?"  ".repeat(x.d)+"↳ ":"")+e(x.f.name)+'</option>'}).join("")};
-h+='<div class="mu" style="margin-top:14px">Rentang folder (subfolder ikut dihitung)</div><div class="mu" style="font-size:13px">Dari</div><select onchange="qSet(\'from\',this.value)">'+opt(q.from)+'</select><div class="mu" style="font-size:13px;margin-top:8px">Sampai</div><select onchange="qSet(\'to\',this.value)">'+opt(q.to)+'</select>';
-h+='<div class="mu" style="margin-top:14px">Jumlah soal</div><div class="qn3">'+[25,50,100].map(function(n){return'<button class="'+(q.n===n?'on':'')+'" onclick="qSet(\'n\','+n+')">'+n+' soal</button>'}).join("")+'</div>';
-var weak=pool.filter(function(w){var p=S.perf[w.id];return p&&(p.lr==="x"||p.lr==="s")}).length;
-h+='<div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia'+(pool.length&&pool.length<q.n?' — akan diacak dan diulang sampai '+q.n+' soal':'')+(weak?' · '+weak+' kotoba perlu diulang (diprioritaskan)':'')+'</div>';
-h+=pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Tidak ada kotoba yang cocok dengan kategori/rentang ini.</div>';
-return h+'</div>'}
+function qSetup(){var q=qs(),pool=qPool(),r=curRoot();if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");var h=hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder utama: <b>'+e(r.name)+'</b></div><div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return '<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join('')+'</div><div class="mu" style="margin-top:6px;font-size:13px">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div><div class="qn"><div class="qnh">PEMILIHAN OTOMATIS</div><div style="text-align:center;font-weight:700;margin-top:5px">25 soal · acak dari semua BAB</div></div><div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia'+(pool.length&&pool.length<25?' — kosakata akan diacak dan diulang':'')+'</div>'+ (pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Belum ada kotoba untuk kuis.</div>')+'</div>';return h}
 function vQuiz(){if(Q&&Q.q)return Q.done?qResult():qRun();return qSetup()}
 
 /* --- jalannya kuis --- */
