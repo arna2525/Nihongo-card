@@ -1,5 +1,5 @@
 {
-  "version": "1.4.8",
+  "version": "1.4.6",
   "build": "2026-11-14",
-  "notes": "Statistics refinements; fixed ALL activity range and aligned mastery summary with real mastery progress. Learning engines, quest rules, review scheduling, and persistence unchanged."
+  "notes": "Ambitious Daily Quest with session-derived completion ring; statistics-only addition, existing Learning Engine and review schedules unchanged."
 }
