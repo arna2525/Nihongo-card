@@ -497,19 +497,22 @@ nav button span{display:block!important;visibility:visible!important;font-size:1
 .scope-chip{appearance:none;-webkit-appearance:none;border:1px solid var(--glow);background:rgba(124,58,196,.28);color:var(--text,#eee);font:inherit;font-size:13px;line-height:1.2;padding:8px 12px;border-radius:999px;max-width:72%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
 .scope-chip span{margin-left:5px;color:var(--gold);font-weight:700}
 
-/* v1.2.11: kembalikan komposisi kuis sesuai desain asli; penyesuaian ukuran ringan */
-.flip{margin-top:22px}
-.flip .in{height:180px!important;min-height:180px!important}
-.flip .face.card{height:180px!important;min-height:0!important;box-sizing:border-box;padding:18px 16px!important;overflow:hidden}
-.flip .face.bk{visibility:hidden}
-.flip .in.f .face{visibility:hidden}
-.flip .in.f .face.bk{visibility:visible}
-.flip .card .big,.flip .card .big.kz{font-size:clamp(27px,7.2vw,34px)!important;line-height:1.2!important}
-.flip .fur{font-size:clamp(25px,6.2vw,31px)!important;margin:0 0 5px!important;line-height:1.2}
-.flip .card .sub{width:90%;font-size:13px;line-height:1.35;margin-top:9px;padding-top:9px}
+/* v1.2.12: ukuran flashcard Belajar mengikuti acuan v1.2.6.
+   Penyesuaian ukuran di bawah ini hanya berlaku pada kartu saat kuis berjalan. */
+.pg[data-page="quiz"] .flip{margin-top:22px}
+.pg[data-page="quiz"] .flip .in{height:180px!important;min-height:180px!important}
+.pg[data-page="quiz"] .flip .face.card{height:180px!important;min-height:0!important;box-sizing:border-box;padding:18px 16px!important;overflow:hidden}
+.pg[data-page="quiz"] .flip .face.bk{visibility:hidden}
+.pg[data-page="quiz"] .flip .in.f .face{visibility:hidden}
+.pg[data-page="quiz"] .flip .in.f .face.bk{visibility:visible}
+.pg[data-page="quiz"] .flip .card .big,.pg[data-page="quiz"] .flip .card .big.kz{font-size:clamp(32px,8.6vw,40px)!important;line-height:1.2!important}
+.pg[data-page="quiz"] .flip .fur{font-size:clamp(30px,7.8vw,37px)!important;margin:0 0 5px!important;line-height:1.2}
+.pg[data-page="quiz"] .flip .card .sub{width:90%;font-size:13px;line-height:1.35;margin-top:9px;padding-top:9px}
 .quiz-options{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:14px;align-items:stretch}
-.quiz-options .opt{margin:0;min-width:0;min-height:54px;box-sizing:border-box;padding:9px 12px;border-radius:999px;font-size:16px;line-height:1.25;overflow-wrap:anywhere;white-space:normal}
-.quiz-options .opt.kj{font-size:clamp(22px,5.8vw,27px);line-height:1.15;padding:9px 10px}
+.quiz-options .opt{margin:0;min-width:0;min-height:54px;box-sizing:border-box;padding:9px 12px;border-radius:999px;font-size:19px;line-height:1.25;overflow-wrap:anywhere;white-space:normal}
+.quiz-options .opt.kj{font-size:clamp(26px,6.8vw,32px);line-height:1.15;padding:9px 10px}
+/* Tebal Font (Bold): hanya memengaruhi tulisan di halaman Kuis, aktif lewat Edit → Tampilan Teks */
+html.bold-on .pg[data-page="quiz"] .flip .card .big,html.bold-on .pg[data-page="quiz"] .flip .fur,html.bold-on .pg[data-page="quiz"] .flip .face.bk .mu,html.bold-on .quiz-options .opt,html.bold-on .pg[data-page="quiz"] .w .jp{font-weight:700!important}
 #qfb:empty{display:none}
 
 /* Android Chrome: biarkan satu area scroll utama menangani seluruh menu Edit.
@@ -691,6 +694,7 @@ var DICT_INFO_TXT="Memeriksa kamus lokal…";
 async function clearStore(n){var db=await dbOpen();var tx=db.transaction(n,"readwrite");tx.objectStore(n).clear();await txd(tx)}
 async function fj(u){var r=await fetch(u,{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status+" ("+u+")");return r.json()}
 function dMsg(t){var x=document.getElementById("abMsg");if(x)x.textContent=t}
+function tgBold(){S.bold=!S.bold;applyFont();save();var b=document.getElementById("boldBtn");if(b)b.textContent=S.bold?"Tebal Font (Bold): ON":"Tebal Font (Bold): OFF"}
 function tgAuto(){S.auto=!(S.auto!==false);save();var b=document.getElementById("abAuto");if(b)b.textContent=S.auto?"Pemeriksaan otomatis saat online: AKTIF":"Pemeriksaan otomatis saat online: MATI"}
 
 /* --- update aplikasi (terpisah dari kamus) --- */
@@ -718,6 +722,7 @@ autoCheckBusy=false}
 function editMenu(){if(ES.length)return editPage();var r=curRoot();
 var ft='<label class="mu">Jenis font Jepang</label><div class="fps">'+[["std","Standar / Rounded"],["min","Klasik / Mincho"],["hand","Tulisan tangan"]].map(function(p){return'<button class="fp'+((S.font||"std")===p[0]?' on':'')+'" style="font-family:'+e(FONTS[p[0]])+'" onclick="chFont(\''+p[0]+'\')"><b>日本語 にほんご</b><small>'+p[1]+'</small></button>'}).join("")+'</div>';
 var kz='<label class="mu">Ukuran kanji flashcard</label><input type="range" min="1" max="2" step="0.1" value="'+(S.size||1.2)+'" oninput="S.size=+this.value;applyFont();save()"><div class="jp" style="text-align:center;font-size:calc(46px*var(--z));margin-top:8px">日本語</div>';
+var bd='<div style="height:1px;background:var(--line);margin:14px 0"></div><label class="mu">Tebal Font (Bold)</label><button class="btn" style="width:100%" id="boldBtn" onclick="tgBold()">'+(S.bold?"Tebal Font (Bold): ON":"Tebal Font (Bold): OFF")+'</button><div class="mu" style="font-size:12px;margin-top:6px">Menebalkan tulisan pada halaman Kuis.</div>';
 var fz='<label class="mu">Ukuran furigana (kuning)</label><input type="range" min="1" max="2.4" step="0.1" value="'+(S.fsize||1.4)+'" oninput="S.fsize=+this.value;applyFont();save()"><div class="fur" style="text-align:center;margin-top:8px">にほんご</div>';
 var bk='<div class="mu">Cadangan data (kosakata, folder, kategori, koreksi, progres &amp; riwayat kuis)</div><div class="row"><button class="btn" onclick="bkExp()">Ekspor</button><button class="btn" onclick="document.getElementById(\'bkf\').click()">Pilih file…</button></div><input id="bkf" type="file" accept=".json,application/json" style="display:none" onchange="bkFile(this)"><div class="row"><button class="btn" onclick="bkImp(\'merge\')">Impor (Gabung)</button><button class="btn" onclick="bkImp(\'replace\')">Impor (Timpa)</button></div>'+(bkHasUndo()?'<button class="btn" style="width:100%" onclick="bkUndo()">Urungkan impor terakhir</button>':'')+'<div class="mu" id="bm"></div><textarea id="bk" placeholder="Ekspor menampilkan cadangan di sini. Untuk impor, pilih file atau tempel cadangan lalu ketuk Impor." style="width:100%;height:90px;margin-top:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--tx);padding:10px;font:12px monospace"></textarea>';
 var ab='<div class="mu">Kotoba Card · versi <b id="abVer">'+APP_VERSION+'</b> (build '+APP_BUILD+')</div><div class="mu">Versi terbaru: <span id="abLatest">belum diperiksa</span></div>'
@@ -725,7 +730,7 @@ var ab='<div class="mu">Kotoba Card · versi <b id="abVer">'+APP_VERSION+'</b> (
 +'<div class="mu" id="abMsg" style="margin-top:8px;min-height:18px"></div>'
 +'<button class="btn" style="width:100%" onclick="tgAuto()" id="abAuto">'+(S.auto!==false?"Pemeriksaan otomatis saat online: AKTIF":"Pemeriksaan otomatis saat online: MATI")+'</button>'
 +'<button class="btn" style="width:100%;margin-top:10px" onclick="btnRecover()">Pemulihan: bersihkan cache aplikasi</button>';
-return'<div class="em">'+esRow()+ecI(1,"M4 5h13a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3zM8 9h8M8 13h6","Kotoba",bodyKotoba())+ecI(2,"M5 6V4h14v2M12 4v16M9 20h6","Tampilan Teks",ft+'<div style="height:1px;background:var(--line);margin:14px 0"></div>'+kz+fz)+ecI(3,"M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7","Backup & Data",bk)+ecI(4,"M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1","Pengaturan Lainnya",'<button class="btn" style="width:100%;margin-top:0" onclick="S.vh=!S.vh;save();R()">'+(S.vh?"Tampilkan":"Sembunyikan")+' daftar kotoba di halaman Folder</button>')+ecI(5,"M12 8v5M12 16h.01M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0","About",ab)+'</div>'}
+return'<div class="em">'+esRow()+ecI(1,"M4 5h13a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3zM8 9h8M8 13h6","Kotoba",bodyKotoba())+ecI(2,"M5 6V4h14v2M12 4v16M9 20h6","Tampilan Teks",ft+'<div style="height:1px;background:var(--line);margin:14px 0"></div>'+kz+fz+bd)+ecI(3,"M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7","Backup & Data",bk)+ecI(4,"M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1","Pengaturan Lainnya",'<button class="btn" style="width:100%;margin-top:0" onclick="S.vh=!S.vh;save();R()">'+(S.vh?"Tampilkan":"Sembunyikan")+' daftar kotoba di halaman Folder</button>')+ecI(5,"M12 8v5M12 16h.01M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0","About",ab)+'</div>'}
 function commit(){var g=function(i){var x=document.getElementById(i);return x?x.value.trim():""},ok=true;
 allF().forEach(function(f){var k=g("ik_"+f.id),a=g("ia_"+f.id),fr=g("if_"+f.id);if(k||fr||a){if(k&&a&&!dupIn(f,k,fr,KE)){kPut(f,k,fr,a,g("ic_"+f.id));dictSaveCorrection(k,fr||k,a,g("ic_"+f.id))}else ok=false}});
 document.querySelectorAll('[data-dr="rn"]').forEach(function(x){var v=x.value.trim(),rr=rootOf(x.getAttribute("data-id"));if(rr&&v)rr.name=v});
@@ -928,7 +933,7 @@ if(!Q.partial&&!last)return h+'<button class="btn gold" onclick="qContinue()">Se
 if(allDone){h+='<div class="session-done">✓ '+(Q.retry?'Pengulangan selesai':'Semua sesi telah selesai')+'</div>';h+=unm?'<div class="mu" style="margin-top:6px">'+unm+' kotoba belum dihafal.</div><button class="btn gold" onclick="qRetryAll()">Ulangi Kotoba yang Belum Dihafal</button>':'<div class="mu" style="text-align:center;color:var(--ok)">Semua kotoba sudah dikuasai.</div>'}
 return h+'<button class="btn gold" style="background:var(--card);color:var(--tx)" onclick="Q=null;R()">Selesai</button>'}
 
-function applyFont(){var r=document.documentElement.style;r.setProperty("--jp",FONTS[S.font]||FONTS.std);r.setProperty("--z",S.size||1.2);r.setProperty("--y",S.fsize||1.4)}
+function applyFont(){var r=document.documentElement.style;r.setProperty("--jp",FONTS[S.font]||FONTS.std);r.setProperty("--z",S.size||1.2);r.setProperty("--y",S.fsize||1.4);document.documentElement.classList.toggle("bold-on",!!S.bold)}
 function qBusy(){return!!(Q&&Q.q&&!Q.done)}
 function go(t){if(qBusy()&&t!=="quiz"){toast("Kuis sedang berjalan. Ketuk Keluar untuk mengakhirinya dulu.");return}if(dirty()){guard(function(){go(t)});return}if(t==="folder"&&T==="folder"&&!RL){upNP();return}var I=["folder","learn","quiz","stat"];if(t===T)return;gear=false;var d=I.indexOf(t)>I.indexOf(T);T=t;qSync();R(d?"n":"l")}
 function R(k){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();

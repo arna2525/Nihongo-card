@@ -1,4 +1,4 @@
 {
-  "version": "1.2.11",
-  "notes": "Perbaikan scroll menu Edit khusus Chrome Android dengan satu area scroll utama; mempertahankan perilaku iPhone. Komposisi kuis dikembalikan ke pilihan satu kolom berbentuk pil seperti desain asli, kartu soal sedikit diperbesar dan diturunkan, serta tombol jawaban sedikit diperkecil."
+  "version": "1.2.12",
+  "notes": "Flashcard Belajar dikembalikan ke ukuran asli sesuai referensi v1.2.6 (area kartu min-height 230px, flip min-height 240px, padding 24px). Penyesuaian ukuran kuis v1.2.11 kini dibatasi hanya pada halaman Kuis agar tidak memengaruhi flashcard Belajar."
 }
