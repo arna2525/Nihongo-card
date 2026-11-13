@@ -2,6 +2,19 @@
 
 Riwayat perubahan resmi. Versi terbaru dicatat di bagian paling atas.
 
+## v1.2.18
+
+- Perbaikan khusus Android Chrome: seluruh isi menu Edit, termasuk area tengah accordion, secara eksplisit meneruskan gesture vertikal ke scroll utama.
+- Mengatasi aturan `overflow:hidden` yang masih diwarisi `.settings-page` dari `.pg` pada versi sebelumnya.
+- Menonaktifkan efek `backdrop-filter` hanya pada accordion menu Edit di Android untuk mengurangi potensi konflik hit-testing/layer sentuhan.
+- Kontrol input, textarea, dan select tetap mempertahankan interaksi sentuhnya.
+- iPhone/Safari dan desktop tidak terkena override ini.
+- Cache service worker dinaikkan ke `kotoba-v1.2.18` agar file lama tidak tertahan cache.
+
+Catatan pengujian: pemeriksaan sintaks JavaScript dan integritas ZIP dilakukan. Pengujian scroll langsung pada perangkat Android tetap diperlukan.
+
+---
+
 ## v1.2.17
 
 
