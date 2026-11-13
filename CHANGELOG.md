@@ -1,3 +1,23 @@
+## v1.4.20 — Integrasi Bunpou ke basis v1.4.19 Latih
+- Mempertahankan seluruh fitur Latih dan scheduler pada v1.4.19.
+- Menambahkan tab Belajar Bunpou berisi 73 pola dari referensi APK, lengkap dengan rumus, penjelasan, contoh, bacaan, dan terjemahan.
+- Menambahkan pencarian, kuis 10 soal, tracking penguasaan, dan review terjadwal.
+- Menambahkan progres Bunpou ke backup/restore gabung dan timpa.
+
+# v1.4.19 — Tab Latih (2026-11-14)
+- New 5th tab "Latih": Sesi Fokus (7 cards x 3 repetitions, wrong answers return 4 cards later, rest screen), Verb conjugation trainer (49 verbs, groups 1/2/3, 12 forms), Bunpou quiz (73 patterns from the existing catalog, pattern <-> meaning), streak, month calendar, daily time estimate, XP.
+- Sesi Fokus grades each card's first attempt through the unified scheduler (Good/Again) and feeds Mastery performance.
+- Verb data and conjugation rules adapted from the Hafalan JFT A2 app.
+- XP is stored in `S.xp` (not yet included in restore-replace). Export a backup before deploying.
+
+# v1.4.18 — Unified scheduler (Anki-style) (2026-11-14)
+- Flashcard and Smart Review now share one scheduler: New → Learning (1m, 10m) → Review → Relearning (10m).
+- Four grades (Again/Hard/Good/Easy) with ease factor (start 2.5, min 1.3), overdue bonus, small interval fuzz, 365-day cap.
+- Quiz answers map to Again (wrong) / Good (correct). Cards lapsed 8 times are flagged `leech`.
+- Old fixed ladder 1/3/7/14/30/60/90 and old `sr()` are replaced; existing records are migrated once (`S.schV=1`), completed cards re-enter review at 90 days.
+- Flashcard state is stored in `S.review["fc:"+id].card` (included in backup/restore); `w.ivl/w.ease/w.due` are still mirrored.
+- Not yet included: daily new-card limits, Kanji/Bunpou Daily Learning, retention stats. Export a backup before deploying.
+
 # v1.4.16 — Study-first visual refresh (2026-11-14)
 - Refined the interface into a calmer navy/cyan study-first visual system.
 - Improved contrast, card surfaces, answer options, navigation, and responsive spacing.

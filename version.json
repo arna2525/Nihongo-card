@@ -1,5 +1,5 @@
 {
-  "version": "1.4.17",
+  "version": "1.4.20",
   "build": "2026-11-14",
-  "notes": "Complete UI refresh with original Sakura Night background and purple/lavender/pink/gold palette preserved. Reworked navigation, panels, quiz focus, study cards, controls and responsive spacing. Existing storage model retained."
+  "notes": "Integrasi modul pembelajaran Bunpou 73 pola ke basis v1.4.19 Latih; fitur Latih dan scheduler tetap dipertahankan."
 }

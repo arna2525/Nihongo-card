@@ -83,3 +83,10 @@ Ilustrasi dan logo adalah milik pemilik proyek. Tambahkan lisensi kode (misalnya
 **Satu kartu, satu langkah lebih dekat.** 🌸
 
 </div>
+
+
+## v1.4.20 — Integrasi Bunpou
+- Modul belajar Bunpou terpisah dengan 73 pola, rumus, penjelasan, contoh, bacaan, dan terjemahan.
+- Pencarian materi, kuis 10 soal, status penguasaan, dan review terjadwal.
+- Progres Bunpou ikut ekspor/impor backup (gabung/timpa).
+- Fitur Latih dan scheduler dari basis v1.4.19 tetap dipertahankan.
