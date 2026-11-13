@@ -1,5 +1,5 @@
 {
-  "version": "1.4.10",
+  "version": "1.4.11",
   "build": "2026-11-14",
-  "notes": "Japanese character readability update: larger Kanji and vocabulary in Learn and Quiz. Existing learning data and features preserved."
+  "notes": "Learning queue improvement inspired by JFT A2: kotoba repetitions are spaced across a 7-question window where possible. Existing features, SRS, and stored user data are preserved."
 }
