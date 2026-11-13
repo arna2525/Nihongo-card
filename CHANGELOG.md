@@ -1,3 +1,6 @@
+## v1.4.8
+- Fixed in-app APP_VERSION reporting to match version.json and service worker cache.
+
 # v1.4.7 — Statistics visual refinement
 - Compact Gen Z-inspired visual hierarchy; no statistics or learning features removed.
 - Glass panels use approximately 90% opacity with subtle blur.
