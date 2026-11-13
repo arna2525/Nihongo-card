@@ -533,6 +533,11 @@ html.android-chrome #app{height:100dvh;min-height:0;overflow:hidden;display:flex
 html.android-chrome main#m{flex:1 1 auto;height:auto;min-height:0;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y;contain:none!important}
 html.android-chrome .settings-page{height:auto!important;max-height:none!important;min-height:0;overflow:visible!important;touch-action:pan-y;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 html.android-chrome .settings-page .em{min-height:0;overflow:visible}
+/* v1.2.15: panel accordion yang sedang terbuka tidak boleh menjadi lapisan
+   clipping di atas gesture scroll. Panel tertutup tetap memakai clipping asli
+   agar animasi buka/tutup dan layout tidak berubah. */
+html.android-chrome .settings-page .ec.open>.ec-b>.ec-in{overflow:visible!important;touch-action:pan-y!important}
+html.android-chrome .settings-page .ec.open>.ec-b>.ec-in *{touch-action:pan-y!important}
 @media(max-height:650px){
   html.android-chrome main#m{padding-top:14px;padding-bottom:calc(108px + env(safe-area-inset-bottom,0px))}
 }
@@ -546,7 +551,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.2.14",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
+var FRESH=false,APP_VERSION="1.2.15",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}

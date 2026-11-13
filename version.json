@@ -1,4 +1,1 @@
-{
-  "version": "1.2.14",
-  "notes": "Perbaikan scrolling menu Edit pada Android Chrome: menghapus aturan touch-action:none yang menghalangi gesture gulir di dalam panel dan memastikan accordion meneruskan scroll vertikal. Fitur dan desain lainnya dipertahankan."
-}
+{"version":"1.2.15","build":"2026-11-13"}
