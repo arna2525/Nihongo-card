@@ -1087,4 +1087,35 @@ var st=document.createElement("style");st.textContent="html,body{position:fixed!
 window.addEventListener("scroll",function(){if(window.scrollY||window.scrollX)window.scrollTo(0,0)},{passive:true});
 document.addEventListener("touchmove",function(e){var t=e.target,ok=false;while(t&&t!==document.body){if(t.id==="m"||t.tagName==="TEXTAREA"||(t.classList&&(t.classList.contains("vscroll")||t.classList.contains("dg")))){ok=true;break}t=t.parentNode}if(!ok&&e.cancelable)e.preventDefault()},{passive:false});
 })();
+/* v1.2.16: fallback gesture Android Chrome untuk halaman Edit.
+   Jika native scroll gagal menangkap sentuhan di ruang tengah accordion,
+   arahkan drag vertikal langsung ke #m (atau daftar .vscroll yang disentuh).
+   Hanya aktif pada Android Chrome dan halaman Edit; kontrol tetap bisa dipakai. */
+(function(){
+if(!document.documentElement.classList.contains("android-chrome"))return;
+var P=null,Y=0,X=0,L=0,V=0,M=false,RAF=0,LOCK=false;
+function hasClassUp(t,c,stop){while(t&&t!==stop){if(t.classList&&t.classList.contains(c))return t;t=t.parentNode}return null}
+function controlTarget(t){while(t&&t!==document.body){var tag=(t.tagName||"").toLowerCase();if(tag==="button"||tag==="select"||tag==="textarea"||tag==="input"||t.isContentEditable)return true;t=t.parentNode}return false}
+function chooseScroller(t){var v=hasClassUp(t,"vscroll",document.body);if(v&&v.scrollHeight>v.clientHeight+2)return v;return document.getElementById("m")}
+document.addEventListener("touchstart",function(e){
+ cancelAnimationFrame(RAF);P=null;M=false;LOCK=false;V=0;
+ if(e.touches.length!==1)return;
+ var page=hasClassUp(e.target,"settings-page",document.body);if(!page)return;
+ if(controlTarget(e.target))return;
+ P=chooseScroller(e.target);if(!P)return;
+ Y=e.touches[0].clientY;X=e.touches[0].clientX;L=Date.now();
+},{passive:true});
+document.addEventListener("touchmove",function(e){
+ if(!P||e.touches.length!==1)return;
+ var y=e.touches[0].clientY,x=e.touches[0].clientX,dy=y-Y,dx=x-X,n=Date.now();
+ if(!LOCK){if(Math.abs(dy)<5||Math.abs(dy)<=Math.abs(dx)*1.15)return;LOCK=true;}
+ if(e.cancelable)e.preventDefault();
+ P.scrollTop-=dy;
+ if(n>L)V=dy/(n-L);
+ Y=y;X=x;L=n;M=true;
+},{passive:false});
+function stop(){var p=P;P=null;if(!p||!M)return;var vel=V*16;(function coast(){if(Math.abs(vel)<.35)return;p.scrollTop-=vel;vel*=.92;RAF=requestAnimationFrame(coast)})();}
+document.addEventListener("touchend",stop,{passive:true});
+document.addEventListener("touchcancel",function(){P=null;M=false;cancelAnimationFrame(RAF)},{passive:true});
+})();
 </script></body></html>

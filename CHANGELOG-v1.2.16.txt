@@ -1,0 +1,6 @@
+Kotoba Card v1.2.16
+- Tambahkan fallback gesture scroll khusus Android Chrome pada halaman Edit.
+- Usapan vertikal di area kosong/tengah panel Edit diarahkan ke area scroll utama; daftar .vscroll tetap memakai scroll internal bila memang dapat digulir.
+- Kontrol input, select, textarea, dan tombol tetap memakai interaksi aslinya.
+- Tidak menambah layer visual dan tidak mengubah fitur, data, desain, navigasi, atau sistem kuis.
+- Perlu uji langsung pada perangkat Android Chrome untuk memastikan perilaku sentuh.
