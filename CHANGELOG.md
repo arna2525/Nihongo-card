@@ -193,3 +193,11 @@ Pemeriksaan:
 - Kept the Statistics surface transparent so the Kotoba Card app background remains visible.
 - Moved detailed performance charts, timeline, and learning insights into a collapsed-by-default “More learning analytics” section.
 - Preserved access to all analytics and retained the existing Learning Engine and stored data logic.
+
+
+## v1.4.7 — Statistics redesign and bottom navigation
+- Redesigned the Statistics landing view to follow the supplied visual reference, using saved mastery, activity, quest, and Smart Review data.
+- Preserved the prior detailed statistics and learning analytics in an expandable section.
+- Anchored bottom navigation to the viewport bottom and moved safe-area padding inside the bar for iOS Safari/PWA.
+- Updated app and service-worker cache versions; no learning data stores or algorithms changed.
+- Device-level iPhone/PWA validation remains required.

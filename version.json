@@ -1,5 +1,5 @@
 {
-  "version": "1.4.6",
+  "version": "1.4.7",
   "build": "2026-11-14",
-  "notes": "Ambitious Daily Quest with session-derived completion ring; statistics-only addition, existing Learning Engine and review schedules unchanged."
+  "notes": "Statistics visual redesign and bottom navigation safe-area anchoring; existing learning data and engine retained."
 }
