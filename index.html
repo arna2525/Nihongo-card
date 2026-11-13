@@ -460,9 +460,16 @@ main#m { flex:1 1 auto; min-height:0; height:auto; overflow-x:hidden!important; 
 .vscroll{overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}
 @supports (-webkit-touch-callout:none){.box:has(.vscroll),.fbox:has(.vscroll){-webkit-backdrop-filter:none;backdrop-filter:none}.vscroll,.vscroll *{touch-action:none!important}}
 nav.qlock button:not(#t-quiz){opacity:.4}
-.selbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 0 2px;flex-wrap:wrap}
+.selbar{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:8px 0 2px;flex-wrap:wrap;min-height:30px}
 .selbar .x{margin:0 0 0 6px;padding:6px 10px;font-size:13px}
-.selhint{font-size:12px;margin:2px 0 10px}
+.selhint{font-size:11px;margin:2px 0 8px;opacity:.72}
+.mini-actions{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.mini-action{appearance:none;border:1px solid rgba(196,165,255,.28);background:rgba(125,75,190,.18);color:var(--text);border-radius:999px;padding:5px 9px;min-height:27px;font-size:11px;font-weight:650;line-height:1;white-space:nowrap;cursor:pointer}
+.mini-action:active{transform:scale(.97)}
+.apply-action{background:var(--gold);border-color:var(--gold);color:#17132e}
+.muted-action{background:transparent;color:var(--muted)}
+.selhint-inline{font-size:10px;opacity:.65}
+@media(max-width:390px){.selbar{gap:5px}.mini-actions{gap:4px}.mini-action{padding:5px 7px;font-size:10px}}
 .chip.bab{gap:10px}
 .bx{display:inline-flex;align-items:center;justify-content:center;flex:none;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--glow);color:#0B1026;font-size:14px;font-weight:800;line-height:1}
 .chip.bab.sel{border-color:rgba(255,210,31,.75);background:linear-gradient(120deg,rgba(124,58,196,.9),rgba(48,32,110,.9));box-shadow:0 0 14px rgba(255,210,31,.25)}
@@ -487,7 +494,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.2.2",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
+var FRESH=false,APP_VERSION="1.2.5",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
@@ -664,7 +671,7 @@ function btnRecover(){dlg({t:"Bersihkan cache aplikasi?",m:"Hanya cache milik Ko
 
 /* --- toast & pemeriksaan otomatis (hanya memeriksa; pembaruan tetap manual) --- */
 var TT=null,autoCheckBusy=false;
-function toast(msg,label,fn){var t=document.getElementById("tst");if(!t)return;document.getElementById("tstm").textContent=msg;var b=document.getElementById("tstb");b.style.display=label?"":"none";b.textContent=label||"";b.onclick=function(){t.classList.remove("show");if(fn)fn()};t.classList.add("show");clearTimeout(TT);TT=setTimeout(function(){t.classList.remove("show")},label?12000:5000)}
+function toast(msg,label,fn){var t=document.getElementById("tst");if(!t)return;document.getElementById("tstm").textContent=msg;var b=document.getElementById("tstb");b.style.display=label?"":"none";b.textContent=label||"";b.onclick=function(){t.classList.remove("show");if(fn)fn()};t.classList.add("show");clearTimeout(TT);TT=setTimeout(function(){t.classList.remove("show")},label?5000:2800)}
 async function autoCheck(){if(autoCheckBusy||S.auto===false||navigator.onLine===false)return;if(Date.now()-(S.lastChk||0)<6*3600e3)return;S.lastChk=Date.now();save();autoCheckBusy=true;
 try{var j=await appRemote();if(vcmp(j.version,APP_VERSION)>0)toast("Pembaruan aplikasi "+j.version+" tersedia.","Lihat",function(){gear=true;ES=[];EC=5;R();ecT(5);ecT(5)})}catch(x){}
 autoCheckBusy=false}
@@ -781,24 +788,26 @@ var QCAT=[["all","Semua"],["verb","Verb"],["noun","Noun"],["iadj","い-adjective
 var QGL={f:"Lancar",n:"Perlu latihan",s:"Wajib diulang",x:"Prioritas tinggi"};
 function qList(){var r=curRoot();return r?rootFolders(r):[]}
 function qs(){var q=S.qs=S.qs||{};if(!QM.some(function(m){return m[0]===q.mode}))q.mode="kotoba";if([25,50,100].indexOf(+q.n)<0)q.n=25;if(typeof q.scope!=="string")q.scope="all";if(!q.cat)q.cat="all";return q}
-function qIds(){var r=curRoot(),ok={},ids=(S.qScope&&S.qScope.ids)||[];if(!r)return[];r.folders.forEach(function(f){ok[f.id]=1});return ids.filter(function(i){return ok[i]})}
+function qScopeMap(){S.qScope=S.qScope||{};if(!S.qScope.byRoot){var legacy=S.qScope.ids||[];S.qScope.byRoot={};if(S.rootId&&legacy.length)S.qScope.byRoot[S.rootId]=legacy.slice();delete S.qScope.ids}return S.qScope.byRoot}
+function qIds(){var r=curRoot(),ok={},map=qScopeMap(),ids=r?(map[r.id]||[]):[];if(!r)return[];r.folders.forEach(function(f){ok[f.id]=1});return ids.filter(function(i){return ok[i]})}
 function qSel(){var r=curRoot(),ids=qIds();return(!r||!ids.length||ids.length>=r.folders.length)?null:ids}
 function qScopeLabel(sel){var r=curRoot(),ns=r.folders.filter(function(f){return sel.indexOf(f.id)>-1}).map(function(f){return f.name}),nums=ns.map(function(n){var m=/bab\s*(\d+)/i.exec(n);return m?+m[1]:null});
 if(nums.every(function(x){return x!==null})){nums.sort(function(a,b){return a-b});var out=[],i=0;while(i<nums.length){var j=i;while(j+1<nums.length&&nums[j+1]===nums[j]+1)j++;out.push(j-i>=2?nums[i]+"\u2013"+nums[j]:nums.slice(i,j+1).join(", "));i=j+1}return"Bab "+out.join(", ")}
 return ns.length>2?ns.length+" BAB dipilih":ns.join(", ")}
-function qRange(){var q=qs(),a=qList(),sel=qSel();if(sel){var par={};a.forEach(function(x){par[x.f.id]=x.p});return a.filter(function(x){var t=x.f;while(par[t.id])t=par[t.id];return sel.indexOf(t.id)>-1})}return q.scope==="all"?a:a.filter(function(x){return x.f.id===q.scope})}
-function qScopeTap(){if(!qSel()){toast("Cakupan sudah Semua BAB. Aktifkan Select di tab Folder, pilih BAB, lalu konfirmasi.");return}dlg({t:"Kembalikan Cakupan Default?",m:"Apakah kamu ingin mengembalikan cakupan Quiz ke semua bab seperti pengaturan awal?",y:"Ya, Reset"},function(){S.qScope={ids:[]};qs().scope="all";save();R()})}
+function qBaseRange(){var a=qList(),sel=qSel();if(!sel)return a;var par={};a.forEach(function(x){par[x.f.id]=x.p});return a.filter(function(x){var t=x.f;while(par[t.id])t=par[t.id];return sel.indexOf(t.id)>-1})}
+function qRange(){var q=qs(),a=qBaseRange();return q.scope==="all"?a:a.filter(function(x){return x.f.id===q.scope})}
+function qScopeTap(){var q=qs();if(!qSel()&&q.scope==="all"){toast("Cakupan sudah Semua BAB.");return}dlg({t:"Kembalikan Cakupan Default?",m:"Kembali ke Semua BAB dalam Mother Folder yang sedang dipilih?",y:"Ya, Reset"},function(){var r=curRoot(),map=qScopeMap();if(r)map[r.id]=[];q.scope="all";q.scopeRootId=S.rootId;save();R()})}
 var BT={id:null,t:0,prev:[]},BAB_SELECT_MODE=false,BAB_SELECT_DRAFT=[];
-function babSet(ids){S.qScope={ids:ids};save()}
+function babSet(ids){var r=curRoot(),map=qScopeMap();if(r)map[r.id]=ids.slice();save()}
 function babSelectStart(){BAB_SELECT_MODE=true;BAB_SELECT_DRAFT=qIds().slice();BT.id=null;R()}
 function babSelectCancel(){BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];BT.id=null;R()}
 function babTap(id){var n=Date.now();if(BT.id===id&&n-BT.t<380){if(BAB_SELECT_MODE)BAB_SELECT_DRAFT=BT.prev.slice();BT.id=null;openNP(id);return}BT.id=id;BT.t=n;if(!BAB_SELECT_MODE){toast("Aktifkan tombol Pilih terlebih dahulu untuk memilih BAB.");return}BT.prev=BAB_SELECT_DRAFT.slice();var ids=BAB_SELECT_DRAFT.slice(),k=ids.indexOf(id);if(k>-1)ids.splice(k,1);else ids.push(id);BAB_SELECT_DRAFT=ids;R()}
 function babAll(){var r=curRoot();if(!r||!BAB_SELECT_MODE)return;BAB_SELECT_DRAFT=r.folders.map(function(f){return f.id});R()}
 function babNone(){if(!BAB_SELECT_MODE)return;BAB_SELECT_DRAFT=[];R()}
-function babConfirm(){if(!BAB_SELECT_MODE)return;var r=curRoot();if(!r)return;var ids=BAB_SELECT_DRAFT.filter(function(id){return r.folders.some(function(f){return f.id===id})});var n=ids.length;dlg({t:"Konfirmasi pilihan BAB",m:n?"Terapkan "+n+" BAB yang dipilih sebagai cakupan kuis?":"Tidak ada BAB yang dipilih. Cakupan kuis akan dikembalikan ke Semua BAB (default).",y:"Ya, Terapkan",n:"Periksa lagi"},function(){babSet(ids);BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];BT.id=null;R()})}
-function babBar(r){if(!r.folders.length)return"";var n=BAB_SELECT_MODE?BAB_SELECT_DRAFT.length:qIds().length;var status=BAB_SELECT_MODE?(n?n+" BAB dipilih · belum dikonfirmasi":"Belum ada BAB dipilih · belum dikonfirmasi"):(n?n+" BAB dipilih untuk kuis":"Semua BAB (default)");var controls=BAB_SELECT_MODE?'<button class="x" onclick="babAll()">Pilih Semua</button><button class="x" onclick="babNone()">Kosongkan</button>':'<button class="x" onclick="babSelectStart()">Select</button>';var action=BAB_SELECT_MODE?'<div class="row" style="width:100%;margin-top:8px"><button class="btn gold" style="flex:1;margin:0" onclick="babConfirm()">Konfirmasi ('+n+')</button><button class="btn" style="flex:1;margin:0" onclick="babSelectCancel()">Batal</button></div>':'';return'<div class="selbar"><span class="mu">'+status+'</span><span>'+controls+'</span></div>'+action+'<div class="mu selhint">'+(BAB_SELECT_MODE?'Pilih BAB yang diinginkan, lalu tekan Konfirmasi. Perubahan belum diterapkan sebelum dikonfirmasi.':'Tekan Select untuk mulai memilih BAB. Ketuk 2× pada BAB untuk membuka folder.')+'</div>'}
+function babConfirm(){if(!BAB_SELECT_MODE)return;var r=curRoot();if(!r)return;var ids=BAB_SELECT_DRAFT.filter(function(id){return r.folders.some(function(f){return f.id===id})});babSet(ids);BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];BT.id=null;R();toast(ids.length?ids.length+" BAB diterapkan untuk kuis.":"Cakupan dikembalikan ke Semua BAB.")}
+function babBar(r){if(!r.folders.length)return"";var n=BAB_SELECT_MODE?BAB_SELECT_DRAFT.length:qIds().length;var status=BAB_SELECT_MODE?(n?n+" dipilih":"Belum ada pilihan"):(n?n+" BAB untuk kuis":"Semua BAB");if(!BAB_SELECT_MODE)return'<div class="selbar"><span class="mu">'+status+' <span class="selhint-inline">· default</span></span><button class="mini-action" onclick="babSelectStart()">Select</button></div><div class="mu selhint">Ketuk Select untuk memilih BAB.</div>';return'<div class="selbar select-active"><span class="mu">'+status+'</span><span class="mini-actions"><button class="mini-action" onclick="babAll()">Semua</button><button class="mini-action" onclick="babNone()">Kosong</button><button class="mini-action muted-action" onclick="babSelectCancel()">Batal</button><button class="mini-action apply-action" onclick="babConfirm()">Terapkan</button></span></div><div class="mu selhint">Pilih BAB, lalu ketuk Terapkan.</div>'}
 function qPool(){var q=qs(),seen={},out=[];qRange().forEach(function(x){x.f.words.forEach(function(w){if(seen[w.id])return;seen[w.id]=1;if(q.cat==="all"||q.cat==="mixed"||w.c===q.cat)out.push(w)})});return out}
-function qCycle(k){var q=qs(),folders=qList(),scopes=["all"].concat(folders.map(function(x){return x.f.id}));if(k==="n"){q.n=({25:50,50:100,100:25})[+q.n]||25}else{var i=scopes.indexOf(q.scope);q.scope=scopes[(i+1+scopes.length)%scopes.length]}save();R()}
+function qCycle(k){var q=qs(),folders=qBaseRange(),scopes=["all"].concat(folders.map(function(x){return x.f.id}));if(k==="n"){q.n=({25:50,50:100,100:25})[+q.n]||25}else{var i=scopes.indexOf(q.scope);q.scope=scopes[(i+1+scopes.length)%scopes.length]}save();R()}
 function qSet(k,v){qs();S.qs[k]=v;save();R()}
 function qRoot(id){S.rootId=id;NP=[];fixAct();save();R()}
 
@@ -824,7 +833,7 @@ function okId(inp,w){var src=String(w.a||"").replace(/[\(（][^\)）]*[\)）]/g,
 var ia=String(inp||"").replace(/[\(（][^\)）]*[\)）]/g,"").split(/[,;\/、，；]/).map(nA).filter(Boolean);if(!ia.length)return false;return ia.every(function(x){return parts.indexOf(x)>-1})}
 
 /* --- layar pengaturan --- */
-function qSetup(){var q=qs(),pool=qPool(),r=curRoot(),folders=qList(),sel=qSel(),scope=sel?qScopeLabel(sel):q.scope==="all"?"Semua BAB":((folders.filter(function(x){return x.f.id===q.scope})[0]||{}).f||{}).name||"Pilih BAB";if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");var h=hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder utama: <b>'+e(r.name)+'</b></div><div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return '<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join('')+'</div><div class="qdesc">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div><div class="qn"><div class="qnh">PENGATURAN KUIS</div><div class="qcycles"><button class="qcycle" onclick="qCycle(\'n\')"><small>TOTAL KOTOBA</small><b>'+q.n+'</b><span>25 · 50 · 100 kotoba</span></button><button class="qcycle" onclick="qScopeTap()"><small>CAKUPAN</small><b>'+e(scope)+'</b><span>'+(sel?'Ketuk untuk reset':'Default')+'</span></button></div></div><div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia · total kuis '+qTotal(pool)+' soal'+(qTotal(pool)>pool.length?' (kotoba diulang)':'')+', '+sessSizes(qTotal(pool)).length+' sesi: '+sessSizes(qTotal(pool)).join(' · ')+'</div>'+ (pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Belum ada kotoba untuk kuis.</div>')+'</div>';return h}
+function qSetup(){var q=qs(),pool=qPool(),r=curRoot(),folders=qBaseRange(),sel=qSel(),scope=q.scope!=="all"?(((folders.filter(function(x){return x.f.id===q.scope})[0]||{}).f||{}).name||"Pilih BAB"):(sel?qScopeLabel(sel)+" · Semua BAB":"Semua BAB");if(!r)return hero()+'<h1>Kuis</h1>'+empty("Buat folder dan kosakata dulu di tab Folder.");var h=hero()+'<h1>Kuis</h1><div class="box"><div class="mu">Folder utama: <b>'+e(r.name)+'</b></div><div class="mu" style="margin-top:12px">Mode</div><div class="qg">'+QM.map(function(m){return '<button class="qc'+(q.mode===m[0]?' on':'')+'" onclick="qSet(\'mode\',\''+m[0]+'\')">'+m[1]+'</button>'}).join('')+'</div><div class="qdesc">'+e(QM.filter(function(m){return m[0]===q.mode})[0][2])+'</div><div class="qn"><div class="qnh">PENGATURAN KUIS</div><div class="qcycles"><button class="qcycle" onclick="qCycle(\'n\')"><small>TOTAL KOTOBA</small><b>'+q.n+'</b><span>25 · 50 · 100 kotoba</span></button><button class="qcycle" onclick="qScopeTap()"><small>CAKUPAN</small><b>'+e(scope)+'</b><span>'+(sel||q.scope!=='all'?'Ketuk untuk reset':'Default')+'</span></button></div></div><div class="mu" style="margin-top:14px">'+pool.length+' kotoba tersedia · total kuis '+qTotal(pool)+' soal'+(qTotal(pool)>pool.length?' (kotoba diulang)':'')+', '+sessSizes(qTotal(pool)).length+' sesi: '+sessSizes(qTotal(pool)).join(' · ')+'</div>'+ (pool.length?'<button class="btn gold" onclick="qStart()">Mulai Kuis</button>':'<div class="mu" style="margin-top:8px;color:#ff7b8a">Belum ada kotoba untuk kuis.</div>')+'</div>';return h}
 function vQuiz(){if(Q&&Q.q)return Q.done?qResult():qRun();return qSetup()}
 
 /* --- jalannya kuis --- */
@@ -907,7 +916,7 @@ S.roots.forEach(function(r){var n=0;r.folders.forEach(function(f){n+=f.words.len
 if(!S.roots.length)h+='<div class="box mu">Belum ada folder utama. Buka Edit › Folder Utama untuk membuat.</div>';
 return h+'</div></div>'}
 var RS={id:null,t:0};
-function rootTap(id){var n=Date.now();if(RS.id===id&&n-RS.t<380){RS.id=null;openRoot(id);return}RS={id:id,t:n};R()}
+function rootTap(id){var n=Date.now();if(RS.id===id&&n-RS.t<420){RS.id=null;openRoot(id);return}if(S.rootId!==id){S.rootId=id;NP=[];fixAct();L=null;Q=null;BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];var q=S.qs=S.qs||{};q.scope="all";q.scopeRootId=id;save()}RS={id:id,t:n};R()}
 function ico(p){return'<svg class="ec-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+p+'"/></svg>'}
 function ecI(i,p,t,b){return'<div class="ec'+(EC===i?' open':'')+'" id="ec'+i+'"><button class="ec-h" onclick="ecT('+i+')">'+ico(p)+'<b>'+t+'</b></button><div class="ec-b"><div class="ec-in"><div class="ec-p">'+b+'</div></div></div></div>'}
 function ecT(i){EC=EC===i?null:i;for(var k=0;k<8;k++){var x=document.getElementById("ec"+k);if(x)x.classList.toggle("open",k===EC)}}
