@@ -1,1 +1,4 @@
-{"version":"1.2.5","notes":"Perbaikan aktivasi Mother Folder dengan satu ketukan agar sumber kuis langsung berpindah; cakupan BAB disimpan terpisah untuk setiap Mother Folder."}
+{
+  "version": "1.2.6",
+  "notes": "Daftar Kotoba kini hanya menampilkan isi BAB yang dipilih dalam Mother Folder aktif; pilihan folder tujuan dan sumber kuis mengikuti Mother Folder aktif."
+}

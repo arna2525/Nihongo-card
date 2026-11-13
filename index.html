@@ -494,7 +494,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.2.5",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
+var FRESH=false,APP_VERSION="1.2.6",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
@@ -583,7 +583,7 @@ function crumbNP(r){var h='<div class="crumb" role="navigation" aria-label="Loka
 function openNP(id){var at=NP.indexOf(id);NP=at>=0?NP.slice(0,at+1):NP.concat([id]);S.active=id;var l=locF(id);if(l)l.r.active=id;L=null;save();R("n")}
 function jumpNP(i){NP=NP.slice(0,i+1);if(NP.length){S.active=NP[NP.length-1]}L=null;R("n")}
 function upNP(){if(NP.length)jumpNP(NP.length-2);else backRoot()}
-function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}RS.id=null;gear=false;S.rootId=id;NP=[];fixAct();RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
+function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}RS.id=null;gear=false;S.rootId=id;NP=[];fixAct();var rr=curRoot(),ff=rr?rootFolders(rr):[];KF=ff.length?ff[0].f.id:null;KE=null;RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
 
 /* --- CRUD folder --- */
 function addChild(pid,iid){var x=document.getElementById(iid||"nf_"+pid),n=x?x.value.trim():"",a=childArr(pid);if(!n||!a)return;var pr=rootOf(pid),pl=pr?null:locF(pid),pn=pr?pr.name:(pl?pl.f.name:"");
@@ -725,12 +725,11 @@ function editWord(id){var l=wordLoc(id);if(!l)return;KF=l.f.id;KE=id;gear=true;E
 function cancelEdit(){KE=null;R()}
 function catAuto(){var k=document.getElementById("ik_"+KF),f=document.getElementById("if_"+KF),c=document.getElementById("ic_"+KF);if(c&&!c.getAttribute("data-u"))c.value=guessCat(k?k.value.trim():"",f?f.value.trim():"")}
 function onWF(x){catAuto()}
-function bodyKotoba(fx){var all=allF();if(!KF||!findF(KF))KF=(S.active&&findF(S.active))?S.active:(all[0]?all[0].id:null);var f=findF(KF);if(!f)return '<div class="mu">Buat folder BAB terlebih dahulu.</div>';var i=f.id;
+function bodyKotoba(fx){var r=curRoot(),all=r?rootFolders(r).map(function(x){return x.f}):[];if(!KF||!all.some(function(z){return z.id===KF}))KF=(S.active&&all.some(function(z){return z.id===S.active}))?S.active:(all[0]?all[0].id:null);var f=all.filter(function(z){return z.id===KF})[0]||null;if(!f)return '<div class="mu">Buat folder BAB terlebih dahulu di Mother Folder yang aktif.</div>';var i=f.id;
 var wf=function(id,fld,ph){return '<div class="dict-wrap"><input id="'+id+i+'" data-dr="w" data-fld="'+fld+'" autocomplete="off" autocapitalize="none" spellcheck="false" oninput="onWF(this)" placeholder="'+ph+'"></div>'};
-var rows=[];all.forEach(function(z){z.words.forEach(function(w){rows.push('<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+' · <small>'+e(z.name)+'</small></div></span><button class="x" onclick="delWordIn(\''+z.id+'\',\''+w.id+'\')">Hapus</button></div>')})});
+var rows=f.words.map(function(w){return '<div class="kid"><span><span class="jp">'+e(w.k)+'</span> <span class="jp" style="color:var(--gold)">'+e(w.f)+'</span><div class="mu">'+e(w.a)+'</div></span><button class="x" onclick="delWordIn(\''+f.id+'\',\''+w.id+'\')">Hapus</button></div>'});
 var opts=all.map(function(z){return '<option value="'+z.id+'"'+(z.id===KF?' selected':'')+'>'+e(z.name)+'</option>'}).join('');
-return '<div class="crumb"><b>NIHONGO</b><span>›</span><b>Edit</b><span>›</span><b>Kotoba</b></div><div class="mu">Folder BAB tujuan</div><select id="kf" onchange="KF=this.value;KE=null;R()">'+opts+'</select><div class="mu" style="margin-top:14px">'+(KE?'Edit kotoba':'Tambah kotoba')+'</div>'+wf('ik_','k','Kanji / Kotoba')+wf('if_','f','Furigana (cara baca)')+wf('ia_','a','Arti (Bahasa Indonesia)')+'<select id="ic_'+i+'" aria-label="Kategori" onchange="this.setAttribute(\'data-u\',1)">'+catOpts('noun')+'</select><button class="btn gold" onclick="addWordTo(KF)">'+(KE?'Simpan perubahan':'Tambah Kotoba')+'</button>'+(KE?'<button class="btn" style="width:100%" onclick="cancelEdit()">Batal edit</button>':'')+'<div class="box ctl"><div class="mu">Daftar Kotoba · '+rows.length+'</div><div class="vscroll">'+(rows.join('')||'<div class="mu">Belum ada kotoba.</div>')+'</div></div>'}
-
+return '<div class="crumb"><b>'+e(r.name)+'</b><span>›</span><b>Edit</b><span>›</span><b>Kotoba</b></div><div class="mu">Folder BAB tujuan</div><select id="kf" onchange="KF=this.value;KE=null;R()">'+opts+'</select><div class="mu" style="margin-top:14px">'+(KE?'Edit kotoba':'Tambah kotoba')+'</div>'+wf('ik_','k','Kanji / Kotoba')+wf('if_','f','Furigana (cara baca)')+wf('ia_','a','Arti (Bahasa Indonesia)')+'<select id="ic_'+i+'" aria-label="Kategori" onchange="this.setAttribute(\'data-u\',1)">'+catOpts('noun')+'</select><button class="btn gold" onclick="addWordTo(KF)">'+(KE?'Simpan perubahan':'Tambah Kotoba')+'</button>'+(KE?'<button class="btn" style="width:100%" onclick="cancelEdit()">Batal edit</button>':'')+'<div class="box ctl"><div class="mu">Daftar Kotoba · '+rows.length+'</div><div class="vscroll">'+(rows.join('')||'<div class="mu">Belum ada kotoba di folder ini.</div>')+'</div></div>'}
 
 /* ===== Backup & Restore (tervalidasi, tanpa duplikasi, dengan peringatan) ===== */
 var BKF="kotoba-card-backup";
@@ -916,7 +915,7 @@ S.roots.forEach(function(r){var n=0;r.folders.forEach(function(f){n+=f.words.len
 if(!S.roots.length)h+='<div class="box mu">Belum ada folder utama. Buka Edit › Folder Utama untuk membuat.</div>';
 return h+'</div></div>'}
 var RS={id:null,t:0};
-function rootTap(id){var n=Date.now();if(RS.id===id&&n-RS.t<420){RS.id=null;openRoot(id);return}if(S.rootId!==id){S.rootId=id;NP=[];fixAct();L=null;Q=null;BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];var q=S.qs=S.qs||{};q.scope="all";q.scopeRootId=id;save()}RS={id:id,t:n};R()}
+function rootTap(id){var n=Date.now();if(RS.id===id&&n-RS.t<420){RS.id=null;openRoot(id);return}if(S.rootId!==id){S.rootId=id;NP=[];fixAct();L=null;Q=null;BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];var rr=curRoot(),ff=rr?rootFolders(rr):[];KF=ff.length?ff[0].f.id:null;KE=null;var q=S.qs=S.qs||{};q.scope="all";q.scopeRootId=id;save()}RS={id:id,t:n};R()}
 function ico(p){return'<svg class="ec-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+p+'"/></svg>'}
 function ecI(i,p,t,b){return'<div class="ec'+(EC===i?' open':'')+'" id="ec'+i+'"><button class="ec-h" onclick="ecT('+i+')">'+ico(p)+'<b>'+t+'</b></button><div class="ec-b"><div class="ec-in"><div class="ec-p">'+b+'</div></div></div></div>'}
 function ecT(i){EC=EC===i?null:i;for(var k=0;k<8;k++){var x=document.getElementById("ec"+k);if(x)x.classList.toggle("open",k===EC)}}
