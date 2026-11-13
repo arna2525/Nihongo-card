@@ -457,9 +457,20 @@ main#m { flex:1 1 auto; min-height:0; height:auto; overflow-x:hidden!important; 
 .pg.active { animation:none!important; transition:none!important; }
 @media (max-height:700px) { .pg.folder-fixed>.fbox>.chips, .pg.folder-fixed>.fbox>.vscroll, .pg.folder-fixed>.fbox>.folder-kotoba-scroll, .fbox>.vscroll, .result-words-scroll, .vscroll { max-height:42vh!important; } }
 
-/* v1.1.2: daftar kotoba selalu punya scroll sendiri */
+/* v1.1.2: daftar kotoba selalu punya scroll sendiri.
+   Jangan gunakan touch-action:none pada isi scroll: Android Chrome akan
+   membatalkan gesture gulir ketika sentuhan dimulai di dalam elemen anak. */
 .vscroll{overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}
-@supports (-webkit-touch-callout:none){.box:has(.vscroll),.fbox:has(.vscroll){-webkit-backdrop-filter:none;backdrop-filter:none}.vscroll,.vscroll *{touch-action:none!important}}
+@supports (-webkit-touch-callout:none){.box:has(.vscroll),.fbox:has(.vscroll){-webkit-backdrop-filter:none;backdrop-filter:none}}
+/* Android Chrome: seluruh isi accordion Edit tetap meneruskan gesture vertikal. */
+html.android-chrome .settings-page,
+html.android-chrome .settings-page .em,
+html.android-chrome .settings-page .ec,
+html.android-chrome .settings-page .ec-b,
+html.android-chrome .settings-page .ec-in,
+html.android-chrome .settings-page .ec-p{touch-action:pan-y!important}
+html.android-chrome .settings-page .vscroll,
+html.android-chrome .settings-page .vscroll *{touch-action:pan-y!important}
 nav.qlock button:not(#t-quiz){opacity:.4}
 .selbar{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:8px 0 2px;flex-wrap:wrap;min-height:30px}
 .selbar .x{margin:0 0 0 6px;padding:6px 10px;font-size:13px}
@@ -535,7 +546,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.2.13",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
+var FRESH=false,APP_VERSION="1.2.14",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
