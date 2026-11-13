@@ -1,4 +1,4 @@
 {
-  "version": "1.2.6",
-  "notes": "Daftar Kotoba kini hanya menampilkan isi BAB yang dipilih dalam Mother Folder aktif; pilihan folder tujuan dan sumber kuis mengikuti Mother Folder aktif."
+  "version": "1.2.7",
+  "notes": "Tombol cakupan kuis kini berpindah berurutan dari Semua BAB ke BAB 1, BAB 2, dan seterusnya sesuai folder dalam Mother Folder aktif."
 }
