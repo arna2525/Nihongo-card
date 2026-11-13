@@ -233,3 +233,9 @@ Pemeriksaan:
 - Kept the Statistics surface transparent so the Kotoba Card app background remains visible.
 - Moved detailed performance charts, timeline, and learning insights into a collapsed-by-default “More learning analytics” section.
 - Preserved access to all analytics and retained the existing Learning Engine and stored data logic.
+
+
+## v1.4.17 — Complete UI refresh (2026-11-14)
+- Reworked visual hierarchy, navigation, panels, quiz options, study card and responsive spacing.
+- Restored and preserved the original Sakura Night background artwork and original purple/lavender/pink/gold palette.
+- Kept the existing data schema and learning logic unchanged in this visual release.

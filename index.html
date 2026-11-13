@@ -916,37 +916,66 @@ html.android-chrome .settings-page .ec.open>.ec-b>.ec-in *{touch-action:pan-y!im
 }
 
 
-/* ===== v1.4.16 visual refresh: calm study-first interface ===== */
-:root{--bg:#0b1424;--card:#142238;--line:rgba(148,181,211,.20);--tx:#f2f7fc;--mu:#a8bacb;--gold:#79d7e8;--ok:#48c99a;--bad:#f07886;--glass:rgba(17,32,52,.94);--glow:rgba(105,190,216,.22)}
-html,body{background:#0b1424!important}
-body{background:radial-gradient(ellipse at 50% -15%,rgba(49,105,139,.24),transparent 52%),#0b1424!important;font-family:"Zen Maru Gothic","Hiragino Sans","Noto Sans JP",system-ui,sans-serif}
+/* ===== v1.4.17: complete layout refresh — original Sakura Night identity retained ===== */
+/* Preserve original artwork, background image, purple/lavender surfaces, sakura pink and gold accents. */
+:root{--bg:#0b1030;--card:#171b45;--line:rgba(190,151,255,.28);--tx:#fff;--mu:#c9c5ea;--gold:#ffd21f;--pink:#f4a6d6;--glass:rgba(14,18,60,.72);--glow:rgba(194,153,255,.34)}
+html,body{background:#0b1030!important}
+body{background:linear-gradient(180deg,rgba(9,11,38,.25),rgba(9,11,38,.55)),url("assets/bg.webp") center bottom/cover no-repeat,#0b1030!important;font-family:"Zen Maru Gothic","Hiragino Sans","Noto Sans JP",system-ui,sans-serif}
 #app{max-width:620px}
-main{padding-left:16px;padding-right:16px;padding-bottom:calc(84px + var(--sab))}
-.hero{margin:0 -16px 18px;padding:calc(var(--sat) + 14px) 18px 16px;min-height:calc(var(--sat) + 150px);border-radius:0 0 22px 22px;background:linear-gradient(125deg,#173b55 0%,#172744 52%,#24264a 100%)!important;box-shadow:0 8px 22px rgba(0,0,0,.22);}
-.hero:before{background:linear-gradient(90deg,rgba(7,18,31,.30),rgba(7,18,31,.06))!important}
-.hero-logo{width:min(40%,156px);filter:drop-shadow(0 2px 5px rgba(0,0,0,.25))}
-.hero-message{width:min(76%,300px);max-width:300px;border:1px solid rgba(169,222,236,.22);border-radius:14px;background:rgba(8,23,38,.42);box-shadow:none;backdrop-filter:blur(8px)}
-.hero-message strong{font-size:15px}.hero-message span{font-size:11px}
-h1{font-size:23px;letter-spacing:-.35px}
-.box,.stat{background:var(--glass)!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:0 7px 20px rgba(0,0,0,.13)!important;backdrop-filter:blur(10px)}
-.card{background:linear-gradient(150deg,#172c44,#122238)!important;border:1px solid rgba(130,192,211,.24)!important;border-radius:22px!important;box-shadow:0 12px 28px rgba(0,0,0,.22)!important;background-image:none!important}
-.btn{background:#203650!important;border:1px solid rgba(143,190,211,.2)!important;border-radius:13px!important}
-.btn.gold,.chip.on{background:#79d7e8!important;color:#09202b!important;border-color:#79d7e8!important;box-shadow:none!important}
-.chip{background:#172b42!important;border:1px solid rgba(143,190,211,.22)!important;box-shadow:none!important;border-radius:13px!important}
-.chip:before,.chip:after{opacity:.72}
-input,select{background:#101f32!important;border:1px solid rgba(143,190,211,.24)!important;border-radius:12px!important}
-.tag{background:rgba(90,169,192,.13)!important;border:1px solid rgba(121,215,232,.24)!important;color:#b9edf5!important}
-.opt{background:#192e47!important;border:1px solid rgba(143,190,211,.18)!important;border-radius:14px!important;min-height:54px}
-.opt.ok{background:#237b68!important;border-color:#48c99a!important}.opt.bad{background:#8a3948!important;border-color:#f07886!important}
-.fill,.dot.d{background:#79d7e8!important;color:#09202b!important}
-nav{background:rgba(10,23,39,.97)!important;border-top:1px solid rgba(143,190,211,.2)!important;box-shadow:0 -8px 24px rgba(0,0,0,.2)!important}
-nav button{color:#9eb4c8!important;font-size:12px!important}
-nav button.on{color:#79d7e8!important}
-nav button .nav-ico{color:currentColor!important;filter:none!important}
-nav button:after{background:#79d7e8!important}
-.mu{color:#a8bacb!important}
-.w{border-bottom-color:rgba(143,190,211,.16)!important}
+main{padding:0 16px calc(92px + var(--sab));scroll-behavior:smooth}
+/* Hero and page hierarchy */
+.hero{margin:0 -16px 20px;padding:calc(var(--sat) + 12px) 17px 15px;min-height:calc(var(--sat) + 166px);border-radius:0 0 28px 28px;background:url("assets/header.webp") center top/cover no-repeat,#11143a!important;box-shadow:0 12px 30px rgba(0,0,0,.32),0 1px 0 rgba(210,169,255,.45)}
+.hero:before{background:linear-gradient(90deg,rgba(10,12,42,.55),rgba(10,12,42,.12) 62%,transparent),linear-gradient(0deg,rgba(10,12,42,.5),transparent 55%)!important}
+.hero-logo{width:min(43%,170px);filter:drop-shadow(0 3px 10px rgba(8,10,40,.7))}
+.hero-message{width:min(70%,285px);max-width:285px;border:1px solid var(--glow);border-radius:18px;background:rgba(15,14,52,.68);box-shadow:0 8px 22px rgba(0,0,0,.25),inset 0 0 16px rgba(160,100,230,.12)}
+h1{font-size:clamp(23px,6vw,27px);font-weight:800;letter-spacing:-.45px;line-height:1.2}
+.folder-heading{margin-bottom:16px}
+/* Panels become clear, consistent surfaces */
+.box,.stat{background:linear-gradient(145deg,rgba(28,25,78,.88),rgba(13,17,57,.88))!important;border:1px solid rgba(194,153,255,.30)!important;border-radius:22px!important;box-shadow:0 9px 25px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.box{padding:16px;margin-top:14px}
+.stat{padding:15px}
+.stat b{color:var(--gold)}
+.card{background:linear-gradient(145deg,rgba(30,29,83,.96),rgba(16,19,61,.96))!important;border:1px solid rgba(194,153,255,.42)!important;border-radius:26px!important;box-shadow:0 14px 32px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.05)!important}
+/* Folder and action controls */
+.chips{gap:10px}
+.chip{min-height:48px;padding:11px 15px;border-radius:16px;background:linear-gradient(120deg,rgba(67,37,116,.94),rgba(25,24,75,.96));border:1px solid rgba(194,153,255,.34);box-shadow:0 5px 14px rgba(0,0,0,.16);font-weight:650}
+.chip.on{background:linear-gradient(120deg,rgba(124,58,196,.98),rgba(48,32,110,.98));border-color:rgba(255,210,31,.62);box-shadow:0 0 16px rgba(150,90,230,.28),inset 0 0 12px rgba(190,140,255,.2)}
+.btn{min-height:44px;padding:11px 16px;background:rgba(49,39,104,.88);border:1px solid rgba(194,153,255,.32);border-radius:14px;color:#fff}
+.btn.gold{background:linear-gradient(135deg,#ffe066,#ffc400);color:#17132e;border:0;box-shadow:0 6px 16px rgba(255,200,0,.20);font-weight:800}
+input,select,textarea{background:rgba(10,13,44,.88)!important;border:1px solid rgba(194,153,255,.34)!important;border-radius:13px!important;color:#fff!important;min-height:46px}
+.tag{background:rgba(122,70,176,.28);color:#eadcff;border:1px solid rgba(194,153,255,.32);border-radius:999px}
+/* Quiz focus: larger prompt, spacious answer choices and clear feedback */
+.quiz-setup{padding:17px}
+.quiz-mode-label{margin-top:16px;font-weight:700;color:#eadcff}
+.opt{min-height:58px;padding:15px 16px;margin-top:11px;border-radius:16px;background:rgba(30,27,84,.92);border:1px solid rgba(194,153,255,.30);font-size:clamp(17px,4.5vw,20px);box-shadow:0 4px 12px rgba(0,0,0,.13)}
+.opt.kj{font-size:clamp(30px,8vw,40px);min-height:66px}
+.opt.ok{background:#167a5b;border-color:#4bd2a2}.opt.bad{background:#8c344f;border-color:#ff819d}
+.pg[data-page="quiz"] .flip .card .big{font-size:clamp(52px,13vw,72px)!important;line-height:1.2}
+.bar{height:12px;border-radius:999px;background:rgba(190,151,255,.22);margin:16px 0}
+.fill{min-width:0;padding:0;border-radius:999px;background:linear-gradient(90deg,#f4a6d6,#ffd21f);font-size:0}
+/* Study card and rating controls */
+.flip{margin-top:18px}
+.flip .in{min-height:250px}
+.ev{gap:8px;margin-top:18px}
+.ev button{min-height:62px;border-radius:15px;padding:9px 3px;font-size:13px;box-shadow:0 5px 14px rgba(0,0,0,.18)}
+.ev button small{font-size:11px;margin-top:3px}
+/* Consistent row rhythm and readable vocabulary */
+.w{padding:11px 0;border-bottom:1px solid rgba(198,172,255,.22)}
+.w .jp[style*="font-size:20px"]{font-size:25px!important;line-height:1.25;color:#fff}
+.w .mu{font-size:14px;line-height:1.4}
+.mu{color:var(--mu)}
+/* Fixed bottom navigation — same four destinations, clearer active state */
+nav{width:min(100%,620px);display:flex;justify-content:space-around;gap:4px;padding:7px 8px calc(7px + var(--sab));background:rgba(13,16,53,.97)!important;border-top:1px solid rgba(194,153,255,.34)!important;box-shadow:0 -9px 28px rgba(0,0,0,.30)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+nav button{flex:1;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:5px 3px;color:#c9c5ea!important;font-size:11.5px!important;font-weight:600;border-radius:14px}
+nav button .nav-ico{width:23px;height:23px;color:currentColor!important}
+nav button.on{color:var(--gold)!important;background:rgba(124,58,196,.20);font-weight:800}
+nav button:after{left:28%;right:28%;bottom:1px;height:2px;background:var(--gold)!important}
+/* Lists and long catalogs remain independently scrollable */
+.vscroll,.flist{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.flist{border-radius:18px;background:rgba(14,18,60,.92)}
+/* Responsive spacing */
 @media(min-width:560px){main{padding-left:22px;padding-right:22px}.hero{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px}}
+@media(max-width:380px){main{padding-left:12px;padding-right:12px}.hero{margin-left:-12px;margin-right:-12px;padding-left:13px;padding-right:13px}.hero-message{width:76%}.box{padding:13px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 </style></head><body><div id="app"><main id="m"></main>
@@ -959,7 +988,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.4.16",APP_BUILD="2026-11-14",SCHEMA=5,NP=[];
+var FRESH=false,APP_VERSION="1.4.17",APP_BUILD="2026-11-14",SCHEMA=5,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}

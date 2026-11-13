@@ -1,6 +1,6 @@
-# Kotoba Card v1.4.16
+# Kotoba Card v1.4.17
 
-Study-first visual refresh release. Deploy the contents of this folder to the GitHub Pages repository root. Existing local user data is retained by the current storage model; as with any update, export a backup before deployment.
+Complete interface refresh release. Original Sakura Night background artwork and purple/lavender/pink/gold visual identity are preserved; navigation, panels, quiz and study layouts are refreshed. Deploy the contents of this folder to the GitHub Pages repository root. Existing local user data is retained by the current storage model; as with any update, export a backup before deployment.
 
 <div align="center">
 

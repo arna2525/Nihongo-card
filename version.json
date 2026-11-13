@@ -1,5 +1,5 @@
 {
-  "version": "1.4.16",
+  "version": "1.4.17",
   "build": "2026-11-14",
-  "notes": "Study-first visual refresh: calmer navy/cyan palette, clearer surfaces and controls, improved responsive spacing. Existing data model, catalog, learning logic, and SRS storage are preserved. Full Kanji/Bunpou daily-learning integration remains pending."
+  "notes": "Complete UI refresh with original Sakura Night background and purple/lavender/pink/gold palette preserved. Reworked navigation, panels, quiz focus, study cards, controls and responsive spacing. Existing storage model retained."
 }
