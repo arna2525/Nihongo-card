@@ -467,6 +467,16 @@ nav.qlock button:not(#t-quiz){opacity:.4}
 .bx{display:inline-flex;align-items:center;justify-content:center;flex:none;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--glow);color:#0B1026;font-size:14px;font-weight:800;line-height:1}
 .chip.bab.sel{border-color:rgba(255,210,31,.75);background:linear-gradient(120deg,rgba(124,58,196,.9),rgba(48,32,110,.9));box-shadow:0 0 14px rgba(255,210,31,.25)}
 .chip.bab.sel .bx{background:var(--gold);border-color:var(--gold)}
+
+/* v1.2.1 — pemilihan folder induk sederhana seperti file manager */
+.root-item{position:relative}
+.root-item.selected{opacity:1;border-color:rgba(255,210,31,.55);background:linear-gradient(120deg,rgba(84,65,120,.72),rgba(32,27,84,.82));box-shadow:inset 0 0 0 1px rgba(255,210,31,.16)}
+.root-item.selected:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 7px rgba(255,210,31,.45)}
+.root-item.selected:after{opacity:.45}
+.root-back{display:inline-flex;align-items:center;gap:9px;padding:4px 8px;margin:0;border:0;border-radius:12px;background:transparent;color:#fff;font:inherit;font-weight:700;text-align:left}
+.root-back:active{background:rgba(255,210,31,.12)}
+.root-back .backmark{font-size:20px;color:var(--gold);line-height:1}
+
 </style></head><body><div id="app"><main id="m"></main>
 <nav><button id="t-folder" onclick="go('folder')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><circle cx='12' cy='13' r='2' fill='#0d1035'/></svg><span>Folder</span></button><button id="t-learn" onclick="go('learn')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M2.5 5.5C5.5 4 9 4 12 5.5c3-1.5 6.5-1.5 9.5 0V19c-3-1.5-6.5-1.5-9.5 0-3-1.5-6.5-1.5-9.5 0z'/><path d='M12 5.5V19' stroke='#0d1035' stroke-width='1.4'/></svg><span>Belajar</span></button><button id="t-quiz" onclick="go('quiz')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3A2.6 2.6 0 0 1 15.5 17l-.7-1.2H9.2L8.5 17a2.6 2.6 0 0 1-5.4-.6l-.9-3A5 5 0 0 1 7 7z'/><path d='M8 10v4M6 12h4' stroke='#0d1035' stroke-width='1.6' stroke-linecap='round'/><circle cx='15.5' cy='11' r='1' fill='#0d1035'/><circle cx='17.8' cy='13' r='1' fill='#0d1035'/></svg><span>Kuis</span></button><button id="t-stat" onclick="go('stat')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><rect x='4' y='11' width='4.4' height='9' rx='1.3'/><rect x='9.8' y='4' width='4.4' height='16' rx='1.3'/><rect x='15.6' y='8' width='4.4' height='12' rx='1.3'/></svg><span>Statistik</span></button></nav><div id="tst" class="sv" role="status"><span id="tstm"></span><button id="tstb" type="button"></button></div><div id="dg" class="dg"><div class="dgc" role="dialog"><h3 id="dgt"></h3><p id="dgm"></p><input id="dgi" autocomplete="off"><div class="dgb"><button id="dgn" onclick="dgx(0)">Batal</button><button id="dgy" onclick="dgx(1)">Ya, Terapkan</button></div></div></div></div>
 <script>
@@ -477,7 +487,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.2.0",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
+var FRESH=false,APP_VERSION="1.2.2",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
@@ -551,8 +561,8 @@ Object.defineProperty(S,"folders",{get:function(){var r=curRoot();return r?r.fol
 /* --- halaman Folder: navigasi seperti File Explorer --- */
 function vFolder(){var h=hero()+'<div class="row sp folder-heading"><h1>Folder <span>🌸</span></h1><button class="btn edit-btn" style="margin:0" onclick="tgGear()" aria-label="Edit">'+(gear?"✓ Selesai":PEN+" Edit")+'</button></div>';
 if(gear)return h+editMenu();var r=curRoot();if(RL||!r)return h+rootList();
-if(!NP.length){h+='<div class="box fbox"><div class="row sp"><b>📁 '+e(r.name)+'</b><span class="mu">'+r.folders.length+' BAB</span></div>'+babBar(r)+'<div class="chips col">';
- var qi=qIds();r.folders.forEach(function(x){var on=qi.indexOf(x.id)>-1;h+='<button class="chip rt bab'+(on?' sel':'')+'" aria-pressed="'+on+'" onclick="babTap(\''+x.id+'\')"><span class="bx">'+(on?'\u2713':'')+'</span><span class="jp">'+e(x.name)+'</span><span class="mu rc">'+x.words.length+' kata</span></button>'});
+if(!NP.length){h+='<div class="box fbox"><div class="row sp"><button class="root-back" onclick="backRoot()" aria-label="Kembali ke daftar folder induk"><span class="backmark">‹</span><span>📁 '+e(r.name)+'</span></button><span class="mu">'+r.folders.length+' BAB</span></div>'+babBar(r)+'<div class="chips col">';
+ var qi=BAB_SELECT_MODE?BAB_SELECT_DRAFT:qIds();r.folders.forEach(function(x){var on=qi.indexOf(x.id)>-1;h+='<button class="chip rt bab'+(on?' sel':'')+'" aria-pressed="'+on+'" onclick="babTap(\''+x.id+'\')"><span class="bx">'+(on?'\u2713':'')+'</span><span class="jp">'+e(x.name)+'</span><span class="mu rc">'+x.words.length+' kata</span></button>'});
  if(!r.folders.length)h+='<div class="mu">Belum ada folder BAB.</div>';return h+'</div></div>'}
 var fp=[],cur=null;NP.forEach(function(id){var arr=cur?cur.children:r.folders;cur=arr.filter(function(x){return x.id===id})[0]||null;if(cur)fp.push(cur)});if(!cur){NP=[];return vFolder()}
 h+='<div class="box fbox"><div class="crumb" role="navigation" aria-label="Lokasi folder"><button onclick="jumpNP(-1)">'+e(r.name)+'</button>';
@@ -566,7 +576,7 @@ function crumbNP(r){var h='<div class="crumb" role="navigation" aria-label="Loka
 function openNP(id){var at=NP.indexOf(id);NP=at>=0?NP.slice(0,at+1):NP.concat([id]);S.active=id;var l=locF(id);if(l)l.r.active=id;L=null;save();R("n")}
 function jumpNP(i){NP=NP.slice(0,i+1);if(NP.length){S.active=NP[NP.length-1]}L=null;R("n")}
 function upNP(){if(NP.length)jumpNP(NP.length-2);else backRoot()}
-function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}gear=false;S.rootId=id;NP=[];fixAct();RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
+function openRoot(id){if(dirty()){guard(function(){openRoot(id)});return}RS.id=null;gear=false;S.rootId=id;NP=[];fixAct();RL=false;FO=false;arm=null;L=null;Q=null;save();R("n")}
 
 /* --- CRUD folder --- */
 function addChild(pid,iid){var x=document.getElementById(iid||"nf_"+pid),n=x?x.value.trim():"",a=childArr(pid);if(!n||!a)return;var pr=rootOf(pid),pl=pr?null:locF(pid),pn=pr?pr.name:(pl?pl.f.name:"");
@@ -777,13 +787,16 @@ function qScopeLabel(sel){var r=curRoot(),ns=r.folders.filter(function(f){return
 if(nums.every(function(x){return x!==null})){nums.sort(function(a,b){return a-b});var out=[],i=0;while(i<nums.length){var j=i;while(j+1<nums.length&&nums[j+1]===nums[j]+1)j++;out.push(j-i>=2?nums[i]+"\u2013"+nums[j]:nums.slice(i,j+1).join(", "));i=j+1}return"Bab "+out.join(", ")}
 return ns.length>2?ns.length+" BAB dipilih":ns.join(", ")}
 function qRange(){var q=qs(),a=qList(),sel=qSel();if(sel){var par={};a.forEach(function(x){par[x.f.id]=x.p});return a.filter(function(x){var t=x.f;while(par[t.id])t=par[t.id];return sel.indexOf(t.id)>-1})}return q.scope==="all"?a:a.filter(function(x){return x.f.id===q.scope})}
-function qScopeTap(){if(!qSel()){toast("Cakupan sudah Semua BAB. Pilih bab dari tab Folder (ketuk 1\u00d7 pada BAB).");return}dlg({t:"Kembalikan Cakupan Default?",m:"Apakah kamu ingin mengembalikan cakupan Quiz ke semua bab seperti pengaturan awal?",y:"Ya, Reset"},function(){S.qScope={ids:[]};qs().scope="all";save();R()})}
-var BT={id:null,t:0,prev:[]};
+function qScopeTap(){if(!qSel()){toast("Cakupan sudah Semua BAB. Aktifkan Select di tab Folder, pilih BAB, lalu konfirmasi.");return}dlg({t:"Kembalikan Cakupan Default?",m:"Apakah kamu ingin mengembalikan cakupan Quiz ke semua bab seperti pengaturan awal?",y:"Ya, Reset"},function(){S.qScope={ids:[]};qs().scope="all";save();R()})}
+var BT={id:null,t:0,prev:[]},BAB_SELECT_MODE=false,BAB_SELECT_DRAFT=[];
 function babSet(ids){S.qScope={ids:ids};save()}
-function babTap(id){var n=Date.now();if(BT.id===id&&n-BT.t<350){BT.id=null;babSet(BT.prev);openNP(id);return}BT.id=id;BT.t=n;var ids=qIds();BT.prev=ids.slice();var k=ids.indexOf(id);if(k>-1)ids.splice(k,1);else ids.push(id);babSet(ids);R()}
-function babAll(){var r=curRoot();if(!r)return;BT.id=null;babSet(r.folders.map(function(f){return f.id}));R()}
-function babNone(){BT.id=null;babSet([]);R()}
-function babBar(r){if(!r.folders.length)return"";var n=qIds().length;return'<div class="selbar"><span class="mu">'+(n?n+' BAB dipilih untuk kuis':'Semua BAB (default)')+'</span><span><button class="x" onclick="babAll()">Pilih Semua</button><button class="x" onclick="babNone()">Batalkan</button></span></div><div class="mu selhint">Ketuk 1\u00d7 untuk memilih \u00b7 ketuk 2\u00d7 untuk membuka folder</div>'}
+function babSelectStart(){BAB_SELECT_MODE=true;BAB_SELECT_DRAFT=qIds().slice();BT.id=null;R()}
+function babSelectCancel(){BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];BT.id=null;R()}
+function babTap(id){var n=Date.now();if(BT.id===id&&n-BT.t<380){if(BAB_SELECT_MODE)BAB_SELECT_DRAFT=BT.prev.slice();BT.id=null;openNP(id);return}BT.id=id;BT.t=n;if(!BAB_SELECT_MODE){toast("Aktifkan tombol Pilih terlebih dahulu untuk memilih BAB.");return}BT.prev=BAB_SELECT_DRAFT.slice();var ids=BAB_SELECT_DRAFT.slice(),k=ids.indexOf(id);if(k>-1)ids.splice(k,1);else ids.push(id);BAB_SELECT_DRAFT=ids;R()}
+function babAll(){var r=curRoot();if(!r||!BAB_SELECT_MODE)return;BAB_SELECT_DRAFT=r.folders.map(function(f){return f.id});R()}
+function babNone(){if(!BAB_SELECT_MODE)return;BAB_SELECT_DRAFT=[];R()}
+function babConfirm(){if(!BAB_SELECT_MODE)return;var r=curRoot();if(!r)return;var ids=BAB_SELECT_DRAFT.filter(function(id){return r.folders.some(function(f){return f.id===id})});var n=ids.length;dlg({t:"Konfirmasi pilihan BAB",m:n?"Terapkan "+n+" BAB yang dipilih sebagai cakupan kuis?":"Tidak ada BAB yang dipilih. Cakupan kuis akan dikembalikan ke Semua BAB (default).",y:"Ya, Terapkan",n:"Periksa lagi"},function(){babSet(ids);BAB_SELECT_MODE=false;BAB_SELECT_DRAFT=[];BT.id=null;R()})}
+function babBar(r){if(!r.folders.length)return"";var n=BAB_SELECT_MODE?BAB_SELECT_DRAFT.length:qIds().length;var status=BAB_SELECT_MODE?(n?n+" BAB dipilih · belum dikonfirmasi":"Belum ada BAB dipilih · belum dikonfirmasi"):(n?n+" BAB dipilih untuk kuis":"Semua BAB (default)");var controls=BAB_SELECT_MODE?'<button class="x" onclick="babAll()">Pilih Semua</button><button class="x" onclick="babNone()">Kosongkan</button>':'<button class="x" onclick="babSelectStart()">Select</button>';var action=BAB_SELECT_MODE?'<div class="row" style="width:100%;margin-top:8px"><button class="btn gold" style="flex:1;margin:0" onclick="babConfirm()">Konfirmasi ('+n+')</button><button class="btn" style="flex:1;margin:0" onclick="babSelectCancel()">Batal</button></div>':'';return'<div class="selbar"><span class="mu">'+status+'</span><span>'+controls+'</span></div>'+action+'<div class="mu selhint">'+(BAB_SELECT_MODE?'Pilih BAB yang diinginkan, lalu tekan Konfirmasi. Perubahan belum diterapkan sebelum dikonfirmasi.':'Tekan Select untuk mulai memilih BAB. Ketuk 2× pada BAB untuk membuka folder.')+'</div>'}
 function qPool(){var q=qs(),seen={},out=[];qRange().forEach(function(x){x.f.words.forEach(function(w){if(seen[w.id])return;seen[w.id]=1;if(q.cat==="all"||q.cat==="mixed"||w.c===q.cat)out.push(w)})});return out}
 function qCycle(k){var q=qs(),folders=qList(),scopes=["all"].concat(folders.map(function(x){return x.f.id}));if(k==="n"){q.n=({25:50,50:100,100:25})[+q.n]||25}else{var i=scopes.indexOf(q.scope);q.scope=scopes[(i+1+scopes.length)%scopes.length]}save();R()}
 function qSet(k,v){qs();S.qs[k]=v;save();R()}
@@ -890,14 +903,16 @@ function renameRoot(){var x=document.getElementById('rootName');if(!x)return;var
 var RL=true,EC=null,ER=null,EF=null;
 function curRoot(){return(S.roots||[]).filter(function(r){return r.id===S.rootId})[0]||null}
 function rootList(){var h='<div class="box fbox"><div class="mu" style="margin-bottom:10px">'+S.roots.length+' folder utama</div><div class="chips col">';
-S.roots.forEach(function(r){var n=0;r.folders.forEach(function(f){n+=f.words.length});h+='<button class="chip rt" onclick="openRoot(\''+r.id+'\')"><span class="jp">'+(r.locked?'🔒 ':'')+e(r.name)+'</span><span class="mu rc">'+r.folders.length+' folder · '+n+' kata</span></button>'});
+S.roots.forEach(function(r){var n=0;r.folders.forEach(function(f){n+=f.words.length});h+='<button class="chip rt root-item'+(RS.id===r.id?' selected':'')+'" aria-pressed="'+(RS.id===r.id)+'" onclick="rootTap(\''+r.id+'\')"><span class="jp">'+(r.locked?'🔒 ':'')+e(r.name)+'</span><span class="mu rc">'+r.folders.length+' folder · '+n+' kata</span></button>'});
 if(!S.roots.length)h+='<div class="box mu">Belum ada folder utama. Buka Edit › Folder Utama untuk membuat.</div>';
 return h+'</div></div>'}
+var RS={id:null,t:0};
+function rootTap(id){var n=Date.now();if(RS.id===id&&n-RS.t<380){RS.id=null;openRoot(id);return}RS={id:id,t:n};R()}
 function ico(p){return'<svg class="ec-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+p+'"/></svg>'}
 function ecI(i,p,t,b){return'<div class="ec'+(EC===i?' open':'')+'" id="ec'+i+'"><button class="ec-h" onclick="ecT('+i+')">'+ico(p)+'<b>'+t+'</b></button><div class="ec-b"><div class="ec-in"><div class="ec-p">'+b+'</div></div></div></div>'}
 function ecT(i){EC=EC===i?null:i;for(var k=0;k<8;k++){var x=document.getElementById("ec"+k);if(x)x.classList.toggle("open",k===EC)}}
 function dirty(){var l=document.querySelectorAll("[data-dr]");for(var i=0;i<l.length;i++){var x=l[i],v=x.value.trim();if(x.hasAttribute("data-o")?(v&&v!==x.getAttribute("data-o")):v)return true}return false}
-function backRoot(){if(dirty()){guard(backRoot);return}RL=true;gear=false;FO=false;arm=null;R("n")}
+function backRoot(){if(dirty()){guard(backRoot);return}RS.id=null;RL=true;gear=false;FO=false;arm=null;R("n")}
 function tgGear(){if(gear&&dirty()){guard(function(){gear=false;R()});return}gear=!gear;EC=null;ER=null;EF=null;KE=null;KSEL=null;KQ="";ES=[];R()}
 function drt(){}
 var DGF=null,DGC=null,DGI=false;
@@ -953,23 +968,8 @@ function flushStudyTime(){var now=Date.now(),elapsed=Math.max(0,Math.min(60000,n
 setInterval(flushStudyTime,60000);
 document.addEventListener("visibilitychange",function(){flushStudyTime();save()});window.addEventListener("pagehide",function(){flushStudyTime();save()});
 (function(){if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;var p=document.createElement("div");p.className="petals";for(var i=0;i<14;i++){var q=document.createElement("i");q.style.cssText="left:"+(Math.random()*100)+"%;width:"+(7+Math.random()*7)+"px;height:"+(5+Math.random()*6)+"px;opacity:"+(.3+Math.random()*.4)+";animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";p.appendChild(q)}document.getElementById("app").appendChild(p)})();
-(function(){var o=document.createElement("div");o.id="op";
-o.innerHTML='<div id="olg" role="button" tabindex="0" aria-label="Kotoba Card. Tekan dan tahan logo untuk membuka, atau tekan Enter."><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a855f7"/><stop offset="1" stop-color="#FACC15"/></linearGradient></defs><circle class="or-o" cx="50" cy="50" r="49.5" pathLength="100" stroke-dasharray="1.2 2.3"/><circle class="or-b" cx="50" cy="50" r="47"/><circle class="or-g" cx="50" cy="50" r="43"/><circle class="or-p" id="orp" cx="50" cy="50" r="47" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg><img src="assets/logo.png" alt="" draggable="false"><i class="scan"></i><i class="sweep"></i></div>';
-document.body.appendChild(o);o.insertAdjacentHTML("beforeend",'<i class="grid"></i><b class="hud tl"></b><b class="hud tr"></b><b class="hud bl"></b><b class="hud br"></b><i class="beam"></i><i class="shock"></i><i class="shock s2"></i>');
-for(var i=0;i<10;i++){var d=document.createElement("i");d.className="pt";d.style.cssText="left:"+(8+Math.random()*84)+"%;top:"+(30+Math.random()*60)+"%;animation-delay:"+(-Math.random()*6)+"s";o.appendChild(d)}
-var g=document.getElementById("olg"),im=g.querySelector("img"),rp=document.getElementById("orp"),RM=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches,DUR=RM?700:1800,p=0,hold=false,done=false,raf=0,last=0;
-function paint(){o.style.setProperty("--p",p);rp.setAttribute("stroke-dashoffset",100-p*100);if(!done)im.style.filter="grayscale("+(1-p)+") brightness("+(.7+.3*p)+")"}
-function tick(t){if(done)return;var dt=t-(last||t);last=t;if(hold)p=Math.min(1,p+dt/DUR);else p=Math.max(0,p-dt/450);paint();if(p>=1){finish();return}if(hold||p>0)raf=requestAnimationFrame(tick);else raf=0}
-function begin(){if(done)return;hold=true;last=0;g.classList.add("hold");if(!raf)raf=requestAnimationFrame(tick)}
-function end(){if(done)return;hold=false;g.classList.remove("hold");if(!raf&&p>0){last=0;raf=requestAnimationFrame(tick)}}
-function finish(){if(done)return;done=true;hold=false;p=1;paint();im.style.filter="";g.classList.remove("hold");g.classList.add("done");o.classList.add("go");setTimeout(function(){o.classList.add("out");setTimeout(function(){if(o.parentNode)o.parentNode.removeChild(o)},800)},RM?150:950)}
-g.addEventListener("pointerdown",function(ev){if(ev.pointerType==="mouse"&&ev.button!==0)return;ev.preventDefault();try{g.setPointerCapture(ev.pointerId)}catch(x){}begin()});
-["pointerup","pointercancel","lostpointercapture"].forEach(function(n){g.addEventListener(n,end)});
-g.addEventListener("contextmenu",function(ev){ev.preventDefault()});
-g.addEventListener("click",function(ev){if(ev.detail===0)finish()});
-g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();finish()}});
-["touchmove","wheel"].forEach(function(n){o.addEventListener(n,function(ev){ev.preventDefault()},{passive:false})});
-paint()})();
+/* v1.2.1: layar pembuka tahan-logo dihapus agar aplikasi dan tombol Mulai Kuis langsung dapat digunakan. */
+
 (function(){var ios=/iPhone|iPad|iPod/.test(navigator.userAgent)&&navigator.standalone===true;if(!ios)return;
 function fit(){var n=document.querySelector("nav"),a=document.getElementById("app"),sh=window.innerWidth>window.innerHeight?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height);
 n.style.bottom="0px";var d=Math.round(sh-n.getBoundingClientRect().bottom);if(d<12||d>70)d=0;
