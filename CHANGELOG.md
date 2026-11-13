@@ -1,3 +1,18 @@
+## v1.3.0
+
+- Menambahkan pilihan kuis MASTERY di samping 25/50/100 dengan maksimal 7 soal per sesi.
+- Menyimpan progres 0–3 secara terpisah untuk setiap kotoba dan masing-masing dari lima mode Quiz; jawaban salah tidak mengurangi progres.
+- Kotoba yang belum Mastery tetap masuk antrean sesi berikutnya; kotoba yang mencapai 3/3 dikeluarkan dari antrean mode tersebut.
+- Mengubah Statistik mengikuti referensi: ringkasan keseluruhan, progres lima mode, daftar BAB yang dapat digulir, dan detail/riwayat sesi.
+- Memisahkan penghitungan Mastery dari akurasi jawaban dan menyimpan durasi serta riwayat sesi.
+- Memperbarui Flashcard Belajar: depan menampilkan Kanji (atau kana jika tidak ada Kanji); belakang hanya menampilkan kana yang berbeda dari depan dan arti. CSS dibatasi pada Flashcard Belajar, bukan Flashcard Quiz.
+- Memperluas backup JSON untuk membawa progres Mastery dan riwayat sesi; backup lama yang belum memiliki data tersebut dimuat dengan progres Mastery awal 0/3.
+- Mempertahankan data dan fitur lama; menaikkan skema data ke 4 dan versi aplikasi ke 1.3.0.
+
+Catatan pengujian: pemeriksaan sintaks JavaScript dan validasi struktur ZIP dilakukan. Pengujian interaksi browser/perangkat, alur restore pada data nyata, dan uji visual lintas perangkat belum dapat dilakukan di lingkungan ini.
+
+---
+
 # Kotoba Card — Changelog
 
 Riwayat perubahan resmi. Versi terbaru dicatat di bagian paling atas.
