@@ -2,6 +2,19 @@
 
 Riwayat perubahan resmi. Versi terbaru dicatat di bagian paling atas.
 
+## v1.2.19
+
+- Menambahkan lima mode Quiz: Kanji → Hiragana, Hiragana → Kanji, Kanji → Arti, Hiragana → Arti, dan Acak Semua Cara.
+- Pilihan mode aktif menggunakan highlight kuning mengikuti identitas visual Kotoba Card.
+- Sumber pertanyaan, jawaban, dan pengecoh mengikuti pola mode; mode yang memerlukan Kanji hanya memakai kotoba yang memiliki Kanji.
+- Mode Acak Semua Cara memilih pola valid per kotoba tanpa mengubah jumlah soal dan alur sesi Quiz lama.
+- Flip Card mengikuti mode Quiz yang dipilih; mode acak menggunakan pola stabil per kartu.
+- Mesin penilaian, feedback, progress, pengacakan kotoba, pembagian sesi, serta penyimpanan lama dipertahankan.
+
+Catatan pengujian: pemeriksaan sintaks JavaScript dan integritas ZIP dilakukan. Pengujian interaksi pada perangkat Android Chrome dan iPhone Safari tetap diperlukan.
+
+---
+
 ## v1.2.18
 
 - Perbaikan khusus Android Chrome: seluruh isi menu Edit, termasuk area tengah accordion, secara eksplisit meneruskan gesture vertikal ke scroll utama.
