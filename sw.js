@@ -3,7 +3,7 @@
    - Tidak menyentuh IndexedDB/localStorage sama sekali.
    - Berkas kamus (dict/) dan version.json selalu ke jaringan (tidak di-cache) agar pemeriksaan update akurat.
    - Pemulihan: versi cache lama dihapus HANYA setelah versi baru sukses ter-install & aktif. */
-var CACHE_NAME = "kotoba-v1.2.20";
+var CACHE_NAME = "kotoba-v1.2.22";
 var CORE = ["./", "index.html", "manifest.webmanifest"];
 var ART = ["assets/header.webp", "assets/bg.webp", "assets/logo.png", "assets/icon-192.png", "assets/icon-512.png"];
 

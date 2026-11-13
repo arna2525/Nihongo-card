@@ -2,6 +2,25 @@
 
 Riwayat perubahan resmi. Versi terbaru dicatat di bagian paling atas.
 
+## v1.2.22
+
+- Menggabungkan perapian jarak panel pengaturan Quiz dari v1.2.21 dengan perbaikan Flip Card Belajar.
+- Membatasi ukuran teks Kanji/Hiragana dan arti pada Flip Card agar menyesuaikan lebar layar, membungkus teks panjang, dan tidak meluber menutupi tombol penilaian.
+- Membatasi perubahan CSS pada Flip Card halaman Belajar; alur flip, penilaian Ulangi/Sulit/Bagus/Mudah, data kosakata, dan sistem Quiz tidak diubah.
+
+Catatan pengujian: pemeriksaan sintaks dan integritas arsip dilakukan; pengujian visual langsung pada iPhone/Android tetap diperlukan.
+
+---
+
+## v1.2.21
+
+- Mempersempit jarak vertikal pada panel pengaturan Quiz: jarak antar-mode, deskripsi mode, panel pengaturan jumlah/cakupan, informasi jumlah soal, dan tombol Mulai Kuis.
+- Mengurangi padding tombol dan panel sedikit agar tampilan lebih padat tanpa mengubah susunan, fungsi, atau gaya visual utama.
+
+Catatan pengujian: perubahan CSS dibatasi pada panel pengaturan Quiz; pemeriksaan visual pada perangkat fisik tetap diperlukan.
+
+---
+
 ## v1.2.20
 
 - Merapikan pilihan lima mode Quiz menjadi susunan dua kolom untuk empat mode utama dan satu baris penuh untuk Acak Semua Cara agar lebih seimbang di layar ponsel.
