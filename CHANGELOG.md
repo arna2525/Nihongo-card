@@ -2,6 +2,15 @@
 
 Riwayat perubahan resmi. Versi terbaru dicatat di bagian paling atas.
 
+## v1.2.20
+
+- Merapikan pilihan lima mode Quiz menjadi susunan dua kolom untuk empat mode utama dan satu baris penuh untuk Acak Semua Cara agar lebih seimbang di layar ponsel.
+- Menegaskan warna aksen kuning pada teks Jepang di sisi belakang Flip Card Quiz; arti bahasa Indonesia tetap memakai warna teks sekunder agar mudah dibedakan.
+
+Catatan pengujian: perubahan sumber dan struktur diperiksa; uji visual/interaksi pada perangkat fisik tetap diperlukan.
+
+---
+
 ## v1.2.19
 
 - Menambahkan lima mode Quiz: Kanji → Hiragana, Hiragana → Kanji, Kanji → Arti, Hiragana → Arti, dan Acak Semua Cara.
