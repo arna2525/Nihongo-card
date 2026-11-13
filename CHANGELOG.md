@@ -1,3 +1,12 @@
+## v1.4.2 — KOTOBA CARD Compact Statistics (2026-11-14)
+
+- Mengganti branding header Statistik menjadi KOTOBA CARD; istilah NEXUS dihapus dari identitas UI.
+- Membuat layout Statistik lebih compact: hero, mastery ring, metrik, kartu KPI, panel, dan jarak antar-section dipadatkan untuk layar ponsel.
+- Menghapus background mandiri pada wrapper Statistik agar background asli Kotoba Card tetap terlihat dan halaman menyatu dengan aplikasi.
+- Mempertahankan aksen futuristik melalui indikator cyan, progress ring, border glow halus, panel kaca, dan visual analytics tanpa menambah animasi berat.
+- Tidak mengubah perhitungan statistik maupun Learning Engine.
+- Memperbarui cache Service Worker ke `kotoba-v1.4.2`.
+
 ## v1.4.1 — KOTOBA NEXUS Cyber Statistics (2026-11-14)
 
 - Redesigned halaman Statistik menjadi dashboard KOTOBA NEXUS dengan visual Cyber Neon, deep-space surfaces, cyan/purple lighting, dan hierarchy command-center.
@@ -152,3 +161,10 @@ Pemeriksaan:
 - Data jadwal Review ikut disimpan dalam backup JSON dan dipulihkan saat impor (gabung maupun timpa).
 - Migrasi mempertahankan data lama dan menyiapkan jadwal Review untuk Kotoba yang sudah Mastery 3/3.
 - Fitur dan tampilan lain dipertahankan; perubahan utama ada pada alur Quiz/Mastery, scheduler, penyimpanan, dan Statistik.
+
+## v1.4.3 — Theme-synced Statistics
+- Statistics colors now inherit Kotoba Card theme variables (`--bg`, `--card`, `--line`, `--tx`, `--mu`, `--gold`, `--pink`, and `--ok`) instead of forcing a separate cyber-neon palette.
+- Statistics hero and panels use the existing app surfaces and transparent page background, allowing the original Kotoba Card background artwork to remain visible.
+- Kept the compact layout, progress rings, charts, indicators, and subtle futuristic effects using the app accent colors.
+- Removed the remaining NEXUS product branding from the Statistics footer; product branding is KOTOBA CARD.
+- No Learning Engine, mastery, review scheduling, session data, or persistence logic changed.

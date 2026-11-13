@@ -656,6 +656,116 @@ html.android-chrome .settings-page .ec.open>.ec-b>.ec-in *{touch-action:pan-y!im
 @media(hover:hover){.nx-kpi:hover{transform:translateY(-2px);border-color:rgba(0,229,255,.36);box-shadow:0 12px 25px rgba(0,0,0,.24),0 0 18px rgba(0,229,255,.07)}}
 @media(prefers-reduced-motion:reduce){.nx-shell *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
+
+/* v1.4.2 — Compact Statistics refinement: retain Kotoba Card atmosphere */
+.nx-shell{
+  background:transparent!important;
+  padding:0 14px 18px!important;
+  color:var(--tx)!important;
+}
+.nx-hero{
+  margin:0 -14px 14px!important;
+  padding:calc(var(--sat) + 9px) 14px 11px!important;
+  min-height:0!important;
+  border-radius:0 0 19px 19px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(0,229,255,.28)!important;
+  background:linear-gradient(135deg,rgba(11,16,48,.42),rgba(23,27,69,.28) 58%,rgba(23,27,69,.42))!important;
+  box-shadow:0 7px 18px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.035)!important;
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+}
+.nx-hero:before{opacity:.11!important;background-size:34px 34px!important}
+.nx-hero:after{width:142px!important;height:142px!important;right:-75px!important;top:42px!important;box-shadow:0 0 0 10px rgba(0,229,255,.02),0 0 0 22px rgba(155,92,255,.018),0 0 30px rgba(0,229,255,.05)!important}
+.nx-brand{gap:8px!important}
+.nx-orb{width:29px!important;height:29px!important;border-radius:9px!important;font-size:15px!important}
+.nx-kicker{font-size:8px!important;letter-spacing:1.25px!important}
+.nx-brand-sub{font-size:7px!important;letter-spacing:1px!important;margin-top:1px!important}
+.nx-live{font-size:7px!important;letter-spacing:.7px!important}
+.nx-hero-copy{margin:13px 0 11px!important}
+.nx-hero-copy h1{font-size:clamp(25px,7vw,34px)!important;line-height:1.02!important;letter-spacing:-.9px!important;margin:5px 0!important}
+.nx-hero-copy p{font-size:10px!important;margin:4px 0 0!important}
+.nx-hero-grid{gap:12px!important;padding:10px 11px!important;border-radius:15px!important;background:linear-gradient(110deg,rgba(23,27,69,.56),rgba(23,27,69,.38))!important;border-color:rgba(0,229,255,.18)!important;backdrop-filter:blur(5px)!important}
+.nx-ring{width:78px!important;height:78px!important;filter:drop-shadow(0 0 8px rgba(0,229,255,.12))!important}
+.nx-ring:before{inset:5px!important;background:rgba(17,24,57,.94)!important}
+.nx-ring b{font-size:21px!important}.nx-ring b small{font-size:10px!important}.nx-ring span{font-size:7px!important;letter-spacing:1px!important}
+.nx-hero-metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+.nx-hero-metrics>div{gap:2px!important;min-width:0}
+.nx-hero-metrics span{font-size:6.5px!important;letter-spacing:.65px!important;line-height:1.25!important}
+.nx-hero-metrics b{font-size:15px!important;line-height:1.2!important;white-space:nowrap!important}
+.nx-hero-metrics b small{font-size:8px!important}
+.nx-hero-foot{margin-top:8px!important;font-size:6px!important;letter-spacing:.45px!important}
+.nx-section-head{margin:15px 0 8px!important;gap:7px!important}
+.nx-section-head h2,.nx-insight h2{font-size:16px!important;margin:2px 0 0!important}
+.nx-section-head p{font-size:10px!important;margin-top:3px!important}
+.nx-chip{font-size:7px!important;padding:5px 7px!important}
+.nx-kpis{gap:7px!important}
+.nx-kpi{padding:9px 10px!important;border-radius:14px!important;background:linear-gradient(145deg,rgba(23,27,69,.82),rgba(14,19,51,.83))!important;border-color:rgba(194,153,255,.22)!important;box-shadow:0 5px 13px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.035)!important}
+.nx-kpi-top span{font-size:15px!important}.nx-kpi-top small{font-size:7px!important;letter-spacing:.5px!important}
+.nx-kpi>b{font-size:25px!important;margin-top:5px!important;line-height:1.08!important}
+.nx-kpi p{font-size:8px!important;margin-top:3px!important}
+.nx-panel{padding:11px!important;margin-top:9px!important;border-radius:16px!important;background:linear-gradient(145deg,rgba(23,27,69,.78),rgba(13,18,52,.82))!important;border-color:rgba(194,153,255,.23)!important;box-shadow:0 7px 17px rgba(0,0,0,.14),inset 0 1px rgba(255,255,255,.035)!important}
+.nx-panel .nx-section-head{margin:0 0 9px!important}
+.nx-panel .nx-section-head h2{font-size:15px!important}
+.nx-progress-overview{gap:5px!important;margin:3px 0 9px!important}
+.nx-progress-overview>div{padding:7px 4px!important;border-radius:9px!important}
+.nx-progress-overview b{font-size:18px!important}.nx-progress-overview span{font-size:8px!important}
+.nx-bab{padding:9px 0!important}.nx-bab-head{margin-bottom:5px!important}.nx-bab-head b{font-size:11px!important}.nx-bab-head strong{font-size:16px!important}.nx-bab-meta{font-size:8px!important;gap:7px!important;margin-top:5px!important}
+.nx-review-summary{gap:12px!important}.nx-donut{width:88px!important;height:88px!important}.nx-donut:before{inset:7px!important}.nx-donut b{font-size:20px!important}.nx-donut span{font-size:7px!important}.nx-review-legend{gap:7px!important}.nx-review-legend>div{font-size:9px!important}.nx-review-legend b{font-size:11px!important}
+.nx-mode-row{padding:7px 0 8px!important}.nx-mode-row>span{font-size:7px!important;margin-bottom:5px!important}
+.nx-shell .stat-mode button{padding:6px 8px!important;font-size:9px!important}
+.nx-footnote{font-size:8px!important}
+@media(max-width:380px){.nx-hero-grid{gap:8px!important;padding:9px!important}.nx-ring{width:70px!important;height:70px!important}.nx-hero-metrics{gap:4px!important}.nx-hero-metrics span{font-size:6px!important}.nx-hero-metrics b{font-size:13px!important}.nx-hero-copy h1{font-size:26px!important}}
+@media(prefers-reduced-motion:reduce){.nx-shell *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+/* v1.4.3 — Statistics inherit Kotoba Card theme tokens; no separate NEXUS palette */
+.nx-shell{
+  --nx-bg:var(--bg);
+  --nx-surface:var(--card);
+  --nx-raised:var(--card);
+  --nx-line:var(--line);
+  --nx-cyan:var(--gold);
+  --nx-blue:var(--gold);
+  --nx-purple:var(--pink,var(--gold));
+  --nx-green:var(--ok);
+  --nx-yellow:var(--gold);
+  --nx-pink:var(--pink,var(--bad));
+  color:var(--tx)!important;
+  background:transparent!important;
+}
+.nx-hero{
+  background:var(--card)!important;
+  border-bottom-color:var(--line)!important;
+  box-shadow:0 7px 18px rgba(0,0,0,.12),inset 0 1px rgba(255,255,255,.035)!important;
+}
+.nx-hero:before{opacity:.08!important;background-image:linear-gradient(color-mix(in srgb,var(--gold) 10%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--gold) 10%,transparent) 1px,transparent 1px)!important}
+.nx-hero:after{border-color:color-mix(in srgb,var(--gold) 24%,transparent)!important;box-shadow:0 0 0 10px color-mix(in srgb,var(--gold) 3%,transparent),0 0 0 22px color-mix(in srgb,var(--pink,var(--gold)) 3%,transparent)!important}
+.nx-orb{border-color:color-mix(in srgb,var(--gold) 70%,var(--line))!important;color:var(--gold)!important;text-shadow:0 0 10px color-mix(in srgb,var(--gold) 35%,transparent)!important;box-shadow:inset 0 0 12px color-mix(in srgb,var(--gold) 10%,transparent),0 0 12px color-mix(in srgb,var(--gold) 8%,transparent)!important}
+.nx-kicker,.nx-hero-copy h1 em,.nx-chip,.nx-ring b small,.nx-bab-head strong,.nx-accuracy-hero b{color:var(--gold)!important}
+.nx-brand-sub,.nx-live,.nx-hero-copy p,.nx-section-head p,.nx-hero-foot,.nx-hero-metrics span,.nx-hero-metrics b small,.nx-ring span,.nx-kpi-top small,.nx-kpi p,.nx-progress-overview span,.nx-track-label,.nx-bab-head div small,.nx-bab-meta,.nx-donut span,.nx-review-legend>div,.nx-footnote,.nx-mini-grid span,.nx-mini-grid small,.nx-chart-title small,.nx-line-chart text,.nx-empty,.nx-event-head time,.nx-event p,.nx-event-meta,.nx-footer,.nx-footer span{color:var(--mu)!important}
+.nx-hero-copy h1,.nx-hero-metrics b,.nx-ring b,.nx-kpi>b,.nx-section-head h2,.nx-insight h2,.nx-review-legend b,.nx-mini-grid b,.nx-chart-title b,.nx-event-head b{color:var(--tx)!important}
+.nx-hero-grid,.nx-kpi,.nx-panel,.nx-insight{
+  background:var(--card)!important;
+  border-color:var(--line)!important;
+  box-shadow:0 5px 14px rgba(0,0,0,.10),inset 0 1px rgba(255,255,255,.035)!important;
+}
+.nx-ring:before,.nx-donut:before{background:var(--bg)!important;border-color:var(--line)!important}
+.nx-chip,.nx-shell .stat-mode button.on,.nx-range button.on{background:color-mix(in srgb,var(--gold) 12%,var(--card))!important;border-color:color-mix(in srgb,var(--gold) 55%,var(--line))!important;color:var(--gold)!important}
+.nx-shell .stat-mode button,.nx-range button{background:var(--bg)!important;border-color:var(--line)!important;color:var(--mu)!important}
+.nx-track,.nx-accuracy-bar{background:color-mix(in srgb,var(--line) 70%,transparent)!important}
+.nx-track i,.nx-accuracy-bar i,.nx-bar-col i{background:var(--gold)!important;box-shadow:0 0 9px color-mix(in srgb,var(--gold) 18%,transparent)!important}
+.nx-donut{background:conic-gradient(var(--nx-yellow) 0 var(--due),var(--nx-pink) var(--due) calc(var(--due) + var(--rein)),var(--nx-cyan) calc(var(--due) + var(--rein)) 100%)!important}
+.nx-mini-grid>div,.nx-progress-overview>div{background:color-mix(in srgb,var(--bg) 55%,var(--card))!important;border-color:var(--line)!important}
+.nx-insight-row{border-color:var(--line)!important;color:var(--tx)!important}
+.nx-insight-row i{color:var(--pink,var(--gold))!important}
+.nx-event{border-left-color:var(--line)!important}
+.nx-event>i{background:var(--gold)!important;box-shadow:0 0 8px color-mix(in srgb,var(--gold) 40%,transparent)!important}
+.nx-event.review>i{background:var(--gold)!important}.nx-event.mastery>i{background:var(--ok)!important}
+.nx-shell .nx-kpi.green .nx-kpi-top span{color:var(--ok)!important}
+.nx-shell .nx-kpi.yellow .nx-kpi-top span{color:var(--gold)!important}
+.nx-shell .nx-kpi.pink .nx-kpi-top span{color:var(--pink,var(--bad))!important}
+@media(prefers-reduced-motion:reduce){.nx-shell *{animation:none!important;transition:none!important}}
+
 </style></head><body><div id="app"><main id="m"></main>
 <nav><button id="t-folder" onclick="go('folder')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><circle cx='12' cy='13' r='2' fill='#0d1035'/></svg><span>Folder</span></button><button id="t-learn" onclick="go('learn')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M2.5 5.5C5.5 4 9 4 12 5.5c3-1.5 6.5-1.5 9.5 0V19c-3-1.5-6.5-1.5-9.5 0-3-1.5-6.5-1.5-9.5 0z'/><path d='M12 5.5V19' stroke='#0d1035' stroke-width='1.4'/></svg><span>Belajar</span></button><button id="t-quiz" onclick="go('quiz')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><path d='M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3A2.6 2.6 0 0 1 15.5 17l-.7-1.2H9.2L8.5 17a2.6 2.6 0 0 1-5.4-.6l-.9-3A5 5 0 0 1 7 7z'/><path d='M8 10v4M6 12h4' stroke='#0d1035' stroke-width='1.6' stroke-linecap='round'/><circle cx='15.5' cy='11' r='1' fill='#0d1035'/><circle cx='17.8' cy='13' r='1' fill='#0d1035'/></svg><span>Kuis</span></button><button id="t-stat" onclick="go('stat')"><svg class="nav-ico" viewBox="0 0 24 24" fill="currentColor"><rect x='4' y='11' width='4.4' height='9' rx='1.3'/><rect x='9.8' y='4' width='4.4' height='16' rx='1.3'/><rect x='15.6' y='8' width='4.4' height='12' rx='1.3'/></svg><span>Statistik</span></button></nav><div id="tst" class="sv" role="status"><span id="tstm"></span><button id="tstb" type="button"></button></div><div id="dg" class="dg"><div class="dgc" role="dialog"><h3 id="dgt"></h3><p id="dgm"></p><input id="dgi" autocomplete="off"><div class="dgb"><button id="dgn" onclick="dgx(0)">Batal</button><button id="dgy" onclick="dgx(1)">Ya, Terapkan</button></div></div></div></div>
 <script>
@@ -1230,7 +1340,7 @@ function vStatBase(){
  trendSessions.filter(function(x){return x.review}).slice().reverse().forEach(function(x){reviewTrend.push({label:new Date(x.t).toLocaleDateString('id-ID',{day:'numeric',month:'short'}),accuracy:+x.accuracy||0})});
  var totalSessions=sessions.length,quizSessions=sessions.filter(function(x){return !x.review}).length,reviewSessions=sessions.filter(function(x){return x.review}).length,avgDuration=totalSessions?Math.round(sessions.reduce(function(a,x){return a+(+x.duration||0)},0)/totalSessions):0;
  var modeName=(QM.filter(function(m){return m[0]===mode})[0]||[0,mode])[1],fmtDate=function(t){return new Date(t).toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})};
- var h='<div class="nx-shell"><header class="nx-hero"><div class="nx-brand"><span class="nx-orb">N</span><div><div class="nx-kicker">KOTOBA NEXUS</div><div class="nx-brand-sub">LEARNING INTELLIGENCE SYSTEM</div></div><span class="nx-live"><i></i> SYSTEM ONLINE</span></div><div class="nx-hero-copy"><div class="nx-kicker">YOUR KNOWLEDGE · YOUR PROGRESS · YOUR EVOLUTION</div><h1>Your Learning<br><em>Universe</em></h1><p>Every word you learn builds your future.</p></div><div class="nx-hero-grid"><div class="nx-ring" style="--progress:'+pc+'%"><div><b>'+pc+'<small>%</small></b><span>MASTERY</span></div></div><div class="nx-hero-metrics"><div><span>MASTERED WORDS</span><b>'+mastered+' <small>/ '+valid.length+'</small></b></div><div><span>LEARNING STREAK</span><b>'+streak+' <small>days</small></b></div><div><span>TOTAL STUDY TIME</span><b>'+fm(totalTime)+'</b></div></div></div><div class="nx-hero-foot"><span>ACTIVE MODE · '+e(modeName.toUpperCase())+'</span><span>DATA SYNCED FROM LEARNING ENGINE</span></div></header>';
+ var h='<div class="nx-shell"><header class="nx-hero"><div class="nx-brand"><span class="nx-orb">K</span><div><div class="nx-kicker">KOTOBA CARD</div><div class="nx-brand-sub">LEARNING INTELLIGENCE SYSTEM</div></div><span class="nx-live"><i></i> SYSTEM ONLINE</span></div><div class="nx-hero-copy"><div class="nx-kicker">YOUR KNOWLEDGE · YOUR PROGRESS · YOUR EVOLUTION</div><h1>Your Learning<br><em>Universe</em></h1><p>Every word you learn builds your future.</p></div><div class="nx-hero-grid"><div class="nx-ring" style="--progress:'+pc+'%"><div><b>'+pc+'<small>%</small></b><span>MASTERY</span></div></div><div class="nx-hero-metrics"><div><span>MASTERED WORDS</span><b>'+mastered+' <small>/ '+valid.length+'</small></b></div><div><span>LEARNING STREAK</span><b>'+streak+' <small>days</small></b></div><div><span>TOTAL STUDY TIME</span><b>'+fm(totalTime)+'</b></div></div></div><div class="nx-hero-foot"><span>ACTIVE MODE · '+e(modeName.toUpperCase())+'</span><span>DATA SYNCED FROM LEARNING ENGINE</span></div></header>';
  h+='<div class="nx-section-head"><div><div class="nx-kicker">01 / EXECUTIVE OVERVIEW</div><h2>Learning at a glance</h2></div><span class="nx-chip">LIVE DATA</span></div><div class="nx-kpis">';
  var kpis=[['◈','TOTAL KOTOBA',words.length,'All folders','cyan'],['✦','MASTERED',mastered,'Mastery 3/3 · '+e(modeName),'green'],['◷','REVIEW DUE',c.due,'Records ready to review','yellow'],['↗','REINFORCEMENT',c.reinforcement,'Records needing recovery','pink']];
  kpis.forEach(function(x){h+='<div class="nx-kpi '+x[4]+'"><div class="nx-kpi-top"><span>'+x[0]+'</span><small>'+x[1]+'</small></div><b>'+x[2]+'</b><p>'+x[3]+'</p></div>'});h+='</div>';
@@ -1239,7 +1349,7 @@ function vStatBase(){
  h+='</div></section>';
  h+='<section class="nx-panel"><div class="nx-section-head"><div><div class="nx-kicker">03 / MEMORY INTELLIGENCE</div><h2>Smart Review Intelligence</h2><p>Keep what you learn. Remember what matters.</p></div></div><div class="nx-review-summary"><div class="nx-donut" style="--due:'+((c.total?c.due/c.total:0)*100)+'%;--rein:'+((c.total?c.reinforcement/c.total:0)*100)+'%"><div><b>'+c.total+'</b><span>RECORDS</span></div></div><div class="nx-review-legend"><div><i class="yellow"></i><span>Review Due</span><b>'+c.due+'</b></div><div><i class="pink"></i><span>Reinforcement</span><b>'+c.reinforcement+'</b></div><div><i class="cyan"></i><span>Reviewing · scheduled</span><b>'+reviewing+'</b></div><div><i class="green"></i><span>Long-Term Mastered</span><b>'+c.complete+'</b></div></div></div><p class="nx-footnote">Status dihitung sebagai rekaman jadwal per Kotoba dan mode. Satu Kotoba dapat memiliki lebih dari satu rekaman mode. Review tetap terpisah dari Mastery Quest.</p></section>';
  h+='<section class="nx-panel"><div class="nx-section-head"><div><div class="nx-kicker">04 / MEMORY MAP</div><h2>Learning Performance</h2><p>Review outcomes, not a modeled probability of brain retention.</p></div></div><div class="nx-mini-grid"><div><span>REVIEW CORRECT</span><b>'+trendSessions.filter(function(x){return x.review}).reduce(function(a,x){return a+(+x.ok||0)},0)+'</b></div><div><span>REVIEW INCORRECT</span><b>'+trendSessions.filter(function(x){return x.review}).reduce(function(a,x){return a+(+x.bad||0) },0)+'</b></div><div><span>REVIEW ACCURACY</span><b>'+((function(){var a=trendSessions.filter(function(x){return x.review}),n=a.reduce(function(s,x){return s+(+x.n||0)},0),ok=a.reduce(function(s,x){return s+(+x.ok||0)},0);return n?Math.round(ok/n*100):0})())+'%</b></div><div><span>LONG-TERM MASTERED</span><b>'+c.complete+'</b></div></div><div class="nx-chart-title"><b>Review accuracy trend</b><small>'+reviewTrend.length+' recorded sessions</small></div>';
- if(reviewTrend.length>1){h+='<div class="nx-line-chart"><svg viewBox="0 0 320 112" role="img" aria-label="Tren akurasi sesi review">';[25,50,75,100].forEach(function(y){var yy=100-y*.8;h+='<line x1="22" y1="'+yy+'" x2="312" y2="'+yy+'" stroke="rgba(160,190,220,.15)" stroke-dasharray="3 4"/><text x="1" y="'+(yy+3)+'">'+y+'</text>'});var pts=reviewTrend.map(function(x,i){return (26+(reviewTrend.length===1?0:i*284/(reviewTrend.length-1)))+','+(100-x.accuracy*.8)});h+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';reviewTrend.forEach(function(x,i){var xx=26+(reviewTrend.length===1?0:i*284/(reviewTrend.length-1)),yy=100-x.accuracy*.8;h+='<circle cx="'+xx+'" cy="'+yy+'" r="3.5" fill="#00e5ff"><title>'+x.label+': '+x.accuracy+'%</title></circle>'});h+='</svg></div>'}else h+='<div class="nx-empty">'+(reviewTrend.length?'Belum cukup sesi untuk membentuk tren.':'Belum ada riwayat Smart Review pada periode ini.')+'</div>';
+ if(reviewTrend.length>1){h+='<div class="nx-line-chart"><svg viewBox="0 0 320 112" role="img" aria-label="Tren akurasi sesi review">';[25,50,75,100].forEach(function(y){var yy=100-y*.8;h+='<line x1="22" y1="'+yy+'" x2="312" y2="'+yy+'" stroke="rgba(160,190,220,.15)" stroke-dasharray="3 4"/><text x="1" y="'+(yy+3)+'">'+y+'</text>'});var pts=reviewTrend.map(function(x,i){return (26+(reviewTrend.length===1?0:i*284/(reviewTrend.length-1)))+','+(100-x.accuracy*.8)});h+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';reviewTrend.forEach(function(x,i){var xx=26+(reviewTrend.length===1?0:i*284/(reviewTrend.length-1)),yy=100-x.accuracy*.8;h+='<circle cx="'+xx+'" cy="'+yy+'" r="3.5" fill="var(--gold)"><title>'+x.label+': '+x.accuracy+'%</title></circle>'});h+='</svg></div>'}else h+='<div class="nx-empty">'+(reviewTrend.length?'Belum cukup sesi untuk membentuk tren.':'Belum ada riwayat Smart Review pada periode ini.')+'</div>';
  h+='</section>';
  h+='<section class="nx-panel"><div class="nx-section-head"><div><div class="nx-kicker">05 / PERFORMANCE ANALYTICS</div><h2>Your performance</h2><p>Measured from saved answers and study sessions.</p></div></div><div class="nx-accuracy-hero"><div><span>OVERALL ACCURACY</span><b>'+overall+'<small>%</small></b></div><div class="nx-accuracy-bar"><i style="width:'+overall+'%"></i></div></div><div class="nx-mini-grid nx-four"><div><span>QUIZ ACCURACY</span><b>'+qAccuracy+'%</b><small>'+correctQ+'/'+totalQ+' correct</small></div><div><span>FLASHCARD ACC.</span><b>'+fcAccuracy+'%</b><small>'+correctR+'/'+totalR+' correct</small></div><div><span>ANSWERS</span><b>'+allN+'</b><small>'+allOK+' correct</small></div><div><span>STUDY SESSIONS</span><b>'+totalSessions+'</b><small>'+reviewSessions+' review · '+quizSessions+' quiz/mastery</small></div></div><div class="nx-mini-grid nx-two"><div><span>TOTAL STUDY TIME</span><b>'+fm(totalTime)+'</b></div><div><span>AVG. SESSION</span><b>'+fm(avgDuration)+'</b></div></div><div class="nx-chart-title"><b>Daily learning activity</b><small>Answers · '+(range===0?'all time':range+' days')+'</small></div><div class="nx-range">'+[[7,'7D'],[30,'30D'],[90,'90D'],[0,'ALL']].map(function(x){return '<button class="'+(range===x[0]?'on':'')+'" onclick="S.statRange='+x[0]+';save();R()">'+x[1]+'</button>'}).join('')+'</div><div class="nx-bars">';
  var shown=activity.filter(function(x,i){return range===0?i%Math.max(1,Math.ceil(activity.length/45))===0:true});shown.forEach(function(x){var ht=Math.max(x.n?4:2,Math.round(x.n/maxAct*76));h+='<div class="nx-bar-col" title="'+new Date(x.day*864e5).toLocaleDateString('id-ID')+': '+x.n+' jawaban · '+x.mins+' menit"><i style="height:'+ht+'px"></i><small>'+new Date(x.day*864e5).toLocaleDateString('id-ID',{day:'numeric',month:'short'})+'</small></div>'});h+='</div><p class="nx-footnote">Grafik aktivitas memakai jumlah jawaban harian yang tersimpan. Akurasi keseluruhan menggabungkan jawaban Quiz dan Flashcard.</p></section>';
@@ -1248,7 +1358,7 @@ function vStatBase(){
  h+='</div></section>';
  var insights=[];if(reviewTrend.length>=2){var half=Math.floor(reviewTrend.length/2),old=reviewTrend.slice(0,half).reduce(function(a,x){return a+x.accuracy},0)/half,recentA=reviewTrend.slice(half).reduce(function(a,x){return a+x.accuracy},0)/(reviewTrend.length-half);if(recentA>old+3)insights.push('Review accuracy is trending upward across recent sessions.');else if(recentA<old-3)insights.push('Recent review accuracy dipped. Consider a short reinforcement session.')}if(c.due)insights.push(c.due+' review records are ready for another retrieval attempt.');if(c.reinforcement)insights.push(c.reinforcement+' review records are currently in reinforcement.');var bestBab=null,bestPct=-1;all.forEach(function(f){var v=(f.words||[]).filter(function(w){return validFor(w,mode)}),n=v.filter(function(w){return masteredFor(w,mode)}).length,p=v.length?Math.round(n/v.length*100):0;if(v.length&&p>bestPct){bestPct=p;bestBab=f.name}});if(bestBab&&bestPct>0)insights.push(e(bestBab)+' currently leads this mode with '+bestPct+'% mastery.');
  h+='<section class="nx-insight"><div class="nx-kicker">07 / PERSONAL LEARNING INTELLIGENCE</div><h2>Learning Intelligence</h2><p>Insights generated from your saved learning activity.</p>';if(insights.length)insights.forEach(function(x){h+='<div class="nx-insight-row"><i>✧</i><span>'+x+'</span></div>'});else h+='<div class="nx-empty">Keep learning. Your personal insights will appear here.</div>';h+='<small>Rule-based insights · no external AI service connected</small></section>';
- h+='<div class="nx-footer">KOTOBA NEXUS <span>WHERE KNOWLEDGE EVOLVES</span></div></div>';return h;
+ h+='<div class="nx-footer">KOTOBA CARD <span>WHERE KNOWLEDGE EVOLVES</span></div></div>';return h;
 }
 function vStat(){return vStatBase()}
 
