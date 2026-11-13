@@ -1,4 +1,4 @@
 {
-  "version": "1.2.12",
-  "notes": "Flashcard Belajar dikembalikan ke ukuran asli sesuai referensi v1.2.6 (area kartu min-height 230px, flip min-height 240px, padding 24px). Penyesuaian ukuran kuis v1.2.11 kini dibatasi hanya pada halaman Kuis agar tidak memengaruhi flashcard Belajar."
+  "version": "1.2.13",
+  "notes": "Tulisan pertanyaan dan pilihan jawaban di halaman Kuis diperbesar (kartu kuis 220px, tombol jawaban 68px). Ditambahkan pengaturan Tebal Font (Bold) ON/OFF di Edit > Tampilan Teks. Flashcard Belajar tidak berubah."
 }

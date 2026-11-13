@@ -500,16 +500,16 @@ nav button span{display:block!important;visibility:visible!important;font-size:1
 /* v1.2.12: ukuran flashcard Belajar mengikuti acuan v1.2.6.
    Penyesuaian ukuran di bawah ini hanya berlaku pada kartu saat kuis berjalan. */
 .pg[data-page="quiz"] .flip{margin-top:22px}
-.pg[data-page="quiz"] .flip .in{height:180px!important;min-height:180px!important}
-.pg[data-page="quiz"] .flip .face.card{height:180px!important;min-height:0!important;box-sizing:border-box;padding:18px 16px!important;overflow:hidden}
+.pg[data-page="quiz"] .flip .in{height:220px!important;min-height:220px!important}
+.pg[data-page="quiz"] .flip .face.card{height:220px!important;min-height:0!important;box-sizing:border-box;padding:18px 16px!important;overflow:hidden}
 .pg[data-page="quiz"] .flip .face.bk{visibility:hidden}
 .pg[data-page="quiz"] .flip .in.f .face{visibility:hidden}
 .pg[data-page="quiz"] .flip .in.f .face.bk{visibility:visible}
-.pg[data-page="quiz"] .flip .card .big,.pg[data-page="quiz"] .flip .card .big.kz{font-size:clamp(32px,8.6vw,40px)!important;line-height:1.2!important}
-.pg[data-page="quiz"] .flip .fur{font-size:clamp(30px,7.8vw,37px)!important;margin:0 0 5px!important;line-height:1.2}
+.pg[data-page="quiz"] .flip .card .big,.pg[data-page="quiz"] .flip .card .big.kz{font-size:clamp(34px,10.2vw,42px)!important;line-height:1.2!important}
+.pg[data-page="quiz"] .flip .fur{font-size:clamp(34px,10.2vw,42px)!important;margin:0 0 5px!important;line-height:1.2}
 .pg[data-page="quiz"] .flip .card .sub{width:90%;font-size:13px;line-height:1.35;margin-top:9px;padding-top:9px}
 .quiz-options{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:14px;align-items:stretch}
-.quiz-options .opt{margin:0;min-width:0;min-height:54px;box-sizing:border-box;padding:9px 12px;border-radius:999px;font-size:19px;line-height:1.25;overflow-wrap:anywhere;white-space:normal}
+.quiz-options .opt{margin:0;min-width:0;min-height:68px;box-sizing:border-box;padding:9px 12px;border-radius:999px;font-size:19px;line-height:1.25;overflow-wrap:anywhere;white-space:normal}
 .quiz-options .opt.kj{font-size:clamp(26px,6.8vw,32px);line-height:1.15;padding:9px 10px}
 /* Tebal Font (Bold): hanya memengaruhi tulisan di halaman Kuis, aktif lewat Edit → Tampilan Teks */
 html.bold-on .pg[data-page="quiz"] .flip .card .big,html.bold-on .pg[data-page="quiz"] .flip .fur,html.bold-on .pg[data-page="quiz"] .flip .face.bk .mu,html.bold-on .quiz-options .opt,html.bold-on .pg[data-page="quiz"] .w .jp{font-weight:700!important}
@@ -535,7 +535,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function e(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 /* ===== Kotoba Card V1.0 — inti: versi, model data, folder bertingkat, kategori ===== */
-var FRESH=false,APP_VERSION="1.2.6",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
+var FRESH=false,APP_VERSION="1.2.13",APP_BUILD="2026-11-13",SCHEMA=3,NP=[];
 var CATS=[["verb","Verb"],["noun","Noun"],["iadj","い-adjective"],["naadj","な-adjective"]];
 function catLabel(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return"Noun"}
 function catOpts(sel){return CATS.map(function(c){return'<option value="'+c[0]+'"'+(c[0]===sel?" selected":"")+'>'+c[1]+'</option>'}).join("")}
