@@ -1,3 +1,17 @@
+## v1.4.1 — KOTOBA NEXUS Cyber Statistics (2026-11-14)
+
+- Redesigned halaman Statistik menjadi dashboard KOTOBA NEXUS dengan visual Cyber Neon, deep-space surfaces, cyan/purple lighting, dan hierarchy command-center.
+- Menambahkan hero mastery, executive overview, Mastery Quest per BAB, distribusi Smart Review, Learning Performance, analytics, timeline sesi, dan insight berbasis aturan.
+- Menambahkan filter aktivitas 7/30/90 hari dan All Time; grafik memakai data aktivitas harian serta sesi yang benar-benar tersimpan.
+- Metrik Quiz dan Flashcard dihitung dari penghitung jawaban aktual; status Smart Review dihitung dari rekaman jadwal per Kotoba/mode dan tetap dipisahkan dari Mastery.
+- Menambahkan layout mobile-first, responsive tablet/desktop, empty states, dan dukungan prefers-reduced-motion. CSS seluruhnya dibatasi pada `.nx-shell` / komponen NEXUS di halaman Statistik.
+- Memperbarui cache Service Worker ke `kotoba-v1.4.1`; strategi cache dan aturan jaringan tetap dipertahankan.
+- Mempertahankan struktur data, Learning Engine, Mastery, Smart Review, Reinforcement, jadwal 1/3/7/14/30/60/90 hari, backup/restore, serta halaman dan fitur aplikasi lainnya.
+
+Catatan pengujian: pemeriksaan sintaks JavaScript, validasi JSON, dan integritas ZIP dilakukan. Pengujian interaksi browser/perangkat fisik, console runtime, visual lintas ukuran layar, serta alur backup/restore pada data pengguna nyata belum dilakukan di lingkungan ini.
+
+---
+
 ## v1.3.0
 
 - Menambahkan pilihan kuis MASTERY di samping 25/50/100 dengan maksimal 7 soal per sesi.
@@ -118,3 +132,23 @@ Pemeriksaan:
 - Belum dilakukan uji perangkat fisik; iPhone tidak diubah secara khusus.
 
 ---
+
+
+## v1.3.1 — Statistik Hybrid
+- Penyegaran visual khusus halaman Statistik: ringkasan lebih ringkas, progres BAB mudah dipindai, dan detail ditampilkan saat BAB dipilih.
+- Detail BAB menampilkan progres lima mode, progres per Kotoba, serta riwayat sesi terbaru.
+- Tidak mengubah fungsi atau tampilan halaman selain Statistik.
+
+
+## v1.4.0 — Learning Engine (2026-11-13)
+
+- Menambahkan Smart Review lintas BAB dengan jadwal per Kotoba dan per mode: 1, 3, 7, 14, 30, 60, dan 90 hari.
+- Mastery 3/3 otomatis menjadwalkan Review pertama setelah 1 hari.
+- Jawaban salah masuk Reinforcement: coba lagi setelah 10 menit; jika belum berhasil, lanjutkan penguatan harian.
+- Review yang jatuh tempo diprioritaskan sebelum Mastery Quest saat pengguna memulai Quest.
+- Sesi Review dibatasi maksimal 7 Kotoba, dapat dilanjutkan dalam sesi berikutnya, dan tidak mengulang Kotoba yang sama dua kali dalam satu sesi.
+- Siklus Review berakhir pada Long-Term Mastered setelah berhasil menyelesaikan interval 90 hari; latihan acak tetap dapat menguji Kotoba tersebut.
+- Statistik menampilkan status Review terpisah dari progres Mastery dan riwayat sesi memberi label Smart Review.
+- Data jadwal Review ikut disimpan dalam backup JSON dan dipulihkan saat impor (gabung maupun timpa).
+- Migrasi mempertahankan data lama dan menyiapkan jadwal Review untuk Kotoba yang sudah Mastery 3/3.
+- Fitur dan tampilan lain dipertahankan; perubahan utama ada pada alur Quiz/Mastery, scheduler, penyimpanan, dan Statistik.
