@@ -1,5 +1,5 @@
 {
-  "version": "1.4.3",
+  "version": "1.4.5",
   "build": "2026-11-14",
-  "notes": "Kotoba Card Statistics now inherit the app theme tokens; compact layout and learning analytics preserved."
+  "notes": "Soft glass translucent surfaces using native Kotoba Card theme tokens; tighter compact statistics layout."
 }

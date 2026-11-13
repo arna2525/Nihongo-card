@@ -1,3 +1,13 @@
+## v1.4.5 — KOTOBA CARD Soft Glass Compact Statistics (2026-11-14)
+
+- Menyetel permukaan hero, KPI, panel, dan kartu menjadi semi-transparan dengan blur lembut; bentuk kartu, kontras, dan batas tetap jelas.
+- Transparansi memakai token tema asli (`--card`, `--bg`, `--line`, `--gold`) sehingga warna tetap mengikuti tema Kotoba Card.
+- Memadatkan lagi jarak vertikal, padding, hero, dan panel agar halaman Statistik tidak terasa terlalu panjang.
+- Mempertahankan bagian analitik lanjutan dalam panel expandable agar ringkasan utama tetap ringkas.
+- Tidak mengubah Learning Engine, struktur data, jadwal review, atau fitur halaman lain.
+- Memperbarui cache Service Worker ke `kotoba-v1.4.5`.
+- Pemeriksaan sintaks JavaScript, JSON, dan integritas ZIP dilakukan; pengujian browser/perangkat nyata belum dilakukan.
+
 ## v1.4.2 — KOTOBA CARD Compact Statistics (2026-11-14)
 
 - Mengganti branding header Statistik menjadi KOTOBA CARD; istilah NEXUS dihapus dari identitas UI.
@@ -168,3 +178,10 @@ Pemeriksaan:
 - Kept the compact layout, progress rings, charts, indicators, and subtle futuristic effects using the app accent colors.
 - Removed the remaining NEXUS product branding from the Statistics footer; product branding is KOTOBA CARD.
 - No Learning Engine, mastery, review scheduling, session data, or persistence logic changed.
+
+
+## v1.4.4 — Compact Statistics
+- Reduced Statistics hero, KPI cards, panels, and vertical spacing.
+- Kept the Statistics surface transparent so the Kotoba Card app background remains visible.
+- Moved detailed performance charts, timeline, and learning insights into a collapsed-by-default “More learning analytics” section.
+- Preserved access to all analytics and retained the existing Learning Engine and stored data logic.
