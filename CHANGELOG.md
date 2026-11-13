@@ -1,3 +1,10 @@
+# v1.4.12 — JFT A2 Full Learning Catalog
+- Added 1,497 JFT A2 Kotoba organized across BAB 1–50.
+- Added 610 Kanji organized into daily groups of 10.
+- Added 73 Bunpou patterns with explanations and example sentences.
+- Catalog is added once as a separate root; existing user folders, progress, SRS, and stored data are not overwritten.
+- Updated app version, version.json, and service-worker cache together.
+
 # v1.4.10 — 2026-11-14
 - Enlarged Japanese vocabulary and Kanji on Learn and Quiz cards for clear reading on iPhone.
 - Kept existing card dimensions, answer options, Learning Engine, SRS, storage, and saved progress unchanged.
