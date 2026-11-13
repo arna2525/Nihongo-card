@@ -1,5 +1,5 @@
 {
-  "version": "1.4.9",
+  "version": "1.4.10",
   "build": "2026-11-14",
-  "notes": "Statistics redesign: dedicated Statistics dashboard with mastery, activity, daily quest and review intelligence. Existing learning data and Learning Engine preserved."
+  "notes": "Japanese character readability update: larger Kanji and vocabulary in Learn and Quiz. Existing learning data and features preserved."
 }

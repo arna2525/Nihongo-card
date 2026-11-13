@@ -1,3 +1,8 @@
+# v1.4.10 — 2026-11-14
+- Enlarged Japanese vocabulary and Kanji on Learn and Quiz cards for clear reading on iPhone.
+- Kept existing card dimensions, answer options, Learning Engine, SRS, storage, and saved progress unchanged.
+- Updated APP_VERSION, version.json, and service-worker cache name together.
+
 ## 1.4.9 — 2026-11-14
 - Rebuilt the Statistics tab to match the supplied Kotoba Card glass/neon reference.
 - Added dedicated mastery overview, four KPI cards, 7-day activity chart, Daily Quest summary, and Smart Review summary.
