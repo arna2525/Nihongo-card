@@ -1,4 +1,4 @@
 {
-  "version": "1.2.10",
-  "notes": "Tampilan kuis diringkas: kartu soal dibatasi tinggi dan area isi agar tidak menembus bingkai; sisi depan/belakang kartu tidak tampil bersamaan; pilihan jawaban menjadi grid dua kolom dengan ukuran teks, padding, dan tinggi lebih kecil."
+  "version": "1.2.11",
+  "notes": "Perbaikan scroll menu Edit khusus Chrome Android dengan satu area scroll utama; mempertahankan perilaku iPhone. Komposisi kuis dikembalikan ke pilihan satu kolom berbentuk pil seperti desain asli, kartu soal sedikit diperbesar dan diturunkan, serta tombol jawaban sedikit diperkecil."
 }
