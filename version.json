@@ -1,5 +1,5 @@
 {
-  "version": "1.4.14",
+  "version": "1.4.16",
   "build": "2026-11-14",
-  "notes": "JFT-style quiz rounds: fixed groups of 10 (25 = 10+10+5, 50 = 5x10, 100 = 10x10); Mastery sessions use 10 items; question spacing avoids repeating the same Kotoba within the previous 10 questions. Existing data, SRS, and catalog preserved."
+  "notes": "Study-first visual refresh: calmer navy/cyan palette, clearer surfaces and controls, improved responsive spacing. Existing data model, catalog, learning logic, and SRS storage are preserved. Full Kanji/Bunpou daily-learning integration remains pending."
 }

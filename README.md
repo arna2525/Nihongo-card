@@ -1,3 +1,7 @@
+# Kotoba Card v1.4.16
+
+Study-first visual refresh release. Deploy the contents of this folder to the GitHub Pages repository root. Existing local user data is retained by the current storage model; as with any update, export a backup before deployment.
+
 <div align="center">
 
 <img src="assets/logo.png" alt="Kotoba Card – Japanese Study" width="320">

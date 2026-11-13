@@ -1,4 +1,18 @@
+# v1.4.16 — Study-first visual refresh (2026-11-14)
+- Refined the interface into a calmer navy/cyan study-first visual system.
+- Improved contrast, card surfaces, answer options, navigation, and responsive spacing.
+- Preserved the existing navigation routes, content catalog, local storage keys, IndexedDB database, backup/restore, Quiz, Mastery, and review scheduling logic.
+- Synchronized APP_VERSION, version.json, and Service Worker cache version.
+- This release is a visual and consistency update; it does not claim completion of the requested Kanji/Bunpou Daily Learning and full adaptive engine integration.
+
 # v1.4.12 — JFT A2 Full Learning Catalog
+
+## v1.4.15 — Mastery consistency patch (2026-11-14)
+- Mastery sessions now select up to 10 pending Kotoba (previously 7 in the active implementation).
+- A wrong answer resets the affected Kotoba's consecutive 3/3 Mastery counter for that mode.
+- No catalog IDs, user vocabulary, answer history, performance records, or existing SRS due dates are rewritten by this patch.
+- Full Kanji/Bunpou and Daily Learning integration is not yet included.
+
 - Added 1,497 JFT A2 Kotoba organized across BAB 1–50.
 - Added 610 Kanji organized into daily groups of 10.
 - Added 73 Bunpou patterns with explanations and example sentences.
