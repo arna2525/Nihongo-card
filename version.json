@@ -1,5 +1,5 @@
 {
   "version": "1.4.7",
   "build": "2026-11-14",
-  "notes": "Statistics visual redesign and bottom navigation safe-area anchoring; existing learning data and engine retained."
+  "notes": "Statistics-only Gen Z compact visual refinement; all existing statistics, Learning Engine, SRS, navigation and saved learning data preserved."
 }
