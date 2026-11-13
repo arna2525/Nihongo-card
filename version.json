@@ -1,5 +1,5 @@
 {
-  "version": "1.4.8",
+  "version": "1.4.9",
   "build": "2026-11-14",
-  "notes": "Version reporting fix: APP_VERSION, version.json and service worker cache aligned. Existing features and saved learning data preserved."
+  "notes": "Statistics redesign: dedicated Statistics dashboard with mastery, activity, daily quest and review intelligence. Existing learning data and Learning Engine preserved."
 }

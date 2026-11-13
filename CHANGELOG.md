@@ -1,3 +1,9 @@
+## 1.4.9 — 2026-11-14
+- Rebuilt the Statistics tab to match the supplied Kotoba Card glass/neon reference.
+- Added dedicated mastery overview, four KPI cards, 7-day activity chart, Daily Quest summary, and Smart Review summary.
+- Preserved the existing analytics, mastery modes, activity ranges, session history, Learning Engine, SRS, and saved data.
+- Updated APP_VERSION, version.json, and service-worker cache to 1.4.9.
+
 ## v1.4.8
 - Fixed in-app APP_VERSION reporting to match version.json and service worker cache.
 
