@@ -1,3 +1,11 @@
+
+## v1.4.6 — Ambitious Daily Quest
+- Hero progress ring now represents Daily Quest completion, separate from overall vocabulary Mastery.
+- Added three challenging daily missions: Mastery Run (10 questions), Review Protocol (5 questions), and Knowledge Test (15 questions), each requiring at least 80% accuracy.
+- Progress is derived from completed, persisted study sessions for the device's local day; partial sessions do not count.
+- Smart Review mission is excluded when no review is due, so learners are not penalized for having nothing due.
+- Daily Quest is read-only and does not modify Learning Engine, Mastery thresholds, reinforcement behavior, or spaced-repetition intervals.
+- Updated app and service-worker version to 1.4.6.
 ## v1.4.5 — KOTOBA CARD Soft Glass Compact Statistics (2026-11-14)
 
 - Menyetel permukaan hero, KPI, panel, dan kartu menjadi semi-transparan dengan blur lembut; bentuk kartu, kontras, dan batas tetap jelas.

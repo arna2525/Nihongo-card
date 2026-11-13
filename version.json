@@ -1,5 +1,5 @@
 {
-  "version": "1.4.5",
+  "version": "1.4.6",
   "build": "2026-11-14",
-  "notes": "Soft glass translucent surfaces using native Kotoba Card theme tokens; tighter compact statistics layout."
+  "notes": "Ambitious Daily Quest with session-derived completion ring; statistics-only addition, existing Learning Engine and review schedules unchanged."
 }
