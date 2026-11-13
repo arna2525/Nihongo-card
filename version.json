@@ -1,4 +1,4 @@
 {
-  "version": "1.2.8",
-  "notes": "Flashcard/Belajar kini mengikuti Mother Folder aktif. Cakupan dapat dipindah antara Semua BAB dan setiap folder BAB dalam Mother Folder tersebut. Kartu diambil dari folder yang dipilih; folder kosong menampilkan keadaan kosong, bukan kosakata folder lain. Navigasi bawah dipastikan menampilkan label dan ruang aman iPhone."
+  "version": "1.2.10",
+  "notes": "Tampilan kuis diringkas: kartu soal dibatasi tinggi dan area isi agar tidak menembus bingkai; sisi depan/belakang kartu tidak tampil bersamaan; pilihan jawaban menjadi grid dua kolom dengan ukuran teks, padding, dan tinggi lebih kecil."
 }
