@@ -1,63 +1,16 @@
-## v1.4.20 — Integrasi Bunpou ke basis v1.4.19 Latih
-- Mempertahankan seluruh fitur Latih dan scheduler pada v1.4.19.
-- Menambahkan tab Belajar Bunpou berisi 73 pola dari referensi APK, lengkap dengan rumus, penjelasan, contoh, bacaan, dan terjemahan.
-- Menambahkan pencarian, kuis 10 soal, tracking penguasaan, dan review terjadwal.
-- Menambahkan progres Bunpou ke backup/restore gabung dan timpa.
 
-# v1.4.19 — Tab Latih (2026-11-14)
-- New 5th tab "Latih": Sesi Fokus (7 cards x 3 repetitions, wrong answers return 4 cards later, rest screen), Verb conjugation trainer (49 verbs, groups 1/2/3, 12 forms), Bunpou quiz (73 patterns from the existing catalog, pattern <-> meaning), streak, month calendar, daily time estimate, XP.
-- Sesi Fokus grades each card's first attempt through the unified scheduler (Good/Again) and feeds Mastery performance.
-- Verb data and conjugation rules adapted from the Hafalan JFT A2 app.
-- XP is stored in `S.xp` (not yet included in restore-replace). Export a backup before deploying.
-
-# v1.4.18 — Unified scheduler (Anki-style) (2026-11-14)
-- Flashcard and Smart Review now share one scheduler: New → Learning (1m, 10m) → Review → Relearning (10m).
-- Four grades (Again/Hard/Good/Easy) with ease factor (start 2.5, min 1.3), overdue bonus, small interval fuzz, 365-day cap.
-- Quiz answers map to Again (wrong) / Good (correct). Cards lapsed 8 times are flagged `leech`.
-- Old fixed ladder 1/3/7/14/30/60/90 and old `sr()` are replaced; existing records are migrated once (`S.schV=1`), completed cards re-enter review at 90 days.
-- Flashcard state is stored in `S.review["fc:"+id].card` (included in backup/restore); `w.ivl/w.ease/w.due` are still mirrored.
-- Not yet included: daily new-card limits, Kanji/Bunpou Daily Learning, retention stats. Export a backup before deploying.
-
-# v1.4.16 — Study-first visual refresh (2026-11-14)
-- Refined the interface into a calmer navy/cyan study-first visual system.
-- Improved contrast, card surfaces, answer options, navigation, and responsive spacing.
-- Preserved the existing navigation routes, content catalog, local storage keys, IndexedDB database, backup/restore, Quiz, Mastery, and review scheduling logic.
-- Synchronized APP_VERSION, version.json, and Service Worker cache version.
-- This release is a visual and consistency update; it does not claim completion of the requested Kanji/Bunpou Daily Learning and full adaptive engine integration.
-
-# v1.4.12 — JFT A2 Full Learning Catalog
-
-## v1.4.15 — Mastery consistency patch (2026-11-14)
-- Mastery sessions now select up to 10 pending Kotoba (previously 7 in the active implementation).
-- A wrong answer resets the affected Kotoba's consecutive 3/3 Mastery counter for that mode.
-- No catalog IDs, user vocabulary, answer history, performance records, or existing SRS due dates are rewritten by this patch.
-- Full Kanji/Bunpou and Daily Learning integration is not yet included.
-
-- Added 1,497 JFT A2 Kotoba organized across BAB 1–50.
-- Added 610 Kanji organized into daily groups of 10.
-- Added 73 Bunpou patterns with explanations and example sentences.
-- Catalog is added once as a separate root; existing user folders, progress, SRS, and stored data are not overwritten.
-- Updated app version, version.json, and service-worker cache together.
-
-# v1.4.10 — 2026-11-14
-- Enlarged Japanese vocabulary and Kanji on Learn and Quiz cards for clear reading on iPhone.
-- Kept existing card dimensions, answer options, Learning Engine, SRS, storage, and saved progress unchanged.
-- Updated APP_VERSION, version.json, and service-worker cache name together.
-
-## 1.4.9 — 2026-11-14
-- Rebuilt the Statistics tab to match the supplied Kotoba Card glass/neon reference.
-- Added dedicated mastery overview, four KPI cards, 7-day activity chart, Daily Quest summary, and Smart Review summary.
-- Preserved the existing analytics, mastery modes, activity ranges, session history, Learning Engine, SRS, and saved data.
-- Updated APP_VERSION, version.json, and service-worker cache to 1.4.9.
-
-## v1.4.8
-- Fixed in-app APP_VERSION reporting to match version.json and service worker cache.
-
-# v1.4.7 — Statistics visual refinement
-- Compact Gen Z-inspired visual hierarchy; no statistics or learning features removed.
-- Glass panels use approximately 90% opacity with subtle blur.
-- Existing bottom navigation and learning logic are unchanged.
-
+## v1.4.7 — Statistics Redesign: Futuristic Minimalism (2026-11-14)
+- Halaman Statistik dirancang ulang mengikuti referensi: header KOTOBA CARD + tombol Pengaturan, judul STATISTICS, kartu Learning Mastery dengan mastery ring gradien, 4 KPI tile (Total Kotoba, Mastered, Review Due, Learning), Learning Activity (bar chart + pilihan rentang), Daily Quest (completion ring + 3 misi), dan Smart Review Intelligence (bar distribusi + View Details).
+- Semua angka berasal dari data aplikasi yang sudah ada: mastery (mode terpilih), streak, waktu belajar, aktivitas harian, sesi selesai hari ini, dan rekaman jadwal review. Tidak ada XP/Level karena aplikasi tidak memiliki data tersebut; slot XP diganti Study time, chip Level diganti mode Mastery aktif.
+- Daily Quest tetap read-only (logika v1.4.6 tidak diubah). Hero ring sekarang menampilkan Mastery; progres quest memakai ring sendiri.
+- Smart Review: bar menampilkan Mastered (long-term) / Review (terjadwal) / Reinforce dari rekaman review; "View Details" membuka panel analitik dan daftar kata yang perlu diulang (baru, read-only).
+- Analitik lanjutan (Mastery per BAB, performa, timeline, insight) dipindah ke panel "More learning analytics"; status buka/tutup diingat selama sesi (tidak disimpan ke storage).
+- Perbaikan: filter rentang "All Time" sebelumnya kembali ke 30 hari; kini berfungsi. Default rentang = 7 hari. Navigasi bawah tidak diubah.
+- Tampilan disederhanakan dan dipadatkan: Total Kotoba, Mastered, Review Due, Learning, dan Study Time kini daftar vertikal di kartu Learning Mastery (streak jadi chip di header), dekorasi dan label bar dihilangkan, kartu lebih datar.
+- CSS baru dibatasi pada `.kc-shell`; mendukung prefers-reduced-motion/transparency, tanpa overflow horizontal di 320 px dan 390 px.
+- File diubah: index.html (vStatBase, helper `kc*`, CSS, APP_VERSION), sw.js (cache `kotoba-v1.4.7`), version.json, CHANGELOG.md.
+- Tidak diubah: Learning Engine, Mastery, Smart Review/Reinforcement, jadwal SRS, IndexedDB/localStorage, backup/restore, halaman lain.
+- Pengujian: render Chromium (390 px & 320 px) dengan data contoh, tanpa error JS. Belum diuji di perangkat nyata/PWA terpasang.
 
 ## v1.4.6 — Ambitious Daily Quest
 - Hero progress ring now represents Daily Quest completion, separate from overall vocabulary Mastery.
@@ -253,9 +206,3 @@ Pemeriksaan:
 - Kept the Statistics surface transparent so the Kotoba Card app background remains visible.
 - Moved detailed performance charts, timeline, and learning insights into a collapsed-by-default “More learning analytics” section.
 - Preserved access to all analytics and retained the existing Learning Engine and stored data logic.
-
-
-## v1.4.17 — Complete UI refresh (2026-11-14)
-- Reworked visual hierarchy, navigation, panels, quiz options, study card and responsive spacing.
-- Restored and preserved the original Sakura Night background artwork and original purple/lavender/pink/gold palette.
-- Kept the existing data schema and learning logic unchanged in this visual release.

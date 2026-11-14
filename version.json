@@ -1,5 +1,5 @@
 {
-  "version": "1.4.20",
+  "version": "1.4.7",
   "build": "2026-11-14",
-  "notes": "Integrasi modul pembelajaran Bunpou 73 pola ke basis v1.4.19 Latih; fitur Latih dan scheduler tetap dipertahankan."
+  "notes": "Statistics redesign (Futuristic Minimalism): mastery ring hero, KPI tiles, activity chart, Daily Quest ring, Smart Review summary. UI-only; Learning Engine, review schedules and data unchanged."
 }
