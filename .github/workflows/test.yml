@@ -29,5 +29,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
       - name: Run automated tests
         run: npm test
+
+      - name: Run real-browser tests
+        run: npm run test:browser
