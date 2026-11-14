@@ -1,0 +1,18 @@
+{
+  "name": "kotoba-card-merged-v30-build17-5",
+  "version": "0.3.8",
+  "private": true,
+  "description": "Kotoba Card + JFT merged recovery build",
+  "scripts": {
+    "start": "node serve.cjs",
+    "test": "node tests-audit/run.cjs && node tests-audit/storage-safety.cjs && node tests-audit/backup-state.cjs && node tests-audit/jft-content.cjs && node tests-audit/jft-reward.cjs && node tests-v29/run-all.cjs && node tests-audit/security-import.cjs && node tests-audit/sw-update.cjs && node tests-audit/jft-content-depth.cjs && node tests-audit/jft-flashcard.cjs && node tests-audit/startup-recovery-order.cjs",
+    "test:core": "node tests-audit/run.cjs",
+    "test:legacy-reference": "node tests-v29/run-all.cjs",
+    "test:browser-reference": "node tests-jft-final/run-all.cjs",
+    "test:browser": "node tests-jft-final/t02-jft-reward.cjs && node tests-jft-final/t03-storage.cjs && node tests-jft-final/t04-backup.cjs && node tests-jft-final/t05-sw-offline.cjs && node tests-jft-final/t06-ui-responsive.cjs && node tests-jft-final/t07-kotoba-learn.cjs && node tests-jft-final/t08-kotoba-quiz-stats.cjs && node tests-jft-final/t09-jft-assessments.cjs && node tests-jft-final/t10-button-smoke.cjs && node tests-jft-final/t11-xss-dom.cjs && node tests-jft-final/t12-reward-crash.cjs && node tests-jft-final/t13-sw-upgrade.cjs && node tests-jft-final/t14-backup-fuzz.cjs"
+  },
+  "devDependencies": {
+    "acorn": "^8.15.0",
+    "playwright": "^1.50.0"
+  }
+}

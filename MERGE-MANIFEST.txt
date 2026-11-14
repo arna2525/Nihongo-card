@@ -1,0 +1,39 @@
+KOTOBA CARD — MERGE MANIFEST
+Date: 2026-11-15
+
+ACTIVE APP BUILD: 2026-11-15.6 (Build 17.3 candidate)
+ACTIVE SOURCE: index.html based on Build 15.9, selectively merged with Build 16 fixes.
+SERVICE WORKER CACHE: kotoba-v0.1.0-build17-3
+
+MERGED FROM BUILD 15.9:
+- Three-way localStorage save merge and storage-event reconciliation.
+- JFT rewardGeneration and JFT_REWARD_RECONCILE_EPOCH stale transaction guards.
+- Restore fields qScope and masteryQueue, plus statistics settings.
+- Backup import validation, prototype-key defenses, and queue ID mapping.
+
+MERGED FROM BUILD 16:
+- Visible saveFail warning helper.
+- welcomed:1 on Restore Timpa.
+- Updated browser test suite and browser test npm script.
+- Documentation corrections and .gitignore.
+
+BUILD 17.2 PATCHES RETAINED:
+- Restore Undo snapshot includes CORR and restores IndexedDB corrections transactionally.
+- Restore Gabung marks a fresh install as welcomed.
+
+BUILD 17.3 PATCHES:
+- Backup import size cap (20 MB), field length limits, and 10,000-correction cap.
+- XSS/import regression tests for hostile HTML text and inline-handler IDs.
+- Service Worker upgrade simulation: failed install retains old cache; successful activation deletes only obsolete Kotoba caches.
+- t02 replaced obsolete IndexedDB-unavailable expectation with fail-closed behavior and chunk preservation.
+- t07 replaced obsolete personal-SRS flow with the current JFT Kotoba flashcard UI flow.
+- Flashcard exit clears stale in-memory JFT_FLASH state.
+- Added deeper JFT curriculum structure/content checks.
+
+TESTS:
+- npm test: 72 passed, 0 failed.
+- Browser t02–t10: harnesses are present and t02/t07 have been replaced, but execution is blocked in this environment (Chromium navigation to local pages returns ERR_BLOCKED_BY_ADMINISTRATOR).
+- Physical iPhone/Android tests: not run; manual external verification is reserved for the owner.
+
+RELEASE STATUS: CANDIDATE ONLY / NOT RELEASE READY until browser suite passes on an unrestricted CI/local browser and owner completes physical-device checks.
+See AUDIT-REPORT-BUILD17-3.md for the current audit report.

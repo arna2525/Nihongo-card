@@ -1,7 +1,7 @@
 {
-  "name": "Kotoba Card",
+  "name": "Kotoba Card · Japanese Learning System",
   "short_name": "Kotoba Card",
-  "description": "Belajar kosakata Jepang dengan kartu",
+  "description": "Belajar bahasa Jepang dengan kurikulum JFT, 50 BAB Kotoba, 61 hari Kanji, Bunpou, konjugasi, flashcard bertahap, Mastery, Smart Review, streak, dan progres offline.",
   "lang": "id",
   "start_url": "./",
   "scope": "./",

@@ -1,5 +1,7 @@
 {
-  "version": "1.4.7",
-  "build": "2026-11-14",
-  "notes": "Statistics redesign (Futuristic Minimalism): mastery ring hero, KPI tiles, activity chart, Daily Quest ring, Smart Review summary. UI-only; Learning Engine, review schedules and data unchanged."
+  "version": "0.3.8",
+  "displayVersion": "0.1.0",
+  "build": "2026-11-15.8",
+  "notes": "Build 17.5 combined candidate: retains Build 17.3 full XSS, reward-crash, Service Worker upgrade, backup-fuzz browser suites and flaky reward-test synchronization; includes Build 17.4 startup mirror/reward recovery ordering fix and regression coverage. Browser tests must be rerun against this combined ZIP; physical-device checks and human JFT content review remain owner release gates.",
+  "updatedAt": "2026-11-15"
 }
