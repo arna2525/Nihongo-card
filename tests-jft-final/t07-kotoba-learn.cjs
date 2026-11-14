@@ -1,0 +1,34 @@
+// Replacement for the obsolete personal-L SRS test: current JFT Kotoba flashcard UI and controls.
+const L = require('./lib.cjs');
+(async () => {
+  const { srv, url } = await L.serve(); const b = await L.launch(); const errs = [];
+  const ctx = await L.newCtx(b); const p = await ctx.newPage(); L.watch(p, errs);
+  await p.goto(url); await p.waitForTimeout(500);
+  await p.evaluate(() => { S.welcomed = true; save(); go('learn'); JFT_TAB = 'kotoba'; JFT_PAGE = 'home'; R(); });
+  await p.waitForTimeout(150);
+  L.check('A1 tab KOTOBA menampilkan katalog 50 BAB dan tombol flashcard', (await p.innerText('.pg.active')).includes('Flashcard semua materi') && (await p.innerText('.pg.active')).includes('BAB 1'));
+  await p.evaluate(() => jftFlashStart('k', 1)); await p.waitForTimeout(120);
+  let st = await p.evaluate(() => ({ page: JFT_PAGE, kind: JFT_FLASH.kind, unit: JFT_FLASH.unit, index: JFT_FLASH.index, count: JFT_FLASH.list.length, back: JFT_FLASH.back }));
+  L.check('B1 flashcard BAB 1 dibuka dengan data dan posisi awal valid', st.page === 'flash' && st.kind === 'k' && st.unit === 1 && st.index === 0 && st.count > 0 && !st.back, st);
+  const front = await p.locator('.jft-flash .main').innerText();
+  await p.click('.jft-flash'); await p.waitForTimeout(80);
+  st = await p.evaluate(() => ({ back: JFT_FLASH.back, text: document.querySelector('.jft-flash .main').textContent }));
+  L.check('B2 ketuk kartu membuka sisi jawaban', st.back && !!st.text && st.text !== front, { front, st });
+  await p.click('button:has-text("Ubah arah kartu")'); await p.waitForTimeout(80);
+  st = await p.evaluate(() => ({ dir: JFT_FLASH.dir, back: JFT_FLASH.back }));
+  L.check('B3 arah kartu berputar dan sisi jawaban direset', st.dir === 'read' && !st.back, st);
+  await p.click('button:has-text("Berikutnya")'); await p.waitForTimeout(80);
+  st = await p.evaluate(() => ({ index: JFT_FLASH.index, back: JFT_FLASH.back }));
+  L.check('B4 tombol Berikutnya pindah kartu dan menutup sisi jawaban', st.index === 1 && !st.back, st);
+  await p.click('button:has-text("Sebelumnya")'); await p.waitForTimeout(80);
+  st = await p.evaluate(() => JFT_FLASH.index);
+  L.check('B5 tombol Sebelumnya kembali ke kartu pertama', st === 0, st);
+  await p.click('button:has-text("Acak kartu")'); await p.waitForTimeout(80);
+  st = await p.evaluate(() => ({ random: JFT_FLASH.random, index: JFT_FLASH.index, count: JFT_FLASH.list.length, back: JFT_FLASH.back }));
+  L.check('B6 acak kartu mempertahankan jumlah materi dan reset posisi', st.random && st.index === 0 && st.count > 0 && !st.back, st);
+  await p.click('button:has-text("Kembali ke materi")'); await p.waitForTimeout(80);
+  st = await p.evaluate(() => ({ page: JFT_PAGE, flash: JFT_FLASH !== null }));
+  L.check('B7 keluar flashcard kembali ke unit tanpa error', st.page === 'unit' && !st.flash, st);
+  L.check('Z tidak ada pageerror/console error', errs.length === 0, errs);
+  const code = L.report('t07-jft-kotoba-flashcards'); await b.close(); srv.close(); process.exit(code);
+})().catch(e => { console.error('HARNESS ERROR', e); process.exit(2); });
