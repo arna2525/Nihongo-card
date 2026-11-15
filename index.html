@@ -444,6 +444,14 @@ li{border-radius:14px!important;overflow:hidden}
 @keyframes wOut{to{opacity:0;transform:scale(1.1);filter:blur(10px)}}
 #app.v6-in{animation:v6in .8s cubic-bezier(.2,.8,.2,1) both!important}
 @keyframes v6in{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
+
+.v6w{pointer-events:auto;touch-action:manipulation}
+.v6w .wprogress{width:min(220px,68vw);margin-top:22px;display:flex;flex-direction:column;align-items:center;gap:9px}
+.v6w .wprogress-track{width:100%;height:3px;border-radius:99px;overflow:hidden;background:rgba(220,200,255,.18);box-shadow:0 0 12px rgba(180,130,255,.16)}
+.v6w .wprogress-fill{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#a98aff,#f4a8df);box-shadow:0 0 12px rgba(220,160,255,.7);will-change:width}
+.v6w .wprogress-value{font-size:clamp(19px,5vw,23px);font-weight:700;letter-spacing:.08em;line-height:1;color:#f3eaff;font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(190,145,255,.45)}
+.v6w .wprogress-label{font-size:9px;letter-spacing:.24em;color:#b9a9e8;opacity:.85}
+.v6w.gone{pointer-events:none}
 @media(prefers-reduced-motion:reduce){.v6w *,.v6w.out,#app.v6-in{animation:none!important}.v6w .wk span,.v6w .wro,.v6w .wmn,.v6w .wnm,.v6w .wsb,.v6w .wsk{opacity:1!important}.v6w .wr,.v6w .wg,.v6w .wsw,.v6w canvas,.v6w .tw{display:none!important}}
 
 .hasnav .sticky{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
@@ -498,9 +506,21 @@ var W0=window.innerWidth,fs=Math.min(60,Math.floor((W0-48)/g[0].length)),nf=nm.l
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 var k='';for(var i=0;i<g[0].length;i++)k+='<span style="--d:'+(0.35+i*0.09).toFixed(2)+'s">'+g[0].charAt(i)+'</span>';
 var tw='';for(i=0;i<9;i++)tw+='<i class="tw" style="left:'+(8+Math.random()*84).toFixed(0)+'%;top:'+(10+Math.random()*75).toFixed(0)+'%;--d:'+(0.4+Math.random()*2.4).toFixed(2)+'s"><svg viewBox="0 0 24 24" fill="#eadcff"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/></svg></i>';
-w.innerHTML='<canvas></canvas>'+tw+'<div class="wg"></div><i class="wr" style="--d:.1s"></i><i class="wr" style="--d:.65s"></i><i class="wr" style="--d:1.2s"></i><div class="wc"><div class="wk" style="font-size:'+fs+'px">'+k+'</div><div class="wro">'+g[1]+'</div><div class="wmn">'+g[2]+'</div><div class="wnm" style="font-size:'+nf+'px">'+esc(nm)+'!</div><div class="wsb">'+(s>0?'Sudah '+s+' hari berturut-turut belajar. Pertahankan!':'Selamat datang. Satu langkah kecil hari ini sudah cukup.')+'</div></div><div class="wsw"></div><div class="wsk">KETUK UNTUK LANJUT</div>';
+w.innerHTML='<canvas></canvas>'+tw+'<div class="wg"></div><i class="wr" style="--d:.1s"></i><i class="wr" style="--d:.65s"></i><i class="wr" style="--d:1.2s"></i><div class="wc"><div class="wk" style="font-size:'+fs+'px">'+k+'</div><div class="wro">'+g[1]+'</div><div class="wmn">'+g[2]+'</div><div class="wnm" style="font-size:'+nf+'px">'+esc(nm)+'!</div><div class="wsb">'+(s>0?'Sudah '+s+' hari berturut-turut belajar. Pertahankan!':'Selamat datang. Satu langkah kecil hari ini sudah cukup.')+'</div><div class="wprogress" role="progressbar" aria-label="Memuat aplikasi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wprogress-value" aria-live="off">0%</div><div class="wprogress-track"><i class="wprogress-fill"></i></div><div class="wprogress-label">MENYIAPKAN MANABI</div></div></div><div class="wsw"></div>';
 var red=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
 var raf=0,done=false;
+var progressValue=w.querySelector('.wprogress-value'),progressFill=w.querySelector('.wprogress-fill'),progressWrap=w.querySelector('.wprogress');
+var progressDuration=red?1200:2980,holdDuration=300,progressStart=performance.now(),lastPct=0,closeTimer=0;
+function paintProgress(now){
+  if(done)return;
+  var elapsed=Math.max(0,now-progressStart),pct=Math.min(100,Math.floor(elapsed/progressDuration*100));
+  if(pct<lastPct)pct=lastPct;
+  lastPct=pct;
+  progressValue.textContent=pct+'%';progressFill.style.width=pct+'%';
+  progressWrap.setAttribute('aria-valuenow',String(pct));
+  if(pct>=100){closeTimer=setTimeout(end,holdDuration);return;}
+  raf=requestAnimationFrame(paintProgress);
+}
 if(!red){
   var c=w.querySelector('canvas'),x=c.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),W,H;
   var rs=function(){W=window.innerWidth;H=window.innerHeight;c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px';x.setTransform(dpr,0,0,dpr,0,0);};rs();
@@ -521,14 +541,12 @@ if(!red){
   raf=requestAnimationFrame(loop);
 }
 function end(){
-  if(done)return;done=true;cancelAnimationFrame(raf);
+  if(done)return;done=true;cancelAnimationFrame(raf);clearTimeout(closeTimer);
   w.classList.add('out');
   var a=document.getElementById('app');if(a&&!red)a.classList.add('v6-in');
   setTimeout(function(){w.classList.add('gone');w.innerHTML='';if(a)a.classList.remove('v6-in');},red?0:680);
 }
-var auto=setTimeout(end,red?1600:4300);
-var born=Date.now();
-w.addEventListener('click',function(){if(Date.now()-born>500){clearTimeout(auto);end();}});
+raf=requestAnimationFrame(paintProgress);
 })();
 </script>
 <main id="app"></main>
