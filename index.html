@@ -531,6 +531,90 @@ button,[data-a]{touch-action:manipulation}
 .sm-rg{position:fixed!important;margin:0!important;pointer-events:none;z-index:3;box-sizing:border-box;animation:rgOut .22s ease-in forwards}
 .rg-in{animation:rgIn .28s cubic-bezier(.22,.8,.24,1) backwards}
 }
+
+/* ===== BUNPOU V6 · redesain Purple Glass (daftar + detail + kuis) ===== */
+.bp-page{--bp-glass:linear-gradient(150deg,rgba(124,98,240,.36),rgba(40,26,108,.66));--bp-line:rgba(190,168,255,.38);--bp-glow:0 14px 34px -12px rgba(5,2,32,.75),0 0 24px rgba(139,104,255,.16),inset 0 1px 0 rgba(255,255,255,.16);display:block;width:100%;max-width:100%;overflow-x:clip;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));font-family:var(--fnt);color:var(--ink)}
+.bp-page *{box-sizing:border-box;min-width:0}
+.bp-page button{font:inherit;color:inherit;border:0;background:none;padding:0;margin:0;text-align:left;-webkit-appearance:none;appearance:none;cursor:pointer}
+.bp-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 14px}
+.bp-back{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px 0 12px!important;border-radius:999px;background:rgba(80,60,190,.42)!important;border:1px solid var(--bp-line)!important;font-weight:700;font-size:15px;color:#f3eeff;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.bp-back span{font-size:26px;line-height:1;margin-top:-3px}
+.bp-count{font-size:13px;font-weight:700;letter-spacing:.12em;color:#cdbfff;white-space:nowrap}
+.bp-count b{font-size:21px;color:#fff;letter-spacing:0;margin:0 5px}
+.bp-count span{opacity:.8;letter-spacing:.04em}
+.bp-prog{height:5px;border-radius:5px;background:rgba(255,255,255,.12);overflow:hidden;margin:-2px 2px 16px}
+.bp-prog i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9d7cff,#d6b6ff,#ff9fd0)}
+.bp-hero{position:relative;overflow:hidden;padding:22px 20px;margin-bottom:14px;border-radius:30px;background:radial-gradient(260px 200px at 100% 0,rgba(214,182,255,.30),transparent 70%),linear-gradient(150deg,rgba(138,106,248,.52),rgba(38,24,108,.78));border:1px solid rgba(200,180,255,.48);box-shadow:var(--bp-glow),0 0 40px rgba(124,92,240,.22);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.bp-orbit{position:absolute;right:-4px;top:-20px;font-size:132px;font-weight:800;line-height:1;color:rgba(255,255,255,.07);pointer-events:none}
+.bp-kicker{position:relative;font-size:12.5px;letter-spacing:.16em;font-weight:700;color:#d9c9ff}
+.bp-hero h1{position:relative;margin:8px 0 6px;font-size:32px;line-height:1.2;font-weight:800;color:#fff}
+.bp-hero p{position:relative;margin:0;font-size:16px;line-height:1.55;color:#e8e0ff}
+.bp-hero .bp-title{margin:10px 0 16px;font-size:clamp(30px,9vw,42px);line-height:1.25;overflow-wrap:anywhere;text-shadow:0 0 28px rgba(190,160,255,.55)}
+.bp-hero .bp-title.long{font-size:clamp(25px,7.2vw,34px)}
+.bp-meaning{position:relative;display:inline-block;max-width:100%;padding:9px 16px;border-radius:20px;font-size:17px;font-weight:700;line-height:1.35;background:linear-gradient(135deg,#d9c3ff,#9a78f8);color:#1c1250;box-shadow:0 8px 22px rgba(124,92,240,.4)}
+.bp-metrics{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.bp-metrics span{padding:7px 13px;border-radius:999px;background:rgba(15,8,50,.4);border:1px solid rgba(200,180,255,.3);font-size:14px}
+.bp-metrics b{font-size:17px}
+.bp-seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin-bottom:16px;border-radius:20px;background:rgba(20,10,64,.6);border:1px solid rgba(180,158,255,.28)}
+.bp-tab{min-height:46px;border-radius:15px;text-align:center!important;font-weight:700;font-size:15px;color:#cbbdf5}
+.bp-tab.on{background:linear-gradient(135deg,#d6bcff,#8d6cf5);color:#1c1250;box-shadow:0 8px 20px rgba(124,92,240,.4)}
+.bp-tools{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:2px 2px 14px}
+.bp-tools small{display:block;font-size:12px;letter-spacing:.16em;font-weight:800;color:#bba6f5}
+.bp-tools b{font-size:18px}
+.bp-eye{min-height:40px;padding:0 14px!important;border-radius:999px;background:rgba(80,60,190,.5)!important;border:1px solid var(--bp-line)!important;font-size:14px;font-weight:700;letter-spacing:0;white-space:nowrap;color:#f3eeff}
+.bp-list{display:flex;flex-direction:column;gap:12px}
+.bp-item{position:relative;display:grid;grid-template-columns:46px 1fr 22px;align-items:center;gap:14px;width:100%;padding:14px!important;border-radius:26px;background:var(--bp-glass)!important;border:1px solid var(--bp-line)!important;box-shadow:var(--bp-glow);overflow:hidden;color:var(--ink)}
+.bp-item:after{content:"";position:absolute;right:-30px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(190,160,255,.22),transparent 70%);pointer-events:none}
+.bp-no{display:grid;place-items:center;width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,rgba(214,184,255,.96),rgba(124,92,240,.96));color:#1c1250;font-weight:800;font-size:16px;box-shadow:0 6px 16px rgba(124,92,240,.4)}
+.bp-copy{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:7px}
+.bp-pat{font-size:21px;line-height:1.3;font-weight:800;color:#fff;overflow-wrap:anywhere}
+.bp-fm{font-size:14px;line-height:1.4;color:#cfc3f5;padding:4px 10px;border-radius:10px;background:rgba(15,8,50,.45);border:1px solid rgba(190,168,255,.2);overflow-wrap:anywhere}
+.bp-mn{font-size:15.5px;font-weight:700;line-height:1.4;color:#ffd9ec;overflow-wrap:anywhere}
+.bp-go{position:relative;font-size:28px;line-height:1;color:#cdbaff;text-align:center}
+.bp-card{position:relative;margin-bottom:14px;padding:18px 18px 20px;border-radius:26px;background:var(--bp-glass);border:1px solid var(--bp-line);box-shadow:var(--bp-glow);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.bp-label{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:12.5px;font-weight:800;letter-spacing:.14em;color:#cbb9ff}
+.bp-label>span:first-child{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:9px;background:rgba(255,255,255,.12);color:#fff;font-size:12px;letter-spacing:0}
+.bp-hero .bp-eye{position:relative;margin:0 0 0 8px;vertical-align:top;min-height:42px}
+.bp-formula{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.bp-chip{padding:10px 14px;border-radius:16px;background:rgba(20,10,60,.55);border:1px solid rgba(190,168,255,.34);font-size:19px;font-weight:700;line-height:1.35;color:#fff;overflow-wrap:anywhere}
+.bp-op{font-size:20px;font-weight:800;color:#e3c6ff}
+.bp-text{margin:0;font-size:16.5px;line-height:1.75;color:#ece6ff}
+.bp-exb{padding:14px 0;border-top:1px solid rgba(190,168,255,.18)}
+.bp-exb.bp-first{border-top:0;padding-top:0}
+.bp-exb:last-child{padding-bottom:0}
+.bp-exb small{display:block;margin-bottom:6px;font-size:12px;letter-spacing:.14em;font-weight:800;color:#bba6f5}
+.bp-exb p{margin:0;overflow-wrap:anywhere}
+.bp-jp{font-size:24px;line-height:1.65;font-weight:700;color:#fff}
+.bp-ro{font-size:16px;line-height:1.6;font-style:italic;color:#d8ccf8}
+.bp-id{font-size:17px;line-height:1.6;font-weight:600;color:#ffd6ea}
+.is-hid{filter:blur(9px);-webkit-user-select:none;user-select:none}
+.bp-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.bp-nb{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:70px;padding:12px 14px!important;border-radius:22px;background:rgba(70,52,170,.45)!important;border:1px solid var(--bp-line)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14);color:#f3eeff}
+.bp-nb small{font-size:12px;letter-spacing:.12em;font-weight:800;opacity:.85}
+.bp-nb b{font-size:15.5px;line-height:1.3;overflow-wrap:anywhere}
+.bp-nb.next{align-items:flex-end;text-align:right;background:linear-gradient(135deg,#d3b8ff,#8d6cf5)!important;color:#1c1250;border-color:rgba(255,255,255,.4)!important;box-shadow:0 10px 24px rgba(124,92,240,.4)}
+.bp-nb[disabled]{opacity:.38;pointer-events:none}
+.bp-launch{text-align:center;padding:30px 20px;border-radius:30px;background:radial-gradient(240px 180px at 50% 0,rgba(214,182,255,.26),transparent 70%),var(--bp-glass);border:1px solid var(--bp-line);box-shadow:var(--bp-glow)}
+.bp-emblem{display:grid;place-items:center;width:84px;height:84px;margin:0 auto 14px;border-radius:28px;font-size:42px;font-weight:800;background:linear-gradient(135deg,#d6bcff,#8d6cf5);color:#1c1250;box-shadow:0 0 34px rgba(150,110,255,.55)}
+.bp-launch small{font-size:12px;letter-spacing:.16em;font-weight:800;color:#bba6f5}
+.bp-launch h2{margin:8px 0;font-size:24px;color:#fff}
+.bp-launch p{margin:0 0 20px;font-size:16px;line-height:1.55;color:#ddd3fb}
+.bp-cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;border-radius:18px;text-align:center!important;font-weight:800;font-size:17px;background:linear-gradient(135deg,#d6bcff,#8d6cf5)!important;color:#1c1250;border:1px solid rgba(255,255,255,.4)!important;box-shadow:0 10px 24px rgba(124,92,240,.4)}
+.bp-quiz .q{min-height:180px;padding:26px 18px!important;border-radius:28px!important}
+.bp-quiz .q>div:first-child{font-size:clamp(24px,7.2vw,32px)!important;overflow-wrap:anywhere}
+.bp-quiz .q{margin-bottom:12px!important}.bp-quiz .opt{min-height:60px;margin:0 0 10px!important;font-size:17px!important;overflow-wrap:anywhere}
+.bp-quiz .pri,.bp-quiz .sec{min-height:54px;margin-top:10px}
+@media(prefers-reduced-motion:no-preference){
+@keyframes bpUp{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:none}}
+@keyframes bpNext{from{opacity:0;transform:translate3d(36px,0,0)}to{opacity:1;transform:none}}
+@keyframes bpPrev{from{opacity:0;transform:translate3d(-36px,0,0)}to{opacity:1;transform:none}}
+.bp-stage[data-anim="next"],.bp-stage[data-anim="qnext"]{animation:bpNext .3s cubic-bezier(.2,.8,.2,1) both}
+.bp-stage[data-anim="prev"]{animation:bpPrev .3s cubic-bezier(.2,.8,.2,1) both}
+.bp-stage[data-anim="mode"]{animation:bpUp .3s cubic-bezier(.2,.8,.2,1) both}
+.bp-stage[data-anim="enter"] .bp-item{animation:bpUp .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(min(var(--i),9)*32ms)}
+.bp-item,.bp-nb,.bp-back,.bp-tab,.bp-eye,.bp-cta{transition:transform .18s ease,filter .18s ease,background-color .2s,opacity .2s}
+.bp-item:active,.bp-nb:active,.bp-back:active,.bp-tab:active,.bp-eye:active,.bp-cta:active{transform:scale(.97);filter:brightness(1.1);transition-duration:.06s}
+}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9c4ff"/><stop offset="1" stop-color="#7a5cf0"/></linearGradient><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b2dcff"/><stop offset="1" stop-color="#4d7df0"/></linearGradient><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc4e8"/><stop offset="1" stop-color="#e070c0"/></linearGradient><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a62e0"/><stop offset="1" stop-color="#2e2080"/></linearGradient><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ff0e0"/><stop offset="1" stop-color="#1fa9a0"/></linearGradient></defs></svg>
 <div id="v6w" class="v6w" aria-hidden="true"></div>
@@ -1169,25 +1253,50 @@ function vMk(v,k){var c=vform(v,k),pool=[],E=k==='te'?['って','んで','いて
 function vStart(){var fs=VPRE[vPre],vs=shuf(VERBS.filter(function(v){return !vGrp||v.g===vGrp;})),it=[],n;
   for(n=0;n<10;n++)it.push(vMk(vs[n%vs.length],fs[Math.floor(Math.random()*fs.length)]));
   return{i:0,ok:0,pick:null,items:it};}
-function bdView(){var n=bD,b=BUN[n],e=BEX[n];
-  var h='<section class="study-head grammar-head"><button class="back" data-a="bl2">← Semua pola</button><div class="study-kicker">GRAMMAR ATELIER · 文法</div><div class="grammar-count">POLA '+String(n+1).padStart(2,'0')+' <span>/ '+BUN.length+'</span></div><div class="grammar-title">'+esc(b[0])+'</div><div class="grammar-sub">'+esc(b[1])+'</div><div class="grammar-meaning">'+esc(b[2])+'</div><div class="grammar-orbit">文</div></section>';
-  h+='<section class="lesson-block"><div class="block-label"><span>01</span> INTI POLA</div><h2>Penjelasan</h2><p>'+esc(e[0])+'</p></section>';
-  h+='<section class="lesson-block example-block"><div class="block-label"><span>02</span> DALAM KALIMAT</div><h2>Contoh penggunaan</h2><div class="example-jp">'+esc(e[1])+'</div><div class="example-reading">'+esc(e[2])+'</div><div class="example-meaning">'+esc(e[3])+'</div></section>';
-  h+='<div class="lesson-nav"><button class="sec" data-a="br" data-i="'+Math.max(0,n-1)+'"'+(n?'':' disabled')+'><small>SEBELUMNYA</small><b>‹ Pola sebelumnya</b></button><button class="pri" data-a="br" data-i="'+Math.min(BUN.length-1,n+1)+'"'+(n<BUN.length-1?'':' disabled')+'><small>SELANJUTNYA</small><b>Pola berikutnya ›</b></button></div>';
-  return '<div class="grammar-page">'+h+'</div>';
+var bAnim='',bSc=0;
+function bpFm(f){
+  var one=f.indexOf(' / ')>=0||!/ \+ | → /.test(f);
+  if(one)return '<span class="bp-chip">'+esc(f)+'</span>';
+  var h='';
+  f.split(/( \+ | → )/).forEach(function(p){
+    if(p===' + ')h+='<span class="bp-op">+</span>';
+    else if(p===' → ')h+='<span class="bp-op">→</span>';
+    else if(p)h+='<span class="bp-chip">'+esc(p)+'</span>';
+  });
+  return h;
+}
+function bdView(){
+  var n=bD,b=BUN[n],e=BEX[n],an=bAnim,hid=bHide?' is-hid':'',tot=BUN.length,k,c=0,eye;bAnim='';
+  var no=String(n+1).padStart(2,'0');
+  eye='<button class="bp-eye" data-a="bh">'+(bHide?'Tampilkan arti':'Sembunyikan arti')+'</button>';
+  var h='<div class="bp-page bp-detail"><header class="bp-bar"><button class="bp-back" data-a="bl2" aria-label="Kembali ke daftar pola"><span>‹</span>Semua pola</button><div class="bp-count">POLA<b>'+no+'</b><span>/ '+tot+'</span></div></header>';
+  h+='<div class="bp-prog"><i style="width:'+Math.round((n+1)/tot*100)+'%"></i></div><div class="bp-stage" data-anim="'+an+'">';
+  h+='<section class="bp-hero"><span class="bp-orbit" aria-hidden="true">文</span><div class="bp-kicker">文法 · GRAMMAR PATTERN</div><h1 class="bp-title'+(b[0].length>9?' long':'')+'">'+esc(b[0])+'</h1><span class="bp-meaning'+hid+'">'+esc(b[2])+'</span>'+eye+'</section>';
+  h+='<section class="bp-card"><div class="bp-label"><span>01</span>RUMUS POLA</div><div class="bp-formula">'+bpFm(b[1])+'</div></section>';
+  h+='<section class="bp-card"><div class="bp-label"><span>02</span>FUNGSI &amp; PENGGUNAAN</div><p class="bp-text">'+esc(e[0])+'</p></section>';
+  for(k=1;k+2<e.length;k+=3){c++;
+    h+='<section class="bp-card"><div class="bp-label"><span>'+String(c+2).padStart(2,'0')+'</span>CONTOH KALIMAT'+(e.length>4?' '+c:'')+'</div>';
+    h+='<div class="bp-exb bp-first"><small>日本語</small><p class="bp-jp">'+esc(e[k])+'</p></div>';
+    h+='<div class="bp-exb"><small>ROMAJI</small><p class="bp-ro">'+esc(e[k+1])+'</p></div>';
+    h+='<div class="bp-exb"><small>BAHASA INDONESIA</small><p class="bp-id'+hid+'">'+esc(e[k+2])+'</p></div></section>';
+  }
+  h+='</div><nav class="bp-nav" aria-label="Navigasi pola"><button class="bp-nb prev" data-a="br" data-i="'+Math.max(0,n-1)+'"'+(n?'':' disabled')+'><small>‹ SEBELUMNYA</small><b>'+(n?esc(BUN[n-1][0]):'Pola pertama')+'</b></button><button class="bp-nb next" data-a="br" data-i="'+Math.min(tot-1,n+1)+'"'+(n<tot-1?'':' disabled')+'><small>SELANJUTNYA ›</small><b>'+(n<tot-1?esc(BUN[n+1][0]):'Pola terakhir')+'</b></button></nav></div>';
+  return h;
 }
 function bunView(){
   if(bD>=0)return bdView();
-  var h='<div class="course-page grammar-page"><button class="back" data-a="bm">← Menu utama</button><section class="course-hero grammar-hero"><div class="study-kicker">03 · JAPANESE GRAMMAR</div><div class="course-kanji">文</div><h1>Belajar Bunpou</h1><p>Kenali pola, pahami makna, lalu uji ingatanmu.</p><div class="course-metrics"><span><b>'+BUN.length+'</b> pola</span><span><b>2</b> mode belajar</span></div></section>';
-  h+=tabsH([['list','01 · Materi'],['quiz','02 · Kuis']],bMode,'bt');
+  var an=bAnim,tot=BUN.length;bAnim='';
+  var h='<div class="bp-page bp-main"><header class="bp-bar"><button class="bp-back" data-a="bm"><span>‹</span>Menu utama</button></header>';
+  h+='<section class="bp-hero"><span class="bp-orbit" aria-hidden="true">文</span><div class="bp-kicker">03 · JAPANESE GRAMMAR</div><h1>Belajar Bunpou</h1><p>Kenali pola, pahami makna, lalu uji ingatanmu.</p><div class="bp-metrics"><span><b>'+tot+'</b> pola</span><span><b>2</b> mode belajar</span></div></section>';
+  h+='<div class="bp-seg" role="tablist">'+[['list','01 · Materi'],['quiz','02 · Kuis']].map(function(x){return '<button class="bp-tab'+(x[0]===bMode?' on':'')+'" role="tab" aria-selected="'+(x[0]===bMode)+'" data-a="bt" data-v="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';
+  h+='<div class="bp-stage" data-anim="'+an+'">';
   if(bMode==='list'){
-    h+='<div class="course-tools"><div><small>LIBRARY</small><b>Daftar pola bunpou</b></div><button class="sec" data-a="bh">'+(bHide?'Tampilkan arti':'Sembunyikan arti')+'</button></div><div class="grammar-library">';
-    BUN.forEach(function(b,n){h+='<button class="grammar-item" data-a="br" data-i="'+n+'"><span class="grammar-index">'+String(n+1).padStart(2,'0')+'</span><span class="grammar-item-copy"><b>'+esc(b[0])+'</b><small>'+esc(b[1])+'</small><em>'+(bHide?'••••••':esc(b[2]))+'</em></span><span class="grammar-arrow">↗</span></button>';});
-    h+='</div>';
-    return h+'</div>';
+    h+='<div class="bp-tools"><div><small>LIBRARY</small><b>Daftar pola bunpou</b></div><button class="bp-eye" data-a="bh">'+(bHide?'Tampilkan arti':'Sembunyikan arti')+'</button></div><div class="bp-list">';
+    BUN.forEach(function(b,n){h+='<button class="bp-item" data-a="br" data-i="'+n+'" style="--i:'+n+'"><span class="bp-no">'+String(n+1).padStart(2,'0')+'</span><span class="bp-copy"><b class="bp-pat">'+esc(b[0])+'</b><span class="bp-fm">'+esc(b[1])+'</span><span class="bp-mn">'+(bHide?'••••••':esc(b[2]))+'</span></span><span class="bp-go" aria-hidden="true">›</span></button>';});
+    return h+'</div></div></div>';
   }
-  if(!bQ)return h+'<section class="quiz-launch"><div class="quiz-emblem">問</div><small>MEMORY PRACTICE</small><h2>Siap uji pemahaman?</h2><p>10 soal acak: tebak arti pola, atau pola dari arti.</p><button class="pri" data-a="bqs">Mulai kuis <span>→</span></button></section></div>';
-  return h+quizH(bQ,'bq')+'</div>';
+  if(!bQ)return h+'<section class="bp-launch"><div class="bp-emblem">問</div><small>MEMORY PRACTICE</small><h2>Siap uji pemahaman?</h2><p>10 soal acak: tebak arti pola, atau pola dari arti.</p><button class="bp-cta" data-a="bqs">Mulai kuis <span>→</span></button></section></div></div>';
+  return h+'<div class="bp-quiz">'+quizH(bQ,'bq')+'</div></div></div>';
 }
 function rulesH(){
   var T=function(a,b,c){return '<tr><td>'+a+'</td><td>'+b+'</td><td>'+c+'</td></tr>';};
@@ -1215,16 +1324,16 @@ function vfView(){
 function xPick(Q,i){if(Q&&Q.pick===null){Q.pick=i;if(i===Q.items[Q.i].ai)Q.ok++;}}
 function xClick(a,t){
   var i=+t.getAttribute('data-i'),v=t.getAttribute('data-v');
-  if(a==='bun'){view='bun';bMode='list';bQ=null;bD=-1;window.scrollTo(0,0);return 1;}
+  if(a==='bun'){view='bun';bMode='list';bQ=null;bD=-1;bAnim='enter';window.scrollTo(0,0);return 1;}
   if(a==='vf'){view='vf';vMode='tab';vQ=null;window.scrollTo(0,0);return 1;}
-  if(a==='bt'){bMode=v;bQ=null;bD=-1;window.scrollTo(0,0);return 1;}
+  if(a==='bt'){bMode=v;bQ=null;bD=-1;bAnim='mode';window.scrollTo(0,0);return 1;}
   if(a==='bh'){bHide=!bHide;return 1;}
-  if(a==='br'){bD=i;window.scrollTo(0,0);return 1;}
-  if(a==='bl2'){bD=-1;return 1;}
-  if(a==='bqs'){bQ=bStart();window.scrollTo(0,0);return 1;}
-  if(a==='bqx'){bQ=null;window.scrollTo(0,0);return 1;}
+  if(a==='br'){if(bD>=0)bAnim=i>bD?'next':'prev';else bSc=window.pageYOffset||0;bD=i;window.scrollTo(0,0);return 1;}
+  if(a==='bl2'){bD=-1;var y0=bSc;requestAnimationFrame(function(){window.scrollTo(0,y0);});return 1;}
+  if(a==='bqs'){bQ=bStart();bAnim='mode';window.scrollTo(0,0);return 1;}
+  if(a==='bqx'){bQ=null;bAnim='mode';window.scrollTo(0,0);return 1;}
   if(a==='bqp'){xPick(bQ,i);return 1;}
-  if(a==='bqn'){bQ.i++;bQ.pick=null;window.scrollTo(0,0);return 1;}
+  if(a==='bqn'){bQ.i++;bQ.pick=null;bAnim='qnext';window.scrollTo(0,0);return 1;}
   if(a==='vt'){vMode=v;vQ=null;window.scrollTo(0,0);return 1;}
   if(a==='vv'){vSel=i;return 1;}
   if(a==='vp'){vPre=v;return 1;}
@@ -1552,7 +1661,7 @@ var _sk='',_ck=null,_sy=0,_fi=0,_tab=false;
 window.addEventListener('scroll',function(){_sy=window.pageYOffset||0;},{passive:true});
 function smRM(){return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches);}
 function smKeys(){
-  var sk=view+(view==='list'?cty:'')+(view==='kq'?kqPage:'')+(view==='sess'?(sess&&sess.brk?'b'+sess.n:'q'):''),ck=null;
+  var sk=view+(view==='list'?cty:'')+(view==='bun'&&bD>=0?'d':'')+(view==='kq'?kqPage:'')+(view==='sess'?(sess&&sess.brk?'b'+sess.n:'q'):''),ck=null;
   try{
     if(view==='sess'&&sess&&!sess.brk)ck=sess.cur;
     else if(view==='kq'&&kqPage==='play'&&KQ&&KQ.run)ck='k'+(kqFb?kqFb.id:KQ.run.queue[0]);
@@ -1563,7 +1672,7 @@ function smKeys(){
 /* kedalaman layar: lebih dalam = slide masuk dari kanan, lebih dangkal = kembali */
 function smDepth(k){
   if(k==='menu')return 0;
-  if(k==='day'||k==='fc'||k==='kqsetup')return 2;
+  if(k==='day'||k==='fc'||k==='kqsetup'||k==='bund')return 2;
   if(k.indexOf('sess')===0||k==='kqplay'||k==='kqres')return 3;
   return 1;
 }
