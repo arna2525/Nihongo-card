@@ -14,7 +14,7 @@
 
 <title>Manabi</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,500;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,500;1,800&family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Klee+One:wght@400;600&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#170b30;--card:#251645;--ink:#f3eeff;--mute:#b4a3db;--line:#3f2d68;--accent:#d3bfff;--on:#170b30;--sakura:#b08fff;--ok:#4cc38a;--no:#ff7c98;--gold:#f2cf6b;--hl:#ffd479;box-sizing:border-box;color-scheme:dark}
 *{box-sizing:border-box}
@@ -179,7 +179,8 @@ main{z-index:2}
 .xr small,.opt small{font-size:.7em;font-weight:400;color:var(--mute)}
 .vch{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}.vc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:15px}.vc.on{background:var(--accent);color:var(--on);border-color:var(--accent);font-weight:700}
 .xt{width:100%;border-collapse:collapse;font-size:14px}.xt td{border-bottom:1px solid var(--line);padding:6px 4px;vertical-align:top}.mc.x .ic{background:var(--accent);color:var(--on)}
-*,*::before,*::after{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+*,*::before,*::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.go{animation:none!important}
 .scene,.skyfx{display:none!important}
 .panel,.day,.mc,li,.chip,.rw,.list{background-color:var(--card)!important}
 .quote{background:transparent!important}
@@ -416,6 +417,12 @@ li{border-radius:14px!important;overflow:hidden}
 .v6-bub .bc svg{width:17px!important;height:17px!important}
 .v6-bub .lb{font-size:11px!important;padding:5px 10px!important}
 
+
+/* Transisi pemilihan font: hanya indikator pilihan yang bergerak,
+   halaman tidak dibangun ulang saat font diganti. */
+.v6-row[data-a="fnt"]{transition:border-color .22s ease,box-shadow .22s ease,background-color .22s ease}
+.v6-row[data-a="fnt"] .rc{transition:opacity .18s ease,transform .18s ease}
+.v6-row[data-a="fnt"]:active{transform:scale(.992)}
 /* ===== welcome splash ===== */
 .v6w{position:fixed;inset:0;z-index:100;overflow:hidden;background:radial-gradient(520px 420px at 50% 40%,#2c1d78 0,#150d44 55%,#0a0624 100%);color:#fff;font-family:var(--fnt)}
 .v6w.gone{display:none}
@@ -446,11 +453,18 @@ li{border-radius:14px!important;overflow:hidden}
 @keyframes v6in{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
 
 .v6w{pointer-events:auto;touch-action:manipulation}
-.v6w .wprogress{width:min(220px,68vw);margin-top:22px;display:flex;flex-direction:column;align-items:center;gap:9px}
-.v6w .wprogress-track{width:100%;height:3px;border-radius:99px;overflow:hidden;background:rgba(220,200,255,.18);box-shadow:0 0 12px rgba(180,130,255,.16)}
-.v6w .wprogress-fill{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#a98aff,#f4a8df);box-shadow:0 0 12px rgba(220,160,255,.7);will-change:width}
-.v6w .wprogress-value{font-size:clamp(19px,5vw,23px);font-weight:700;letter-spacing:.08em;line-height:1;color:#f3eaff;font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(190,145,255,.45)}
-.v6w .wprogress-label{font-size:9px;letter-spacing:.24em;color:#b9a9e8;opacity:.85}
+.v6w .wprogress,.v6w .wloading{width:min(270px,76vw);margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.v6w .wprogress-track,.v6w .wloading-track{position:relative;width:100%;height:9px;padding:2px;border:1px solid rgba(183,164,255,.55);border-radius:99px;overflow:hidden;background:linear-gradient(90deg,rgba(20,15,55,.92),rgba(53,35,91,.72));box-shadow:0 0 12px rgba(132,105,255,.25),inset 0 0 8px rgba(0,0,0,.7)}
+.v6w .wprogress-fill,.v6w .wloading-fill{position:relative;display:block;width:0;height:100%;border-radius:99px;background:linear-gradient(90deg,#48e4dc 0%,#7b8cff 48%,#e7a4ff 100%);box-shadow:0 0 8px #8c8bff,0 0 18px rgba(89,218,255,.75);will-change:width;transition:width .04s linear}
+.v6w .wprogress-fill:after,.v6w .wloading-fill:after{content:"";position:absolute;inset:0;width:35%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);filter:blur(2px);animation:wBarShine 1.1s linear infinite}
+@keyframes wBarShine{from{transform:translateX(-120%)}to{transform:translateX(360%)}}
+.v6w .wprogress-value,.v6w .wloading-value{display:none!important;font-size:clamp(21px,5.5vw,26px);font-weight:800;letter-spacing:.1em;line-height:1;color:#eafaff;font-variant-numeric:tabular-nums;text-shadow:0 0 10px #71dfff,0 0 22px rgba(157,130,255,.75)}
+.v6w .wprogress-label,.v6w .wloading-label{font-size:9px;letter-spacing:.22em;color:#bceaff;opacity:.9;text-transform:uppercase}
+.v6w .wprogress-hint{font-size:10px;letter-spacing:.14em;color:#d6caff;text-transform:uppercase;margin-top:3px}
+.v6w .wloading{display:none}.v6w.loading /* Welcome/hold screen: cegah iOS text selection, loupe, dan menu salin saat long-press */
+.v6w,.v6w *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-tap-highlight-color:transparent}
+.v6w{touch-action:none}
+.wprogress{display:none}.v6w.holding .wprogress{display:flex}.v6w.loading .wloading{display:none!important}
 .v6w.gone{pointer-events:none}
 @media(prefers-reduced-motion:reduce){.v6w *,.v6w.out,#app.v6-in{animation:none!important}.v6w .wk span,.v6w .wro,.v6w .wmn,.v6w .wnm,.v6w .wsb,.v6w .wsk{opacity:1!important}.v6w .wr,.v6w .wg,.v6w .wsw,.v6w canvas,.v6w .tw{display:none!important}}
 
@@ -489,6 +503,34 @@ li{border-radius:14px!important;overflow:hidden}
 .kq-card.good{border-color:var(--ok)!important}
 .kq-card.bad{border-color:var(--no)!important}
 .v6-in:disabled{opacity:1;-webkit-text-fill-color:#fff}
+/* ===== HALUS: slide halaman ala aplikasi (push/pop), tab, kartu ===== */
+*{-webkit-tap-highlight-color:transparent}
+button,[data-a]{touch-action:manipulation}
+@media(prefers-reduced-motion:no-preference){
+.v6-c,.v6-cta,.v6-row,.v6-chip,.v6-gear,.chapter-tile,.day,.opt,.pri,.sec,.back,.vc,.tab,.rw,.xr,.v6-nav button{transition:transform .18s ease,filter .18s ease,background-color .2s,border-color .2s,color .2s,opacity .2s}
+.pri:active,.go:active,.sec:active,.back:active,.vc:active,.tab:active,.rw:active,.xr:active,.day:active,.v6-cta:active,.v6-row:active,.chapter-tile:active,.v6-chip:active{transform:scale(.97);filter:brightness(1.08);transition-duration:.06s}
+.v6-c:active{transition-duration:.06s}
+.v6-nav button:active{transform:scale(.9);transition-duration:.06s}
+.bar i,.chapter-progress i{transition:width .4s ease}
+@keyframes pgIn{from{transform:translate3d(100%,0,0)}to{transform:none}}
+@keyframes pgBack{from{transform:translate3d(-28%,0,0)}to{transform:none}}
+@keyframes pgOutL{to{transform:translate3d(-28%,0,0)}}
+@keyframes pgOutR{to{transform:translate3d(100%,0,0)}}
+@keyframes swapIn{from{opacity:.5}to{opacity:1}}
+@keyframes rgIn{from{opacity:.2;transform:translate3d(var(--rx,44px),0,0)}to{opacity:1;transform:none}}
+@keyframes rgOut{to{opacity:0;transform:translate3d(var(--rx,-44px),0,0)}}
+#app.pg-push,#app.pg-pop{overflow-x:clip}
+#app.pg-push>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:pgIn .34s cubic-bezier(.32,.72,0,1) backwards!important}
+#app.pg-pop>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:pgBack .34s cubic-bezier(.32,.72,0,1) backwards!important}
+#app.pg-swap>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:swapIn .18s ease-out backwards!important}
+#app.pg-push:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#140f3a 0,#0d0928 46%,#0a0722 100%);animation:pgIn .34s cubic-bezier(.32,.72,0,1) backwards}
+.sm-ghost{position:fixed;top:0;height:100%;overflow:hidden;pointer-events:none;background:linear-gradient(180deg,#140f3a 0,#0d0928 46%,#0a0722 100%)}
+.sm-ghost.push{z-index:-2;animation:pgOutL .34s cubic-bezier(.32,.72,0,1) forwards}
+.sm-ghost.pop{z-index:8;animation:pgOutR .34s cubic-bezier(.32,.72,0,1) forwards}
+.sm-gi{box-sizing:border-box}
+.sm-rg{position:fixed!important;margin:0!important;pointer-events:none;z-index:3;box-sizing:border-box;animation:rgOut .22s ease-in forwards}
+.rg-in{animation:rgIn .28s cubic-bezier(.22,.8,.24,1) backwards}
+}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9c4ff"/><stop offset="1" stop-color="#7a5cf0"/></linearGradient><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b2dcff"/><stop offset="1" stop-color="#4d7df0"/></linearGradient><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc4e8"/><stop offset="1" stop-color="#e070c0"/></linearGradient><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a62e0"/><stop offset="1" stop-color="#2e2080"/></linearGradient><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ff0e0"/><stop offset="1" stop-color="#1fa9a0"/></linearGradient></defs></svg>
 <div id="v6w" class="v6w" aria-hidden="true"></div>
@@ -506,21 +548,17 @@ var W0=window.innerWidth,fs=Math.min(60,Math.floor((W0-48)/g[0].length)),nf=nm.l
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 var k='';for(var i=0;i<g[0].length;i++)k+='<span style="--d:'+(0.35+i*0.09).toFixed(2)+'s">'+g[0].charAt(i)+'</span>';
 var tw='';for(i=0;i<9;i++)tw+='<i class="tw" style="left:'+(8+Math.random()*84).toFixed(0)+'%;top:'+(10+Math.random()*75).toFixed(0)+'%;--d:'+(0.4+Math.random()*2.4).toFixed(2)+'s"><svg viewBox="0 0 24 24" fill="#eadcff"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/></svg></i>';
-w.innerHTML='<canvas></canvas>'+tw+'<div class="wg"></div><i class="wr" style="--d:.1s"></i><i class="wr" style="--d:.65s"></i><i class="wr" style="--d:1.2s"></i><div class="wc"><div class="wk" style="font-size:'+fs+'px">'+k+'</div><div class="wro">'+g[1]+'</div><div class="wmn">'+g[2]+'</div><div class="wnm" style="font-size:'+nf+'px">'+esc(nm)+'!</div><div class="wsb">'+(s>0?'Sudah '+s+' hari berturut-turut belajar. Pertahankan!':'Selamat datang. Satu langkah kecil hari ini sudah cukup.')+'</div><div class="wprogress" role="progressbar" aria-label="Memuat aplikasi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wprogress-value" aria-live="off">0%</div><div class="wprogress-track"><i class="wprogress-fill"></i></div><div class="wprogress-label">MENYIAPKAN MANABI</div></div></div><div class="wsw"></div>';
+w.innerHTML='<canvas></canvas>'+tw+'<div class="wg"></div><i class="wr" style="--d:.1s"></i><i class="wr" style="--d:.65s"></i><i class="wr" style="--d:1.2s"></i><div class="wc"><div class="wk" style="font-size:'+fs+'px">'+k+'</div><div class="wro">'+g[1]+'</div><div class="wmn">'+g[2]+'</div><div class="wnm" style="font-size:'+nf+'px">'+esc(nm)+'!</div><div class="wsb">'+(s>0?'Sudah '+s+' hari berturut-turut belajar. Pertahankan!':'Selamat datang. Satu langkah kecil hari ini sudah cukup.')+'</div><div class="wprogress" role="progressbar" aria-label="Tahan untuk mulai" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wprogress-track"><i class="wprogress-fill"></i></div><div class="wprogress-label">HOLD TO START</div><div class="wprogress-hint">Tekan & tahan 2,6 detik</div></div></div><div class="wsw"></div>';
 var red=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-var raf=0,done=false;
-var progressValue=w.querySelector('.wprogress-value'),progressFill=w.querySelector('.wprogress-fill'),progressWrap=w.querySelector('.wprogress');
-var progressDuration=red?1200:2980,holdDuration=300,progressStart=performance.now(),lastPct=0,closeTimer=0;
-function paintProgress(now){
-  if(done)return;
-  var elapsed=Math.max(0,now-progressStart),pct=Math.min(100,Math.floor(elapsed/progressDuration*100));
-  if(pct<lastPct)pct=lastPct;
-  lastPct=pct;
-  progressValue.textContent=pct+'%';progressFill.style.width=pct+'%';
-  progressWrap.setAttribute('aria-valuenow',String(pct));
-  if(pct>=100){closeTimer=setTimeout(end,holdDuration);return;}
-  raf=requestAnimationFrame(paintProgress);
-}
+var raf=0,done=false,holding=false,holdStart=0,holdPct=0;
+var holdFill=w.querySelector('.wprogress-fill'),holdWrap=w.querySelector('.wprogress');
+var holdDuration=2600;
+function holdFrame(now){if(done||!holding)return;var pct=Math.min(100,Math.floor((now-holdStart)/holdDuration*100));holdPct=Math.max(holdPct,pct);holdFill.style.width=holdPct+'%';if(holdPct>=100){holding=false;end();return;}raf=requestAnimationFrame(holdFrame);}
+function startHold(e){if(done||holding)return;holding=true;holdStart=performance.now();holdPct=0;holdFill.style.width='0%';w.classList.add('holding');raf=requestAnimationFrame(holdFrame);if(e&&e.preventDefault)e.preventDefault();}
+function cancelHold(){if(!holding||done)return;holding=false;cancelAnimationFrame(raf);holdPct=0;holdFill.style.width='0%';holdWrap.setAttribute('aria-valuenow','0');w.classList.remove('holding');}
+w.addEventListener('pointerdown',startHold);w.addEventListener('pointerup',cancelHold);w.addEventListener('pointercancel',cancelHold);w.addEventListener('pointerleave',cancelHold);
+w.addEventListener('selectstart',function(e){e.preventDefault();});
+w.addEventListener('contextmenu',function(e){e.preventDefault();});
 if(!red){
   var c=w.querySelector('canvas'),x=c.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),W,H;
   var rs=function(){W=window.innerWidth;H=window.innerHeight;c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px';x.setTransform(dpr,0,0,dpr,0,0);};rs();
@@ -541,12 +579,12 @@ if(!red){
   raf=requestAnimationFrame(loop);
 }
 function end(){
-  if(done)return;done=true;cancelAnimationFrame(raf);clearTimeout(closeTimer);
+  if(done)return;done=true;cancelAnimationFrame(raf);
   w.classList.add('out');
   var a=document.getElementById('app');if(a&&!red)a.classList.add('v6-in');
   setTimeout(function(){w.classList.add('gone');w.innerHTML='';if(a)a.classList.remove('v6-in');},red?0:680);
 }
-raf=requestAnimationFrame(paintProgress);
+
 })();
 </script>
 <main id="app"></main>
@@ -790,6 +828,57 @@ document.addEventListener('change',function(e){
   r.readAsText(f);
 });
 
+
+/* ---------- bentuk font (disimpan terpisah: 'manabi-font-v1') ---------- */
+var FNTK='manabi-font-v1',FNTS=[
+ {id:'def',n:'Bawaan',d:'Modern, bersih (Plus Jakarta Sans)',s:"'Plus Jakarta Sans','Zen Maru Gothic','Noto Sans JP',system-ui,sans-serif"},
+ {id:'bulat',n:'Bulat',d:'Lembut dan ramah (M PLUS Rounded)',s:"'M PLUS Rounded 1c','Zen Maru Gothic',system-ui,sans-serif"},
+ {id:'gothic',n:'Gothic',d:'Tegas dan jelas dibaca (Noto Sans JP)',s:"'Noto Sans JP',system-ui,sans-serif"},
+ {id:'buku',n:'Buku pelajaran',d:'Bentuk tulisan seperti buku kanji (Klee One)',s:"'Klee One','Zen Maru Gothic',system-ui,sans-serif"},
+ {id:'mincho',n:'Mincho',d:'Bergaya cetak buku, serif (Shippori Mincho)',s:"'Shippori Mincho','Noto Serif JP',Georgia,serif"},
+ {id:'sistem',n:'Font sistem',d:'Ikut font bawaan perangkat',s:"system-ui,-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif"}];
+function fntFind(id){for(var i=0;i<FNTS.length;i++)if(FNTS[i].id===id)return FNTS[i];return FNTS[0];}
+function fntGet(){var v='def';try{v=localStorage.getItem(FNTK)||'def';}catch(e){}return fntFind(v).id;}
+function fntApply(id){document.documentElement.style.setProperty('--fnt',fntFind(id).s);}
+var fntReq=0;
+function fntMark(id){
+  var rows=document.querySelectorAll('.v6-row[data-a="fnt"]');
+  for(var i=0;i<rows.length;i++){
+    var on=rows[i].getAttribute('data-v')===id;
+    rows[i].style.borderColor=on?'#d9c4ff':'';
+    rows[i].style.boxShadow=on?'0 0 0 1px rgba(217,196,255,.22),0 0 18px rgba(174,137,255,.12)':'';
+    var mark=rows[i].querySelector('.rc');
+    if(mark)mark.textContent=on?'✓':'';
+    rows[i].setAttribute('aria-pressed',on?'true':'false');
+  }
+}
+function fntSet(id){
+  var f=fntFind(id),token=++fntReq;
+  try{localStorage.setItem(FNTK,f.id);}catch(e){}
+  fntMark(f.id);
+  /* Tunggu font pilihan siap agar Safari tidak menampilkan font fallback
+     sesaat ketika keluarga font sedang dimuat. */
+  var family=f.s.split(',')[0].replace(/^['"]|['"]$/g,'');
+  if(document.fonts&&document.fonts.load){
+    document.fonts.load('16px "'+family.replace(/"/g,'')+'"','あ漢字').then(function(){
+      if(token===fntReq)fntApply(f.id);
+    }).catch(function(){if(token===fntReq)fntApply(f.id);});
+  }else{
+    fntApply(f.id);
+  }
+}
+fntApply(fntGet());
+function fontView(){
+  var cur=fntGet(),h='<div class="v6-slide"><div class="page-top"><button class="back" data-a="bm">← Menu</button><span class="eyebrow">PENGATURAN</span><h1>Bentuk font</h1></div>';
+  h+='<div class="panel" style="text-align:center"><div style="font-size:34px;font-weight:700;line-height:1.3">漢字　ひらがな</div><div style="font-size:15px;margin-top:6px">Hafalin kotoba hari ini</div></div>';
+  h+='<div class="v6-gl">PILIH FONT</div>';
+  FNTS.forEach(function(f){
+    var on=f.id===cur;
+    h+='<button class="v6-row" data-a="fnt" data-v="'+f.id+'" style="margin-bottom:8px'+(on?';border-color:#d9c4ff':'')+'"><span class="ri" style="font-family:'+f.s+'">あ</span><span class="rt"><b style="font-family:'+f.s+'">'+f.n+'　漢字</b><span>'+f.d+'</span></span><span class="rc" style="font-size:18px;font-weight:800;color:#d9c4ff">'+(on?'✓':'')+'</span></button>';
+  });
+  return h+'</div>';
+}
+
 var gearOpen=false;
 function gearBox(){
   var h='<div class="v6-gw"><button class="v6-gear'+(gearOpen?' on':'')+'" data-a="set" aria-label="Pengaturan" aria-expanded="'+gearOpen+'"><svg viewBox="0 0 24 24" fill="#e5d9ff"><path d="'+GEAR+'"/></svg></button>';
@@ -798,6 +887,7 @@ function gearBox(){
     h+='<button class="v6-bub" style="animation-delay:.02s" data-a="setn"><span class="lb">Ubah nama</span><span class="bc"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg></span></button>';
     h+='<button class="v6-bub" style="animation-delay:.1s" data-a="seta"><span class="lb">About</span><span class="bc"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg></span></button>';
     h+='<button class="v6-bub" style="animation-delay:.18s" data-a="setd"><span class="lb">Data &amp; progres</span><span class="bc"><svg viewBox="0 0 24 24" fill="#fff"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg></span></button>';
+    h+='<button class="v6-bub" style="animation-delay:.26s" data-a="setf"><span class="lb">Bentuk font</span><span class="bc"><svg viewBox="0 0 24 24"><text x="12" y="17.5" text-anchor="middle" font-size="15" font-weight="800" fill="#fff" font-family="sans-serif">Aa</text></svg></span></button>';
     h+='</div>';
   }
   return h+'</div>';
@@ -1432,14 +1522,76 @@ document.addEventListener('keydown',function(e){
 });
 
 function render(){
-  var h=view==='kq'?kqView():view==='setd'?setdView():view==='set'?setView():view==='setn'?nameView():view==='seta'?aboutView():view==='fc'?fcView():view==='bun'?bunView():view==='vf'?vfView():view==='splash'?splash():view==='menu'?menu():view==='list'?listView():view==='day'?dayView():view==='test'?testView():(sess&&sess.brk?breakView():sessView());
+  var h=view==='kq'?kqView():view==='setf'?fontView():view==='setd'?setdView():view==='set'?setView():view==='setn'?nameView():view==='seta'?aboutView():view==='fc'?fcView():view==='bun'?bunView():view==='vf'?vfView():view==='splash'?splash():view==='menu'?menu():view==='list'?listView():view==='day'?dayView():view==='test'?testView():(sess&&sess.brk?breakView():sessView());
   var nv=view==='menu'?'home':view==='list'?cty:view==='test'?'t':'';
   if(nv)h+=navb(nv);
-  app.className=nv?'hasnav':'';
+  var ks=smKeys(),sk=ks[0],kind='',ghost=null,rg=null,rdir=1;
+  if(view!=='splash'&&_sk&&_sk!=='splash'&&!smRM()){
+    if(sk!==_sk){var dd=smDepth(sk)-smDepth(_sk);kind=(_tab||dd===0)?'swap':dd>0?'push':'pop';}
+    else if(ks[1]!==null&&ks[1]!==_ck)kind=(view==='fc'||view==='sess')?'card':'swap';
+  }
+  _tab=false;
+  if(kind==='push'||kind==='pop'){ghost=null;}
+  else if(kind==='card'){
+    if(view==='fc'){var fn=fcList.length||1,fd=(fcI-_fi+fn)%fn;rdir=(fn>2&&fd===fn-1)?-1:1;rg=smRegion(['.fc3']);}
+    else rg=smRegion(['.session-q','.answer-grid']);
+  }
+  _sk=sk;_ck=ks[1];_fi=fcI;
+  app.className=(nv?'hasnav':'')+(kind&&kind!=='card'?' pg-'+kind:'');
   if(det)h+=sheet(det);
+  var ob=[],bs,bi;
+  if(!kind||kind==='card'){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length;bi++)ob.push(bs[bi].style.width);}
   app.innerHTML=h;
+  if(ghost){app.appendChild(ghost);setTimeout(function(){if(ghost.parentNode)ghost.parentNode.removeChild(ghost);},400);}
+  if(rg)smRegionApply(rg,rdir);
+  if(ob.length){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length&&bi<ob.length;bi++){var tw=bs[bi].style.width;if(ob[bi]&&tw&&ob[bi]!==tw){bs[bi].style.width=ob[bi];void bs[bi].offsetWidth;bs[bi].style.width=tw;}}}
   document.body.style.overflow=det?'hidden':'';
   if(view==='kq')kqAfter();
+}
+var _sk='',_ck=null,_sy=0,_fi=0,_tab=false;
+window.addEventListener('scroll',function(){_sy=window.pageYOffset||0;},{passive:true});
+function smRM(){return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches);}
+function smKeys(){
+  var sk=view+(view==='list'?cty:'')+(view==='kq'?kqPage:'')+(view==='sess'?(sess&&sess.brk?'b'+sess.n:'q'):''),ck=null;
+  try{
+    if(view==='sess'&&sess&&!sess.brk)ck=sess.cur;
+    else if(view==='kq'&&kqPage==='play'&&KQ&&KQ.run)ck='k'+(kqFb?kqFb.id:KQ.run.queue[0]);
+    else if(view==='fc')ck=fcI+'|'+fcDay+'|'+fcTy+'|'+fcList.length;
+  }catch(e){}
+  return [sk,ck];
+}
+/* kedalaman layar: lebih dalam = slide masuk dari kanan, lebih dangkal = kembali */
+function smDepth(k){
+  if(k==='menu')return 0;
+  if(k==='day'||k==='fc'||k==='kqsetup')return 2;
+  if(k.indexOf('sess')===0||k==='kqplay'||k==='kqres')return 3;
+  return 1;
+}
+/* halaman lama dipindah ke lapisan terpisah supaya bisa ikut slide */
+function smGhost(kind){
+  /* Lapisan ghost lama dinonaktifkan.
+     Pada Safari/iOS, memindahkan seluruh anak #app ke elemen fixed lalu
+     menggesernya dapat menghasilkan layar lama yang terbelah/terduplikasi.
+     Halaman baru tetap memakai animasi pgIn/pgBack dari #app. */
+  return null;
+}
+/* ganti kartu/soal: bagian lama keluar, bagian baru masuk dari samping */
+function smRegion(sels){
+  if(smRM())return null;
+  var out=[];
+  sels.forEach(function(sel){var n=app.querySelector(sel);if(!n)return;out.push({sel:sel,r:n.getBoundingClientRect(),c:n.cloneNode(true)});});
+  return out.length?out:null;
+}
+function smRegionApply(rg,dir){
+  rg.forEach(function(o){
+    var nn=app.querySelector(o.sel);if(!nn)return;
+    var c=o.c,st=c.style;
+    c.classList.add('sm-rg');
+    st.left=o.r.left+'px';st.top=o.r.top+'px';st.width=o.r.width+'px';st.height=o.r.height+'px';st.setProperty('--rx',(-dir*44)+'px');
+    nn.parentNode.appendChild(c);
+    nn.style.setProperty('--rx',(dir*44)+'px');nn.classList.add('rg-in');
+    setTimeout(function(){if(c.parentNode)c.parentNode.removeChild(c);},320);
+  });
 }
 function onClick(e){
   var t=e.target.closest('[data-a]');if(!t){if(gearOpen){gearOpen=false;render();}return;}var a=t.getAttribute('data-a');
@@ -1450,6 +1602,8 @@ function onClick(e){
   if(a==='setn'){view='setn';window.scrollTo(0,0);render();return;}
   if(a==='seta'){view='seta';window.scrollTo(0,0);render();return;}
   if(a==='nsv'||a==='nrs'){var el=$('v6n'),v=a==='nrs'?'':(el?el.value:'');S.nm=v.replace(/\s+/g,' ').trim().slice(0,20);save();setMsg=S.nm?'Nama disimpan: '+S.nm:'Nama dikembalikan ke bawaan';view='menu';window.scrollTo(0,0);render();return;}
+  if(a==='setf'){view='setf';gearOpen=false;window.scrollTo(0,0);render();return;}
+  if(a==='fnt'){fntSet(t.getAttribute('data-v'));return;}
   if(a==='setd'){view='setd';gearOpen=false;dPend=null;dMsg='';dErr=false;window.scrollTo(0,0);render();return;}
   if(a==='dex'){dExport();render();return;}
   if(a==='dim'){if(dPend)dApply();window.scrollTo(0,0);render();return;}
@@ -1482,6 +1636,7 @@ function onClick(e){
   render();
 }
 document.addEventListener('click',function(e){
+  _tab=!!(e.target&&e.target.closest&&e.target.closest('.v6-nav'));
   try{onClick(e);}
   catch(err){sess=null;det='';dstack=[];view='menu';flash='';try{document.body.style.overflow='';render();}catch(e2){}}
 });
