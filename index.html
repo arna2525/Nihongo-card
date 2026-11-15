@@ -190,8 +190,8 @@ main{z-index:2}
 :root{--bg:#170b35;--card:rgba(27,12,66,.82);--ink:#faf7ff;--mute:#d5cbf2;--line:rgba(206,191,255,.25);--accent:#b6a8ff;--on:#1d103c;--sakura:#ffacd0;--ok:#4bd9bd;--no:#ff7898;--gold:#ffdb91;--hl:#ffe39b;color-scheme:dark}
 html,body{min-height:100%;background:#170b35!important;color:var(--ink)!important}
 body{position:relative;isolation:isolate;font-family:"Zen Maru Gothic","Noto Sans JP",system-ui,sans-serif!important}
-body:before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(180deg,rgba(13,5,32,.03) 0%,rgba(16,7,39,.30) 35%,rgba(16,7,39,.88) 100%),linear-gradient(transparent,transparent) 65% 34%/cover no-repeat}
-body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 10%,rgba(255,160,205,.18),transparent 30%),radial-gradient(ellipse at 88% 30%,rgba(131,102,255,.17),transparent 34%);animation:mansionGlow 14s ease-in-out infinite alternate}
+body:before{content:"";position:fixed;inset:-80px 0;z-index:-2;pointer-events:none;background:linear-gradient(180deg,rgba(13,5,32,.03) 0%,rgba(16,7,39,.30) 35%,rgba(16,7,39,.88) 100%),linear-gradient(transparent,transparent) 65% 34%/cover no-repeat}
+body:after{content:"";position:fixed;inset:-80px 0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 10%,rgba(255,160,205,.18),transparent 30%),radial-gradient(ellipse at 88% 30%,rgba(131,102,255,.17),transparent 34%);animation:mansionGlow 14s ease-in-out infinite alternate}
 @keyframes mansionGlow{from{opacity:.45}to{opacity:1}}
 #app{max-width:680px!important;min-height:100vh;min-height:100dvh;margin:0 auto;padding:22px 16px calc(42px + env(safe-area-inset-bottom))!important;position:relative;z-index:1;background:transparent!important}
 .mansion-hero{position:relative;min-height:245px;display:flex;align-items:flex-end;overflow:hidden;padding:25px 23px;border-radius:30px;border:1px solid rgba(218,207,255,.48);background:linear-gradient(100deg,rgba(20,7,53,.88),rgba(27,12,70,.52) 66%,rgba(24,11,61,.20));box-shadow:0 25px 55px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.25);backdrop-filter:blur(10px) saturate(1.15);-webkit-backdrop-filter:blur(10px) saturate(1.15)}
@@ -424,8 +424,9 @@ li{border-radius:14px!important;overflow:hidden}
 .v6-row[data-a="fnt"] .rc{transition:opacity .18s ease,transform .18s ease}
 .v6-row[data-a="fnt"]:active{transform:scale(.992)}
 /* ===== welcome splash ===== */
-.v6w{position:fixed;inset:0;z-index:100;overflow:hidden;background:radial-gradient(520px 420px at 50% 40%,#2c1d78 0,#150d44 55%,#0a0624 100%);color:#fff;font-family:var(--fnt)}
+.v6w{position:fixed;inset:-80px 0;z-index:100;overflow:hidden;background:radial-gradient(520px 420px at 50% 40%,#2c1d78 0,#150d44 55%,#0a0624 100%);color:#fff;font-family:var(--fnt)}
 .v6w.gone{display:none}
+html.v6-wl #app{visibility:hidden}
 .v6w canvas{position:absolute;inset:0}
 .v6w .wc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 24px 40px}
 .v6w .wr{position:absolute;left:50%;top:44%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:2px solid rgba(196,170,255,.75);box-shadow:0 0 30px rgba(150,110,255,.6),inset 0 0 30px rgba(150,110,255,.35);opacity:0;animation:wRing 2.6s ease-out var(--d) forwards!important}
@@ -546,14 +547,14 @@ button,[data-a]{touch-action:manipulation}
 .kq-entry-dock .kq-check-btn:focus-visible{outline:3px solid rgba(220,200,255,.9);outline-offset:2px}
 .kq-session,.kq-entry-dock{overflow-anchor:none}
 @media(prefers-reduced-motion:reduce){.kq-entry-dock,.kq-entry-dock *{scroll-behavior:auto!important;transition:none!important}}
-/* Stabilkan viewport KQ (satu sumber: visualViewport -> --kq-vh/--kq-vv-top).
-   #app = kolom setinggi area terlihat di atas keyboard, konten rata ATAS.
+/* Stabilkan viewport KQ: #app menempel ke layout viewport (top/bottom 0) dan TIDAK mengikuti
+   visualViewport, jadi tidak ada gerakan saat keyboard muncul. Konten rata ATAS.
    Dock input mengalir persis di bawah kartu Kanji, jadi kartu tidak bergeser
    saat keyboard dibuka/ditutup. Input ada di area yang sudah terlihat,
    sehingga iOS tidak perlu menggulir apa pun. */
 html:has(body.kq-viewport-active),body.kq-viewport-active{height:100%;overflow:hidden!important;overscroll-behavior:none}
 body.kq-viewport-active{position:fixed!important;inset:0!important;width:100%!important;min-height:0!important}
-body.kq-viewport-active #app.kq-viewport-lock{position:fixed!important;top:var(--kq-vv-top,0px)!important;left:0!important;right:0!important;width:100%!important;height:var(--kq-vh,100dvh)!important;min-height:0!important;max-height:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;overflow:clip!important;padding-bottom:0!important}
+body.kq-viewport-active #app.kq-viewport-lock{position:fixed!important;top:0!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;overflow:clip!important;padding-bottom:0!important}
 body.kq-viewport-active .kq-session{display:flex!important;flex-direction:column!important;flex:1 1 auto!important;min-height:0!important;height:100%!important;box-sizing:border-box!important;padding-bottom:0!important}
 body.kq-viewport-active .kq-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
 body.kq-viewport-active .kq-entry-dock{position:relative!important;left:auto!important;bottom:auto!important;transform:none!important;width:100%!important;max-width:none!important;margin:12px 0 0!important}
@@ -648,6 +649,7 @@ body.kq-viewport-active.kq-kb .kq-hint{display:none}
 <div id="v6w" class="v6w" aria-hidden="true"></div>
 <script>(function(){
 var w=document.getElementById('v6w');if(!w)return;
+document.documentElement.classList.add('v6-wl');/* app tidak boleh mengintip di bawah welcome */
 var nm='Pengguna',lg={};
 try{var d=JSON.parse(localStorage.getItem('jft-a2-v1'));if(d){if(d.nm)nm=d.nm;lg=d.log||{};}}catch(e){}
 function p2(n){return n<10?'0'+n:''+n;}
@@ -713,7 +715,7 @@ function end(){
   /* Tunggu font Google selesai (maks 1,5 dtk) agar pergantian font terjadi di balik welcome, bukan terlihat sebagai UI bergeser. */
   var fin=function(){
     w.classList.add('out');
-    var a=document.getElementById('app');if(a&&!red)a.classList.add('v6-in');
+    var a=document.getElementById('app');document.documentElement.classList.remove('v6-wl');if(a&&!red)a.classList.add('v6-in');
     setTimeout(function(){w.classList.add('gone');w.innerHTML='';if(a)a.classList.remove('v6-in');},red?0:440);
   };
   try{Promise.race([Promise.all([fontP,heroP]),new Promise(function(r){setTimeout(r,3500);})]).then(fin,fin);}catch(e){fin();}
@@ -1652,18 +1654,13 @@ function kqAfter(){
 var kqVvK='',kqSettleT=0;
 function kqViewport(){
   if(view!=='kq'||kqPage!=='play')return;
-  var vv=window.visualViewport,app=document.getElementById('app');
-  if(vv&&app){
-    var vh=Math.max(1,Math.round(vv.height||window.innerHeight)),tp=Math.max(0,Math.round(vv.offsetTop||0)),k=vh+'|'+tp;
-    if(k!==kqVvK){kqVvK=k;app.style.setProperty('--kq-vh',vh+'px');app.style.setProperty('--kq-vv-top',tp+'px');}
-  }
+  var app=document.getElementById('app');
   var ae=document.activeElement,on=!!(ae&&ae.id==='kqin');
   if(document.body.classList.contains('kq-kb')!==on)document.body.classList.toggle('kq-kb',on);
   if(window.scrollY>0)window.scrollTo(0,0);
   if(app&&app.scrollTop)app.scrollTop=0;
 }
-/* iOS sering terlambat/melewatkan event resize saat keyboard dibuka ulang:
-   baca visualViewport tiap frame ~0,75 dtk setelah fokus/blur (tulis hanya jika berubah). */
+/* Selama ~0,75 dtk setelah fokus/blur, tahan posisi gulir area soal agar tidak ada geseran sisa dari iOS. */
 function kqHold(sc,st){
   var inp=document.getElementById('kqin');
   if(!sc||!sc.isConnected||!inp||sc.scrollTop===st)return;
