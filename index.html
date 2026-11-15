@@ -18,12 +18,12 @@
 <style>
 :root{--bg:#170b30;--card:#251645;--ink:#f3eeff;--mute:#b4a3db;--line:#3f2d68;--accent:#d3bfff;--on:#170b30;--sakura:#b08fff;--ok:#4cc38a;--no:#ff7c98;--gold:#f2cf6b;--hl:#ffd479;box-sizing:border-box;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;min-height:100vh;min-height:100dvh}
 main{max-width:480px;margin:0 auto;padding:18px 16px 40px}
 h1{font-size:22px;margin:0 0 12px}h2{font-size:17px;margin:18px 0 8px}
 button{cursor:pointer;font:inherit;color:inherit}
 button:focus-visible,a:focus-visible{outline:3px solid var(--sakura);outline-offset:2px}
-.splash{min-height:calc(100vh - 70px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:30px;text-align:center}
+.splash{min-height:calc(100vh - 70px);min-height:calc(100dvh - 70px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:30px;text-align:center}
 .brand{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
 .quote{background:transparent;border:0;font-size:25px;font-weight:700;line-height:1.4;padding:6px 4px;max-width:100%}
 .quote small{display:block;font-size:12px;font-weight:400;color:var(--mute);margin-top:14px}
@@ -193,7 +193,7 @@ body{position:relative;isolation:isolate;font-family:"Zen Maru Gothic","Noto San
 body:before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(180deg,rgba(13,5,32,.03) 0%,rgba(16,7,39,.30) 35%,rgba(16,7,39,.88) 100%),linear-gradient(transparent,transparent) 65% 34%/cover no-repeat}
 body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 10%,rgba(255,160,205,.18),transparent 30%),radial-gradient(ellipse at 88% 30%,rgba(131,102,255,.17),transparent 34%);animation:mansionGlow 14s ease-in-out infinite alternate}
 @keyframes mansionGlow{from{opacity:.45}to{opacity:1}}
-#app{max-width:680px!important;min-height:100vh;margin:0 auto;padding:22px 16px calc(42px + env(safe-area-inset-bottom))!important;position:relative;z-index:1;background:transparent!important}
+#app{max-width:680px!important;min-height:100vh;min-height:100dvh;margin:0 auto;padding:22px 16px calc(42px + env(safe-area-inset-bottom))!important;position:relative;z-index:1;background:transparent!important}
 .mansion-hero{position:relative;min-height:245px;display:flex;align-items:flex-end;overflow:hidden;padding:25px 23px;border-radius:30px;border:1px solid rgba(218,207,255,.48);background:linear-gradient(100deg,rgba(20,7,53,.88),rgba(27,12,70,.52) 66%,rgba(24,11,61,.20));box-shadow:0 25px 55px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.25);backdrop-filter:blur(10px) saturate(1.15);-webkit-backdrop-filter:blur(10px) saturate(1.15)}
 .hero-copy{position:relative;z-index:2}.eyebrow{display:block;color:#b8a9ff;font-size:10px;font-weight:700;letter-spacing:.19em;margin-bottom:9px}
 .mansion-hero h1{font-size:clamp(28px,7vw,39px)!important;line-height:1.13;margin:0 0 8px!important;color:white!important;text-shadow:0 4px 22px #12072e}
@@ -447,10 +447,10 @@ li{border-radius:14px!important;overflow:hidden}
 .v6w .wsk{position:absolute;left:0;right:0;bottom:max(26px,env(safe-area-inset-bottom));text-align:center;font-size:11px;letter-spacing:.2em;color:#a898e0;opacity:0;animation:wUp .8s ease-out 2.6s forwards!important}
 .v6w .tw{position:absolute;width:12px;height:12px;margin:-6px;opacity:0;animation:wTw 2.2s ease-in-out var(--d) infinite!important}
 @keyframes wTw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
-.v6w.out{animation:wOut .65s ease-in forwards!important}
-@keyframes wOut{to{opacity:0;transform:scale(1.1);filter:blur(10px)}}
-#app.v6-in{animation:v6in .8s cubic-bezier(.2,.8,.2,1) both!important}
-@keyframes v6in{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
+.v6w.out{animation:wOut .42s ease-out forwards!important}
+@keyframes wOut{to{opacity:0;transform:scale(1.04)}}
+#app.v6-in{animation:v6in .42s ease-out both!important}
+@keyframes v6in{from{opacity:0}to{opacity:1}}
 
 .v6w{pointer-events:auto;touch-action:manipulation}
 .v6w .wprogress,.v6w .wloading{width:min(270px,76vw);margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -515,18 +515,17 @@ button,[data-a]{touch-action:manipulation}
 .v6-c:active{transition-duration:.06s}
 .v6-nav button:active{transform:scale(.9);transition-duration:.06s}
 .bar i,.chapter-progress i{transition:width .4s ease}
-@keyframes pgIn{from{transform:translate3d(100%,0,0)}to{transform:none}}
-@keyframes pgBack{from{transform:translate3d(-28%,0,0)}to{transform:none}}
+@keyframes pgIn{from{opacity:0;transform:translate3d(32px,0,0)}to{opacity:1;transform:none}}
+@keyframes pgBack{from{opacity:0;transform:translate3d(-32px,0,0)}to{opacity:1;transform:none}}
 @keyframes pgOutL{to{transform:translate3d(-28%,0,0)}}
 @keyframes pgOutR{to{transform:translate3d(100%,0,0)}}
 @keyframes swapIn{from{opacity:.5}to{opacity:1}}
 @keyframes rgIn{from{opacity:.2;transform:translate3d(var(--rx,44px),0,0)}to{opacity:1;transform:none}}
 @keyframes rgOut{to{opacity:0;transform:translate3d(var(--rx,-44px),0,0)}}
 #app.pg-push,#app.pg-pop{overflow-x:clip}
-#app.pg-push>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:pgIn .34s cubic-bezier(.32,.72,0,1) backwards!important}
-#app.pg-pop>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:pgBack .34s cubic-bezier(.32,.72,0,1) backwards!important}
+#app.pg-push>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:pgIn .26s cubic-bezier(.22,.8,.24,1) backwards!important}
+#app.pg-pop>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:pgBack .26s cubic-bezier(.22,.8,.24,1) backwards!important}
 #app.pg-swap>:where(:not(.v6-nav):not(.ov):not(.v6-toast):not(.sm-ghost)){animation:swapIn .18s ease-out backwards!important}
-#app.pg-push:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#140f3a 0,#0d0928 46%,#0a0722 100%);animation:pgIn .34s cubic-bezier(.32,.72,0,1) backwards}
 .sm-ghost{position:fixed;top:0;height:100%;overflow:hidden;pointer-events:none;background:linear-gradient(180deg,#140f3a 0,#0d0928 46%,#0a0722 100%)}
 .sm-ghost.push{z-index:-2;animation:pgOutL .34s cubic-bezier(.32,.72,0,1) forwards}
 .sm-ghost.pop{z-index:8;animation:pgOutR .34s cubic-bezier(.32,.72,0,1) forwards}
@@ -537,8 +536,28 @@ button,[data-a]{touch-action:manipulation}
 @keyframes sessionFade{from{opacity:0}to{opacity:1}}
 .session-page.session-fade-in .session-q,.session-page.session-fade-in .answer-grid{animation:sessionFade .16s ease-out both}
 @media(prefers-reduced-motion:reduce){.session-page.session-fade-in .session-q,.session-page.session-fade-in .answer-grid{animation:none!important}}
-/* Quiz Ketik Kanji: layout tetap; tombol Periksa menempel di area bawah layar. */
-.kq-check-btn{position:sticky!important;bottom:8px;z-index:12;box-shadow:0 8px 24px rgba(0,0,0,.32)}
+/* Quiz Ketik Kanji: dock fixed di atas keyboard iOS, tidak ikut alur/scroll konten.
+   Seluruh aturan dibatasi ke halaman KQ; quiz lain tidak terpengaruh. */
+.kq-session{padding-bottom:96px!important}
+.kq-entry-dock{position:fixed;left:50%;bottom:max(8px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(calc(100% - 32px),448px);box-sizing:border-box;z-index:80;display:flex;align-items:stretch;gap:8px;margin:0;padding:6px;border:1px solid rgba(190,168,255,.28);border-radius:22px;background:rgba(12,7,39,.96);box-shadow:0 10px 28px rgba(0,0,0,.34),0 0 18px rgba(125,92,240,.16);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);}
+.kq-entry-dock .v6-in{flex:1;min-width:0;margin:0!important;border-radius:16px;height:54px;scroll-margin:8px}
+.kq-entry-dock .kq-check-btn{flex:0 0 58px;width:58px;min-width:58px;height:54px;min-height:54px;margin:0!important;padding:0!important;border-radius:50%!important;display:flex;align-items:center;justify-content:center;font-size:0;font-weight:800;line-height:1;position:relative;z-index:1;box-shadow:0 5px 16px rgba(124,92,240,.35)}
+.kq-entry-dock .kq-check-btn:after{content:'›';font-size:34px;line-height:1;transform:translateY(-2px)}
+.kq-entry-dock .kq-check-btn:focus-visible{outline:3px solid rgba(220,200,255,.9);outline-offset:2px}
+.kq-session,.kq-entry-dock{overflow-anchor:none}
+@media(prefers-reduced-motion:reduce){.kq-entry-dock,.kq-entry-dock *{scroll-behavior:auto!important;transition:none!important}}
+/* Stabilkan viewport KQ (satu sumber: visualViewport -> --kq-vh/--kq-vv-top).
+   #app = kolom setinggi area terlihat di atas keyboard, konten rata ATAS.
+   Dock input mengalir persis di bawah kartu Kanji, jadi kartu tidak bergeser
+   saat keyboard dibuka/ditutup. Input ada di area yang sudah terlihat,
+   sehingga iOS tidak perlu menggulir apa pun. */
+html:has(body.kq-viewport-active),body.kq-viewport-active{height:100%;overflow:hidden!important;overscroll-behavior:none}
+body.kq-viewport-active{position:fixed!important;inset:0!important;width:100%!important;min-height:0!important}
+body.kq-viewport-active #app.kq-viewport-lock{position:fixed!important;top:var(--kq-vv-top,0px)!important;left:0!important;right:0!important;width:100%!important;height:var(--kq-vh,100dvh)!important;min-height:0!important;max-height:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;overflow:clip!important;padding-bottom:0!important}
+body.kq-viewport-active .kq-session{display:flex!important;flex-direction:column!important;flex:1 1 auto!important;min-height:0!important;height:100%!important;box-sizing:border-box!important;padding-bottom:0!important}
+body.kq-viewport-active .kq-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+body.kq-viewport-active .kq-entry-dock{position:relative!important;left:auto!important;bottom:auto!important;transform:none!important;width:100%!important;max-width:none!important;margin:12px 0 0!important}
+body.kq-viewport-active.kq-kb .kq-hint{display:none}
 
 
 /* ===== BUNPOU V6 · redesain Purple Glass (daftar + detail + kuis) ===== */
@@ -641,11 +660,11 @@ var W0=window.innerWidth,fs=Math.min(60,Math.floor((W0-48)/g[0].length)),nf=nm.l
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 var k='';for(var i=0;i<g[0].length;i++)k+='<span style="--d:'+(0.35+i*0.09).toFixed(2)+'s">'+g[0].charAt(i)+'</span>';
 var tw='';for(i=0;i<9;i++)tw+='<i class="tw" style="left:'+(8+Math.random()*84).toFixed(0)+'%;top:'+(10+Math.random()*75).toFixed(0)+'%;--d:'+(0.4+Math.random()*2.4).toFixed(2)+'s"><svg viewBox="0 0 24 24" fill="#eadcff"><path d="M12 1l2.4 8.6L23 12l-8.6 2.4L12 23l-2.4-8.6L1 12l8.6-2.4z"/></svg></i>';
-w.innerHTML='<canvas></canvas>'+tw+'<div class="wg"></div><i class="wr" style="--d:.1s"></i><i class="wr" style="--d:.65s"></i><i class="wr" style="--d:1.2s"></i><div class="wc"><div class="wk" style="font-size:'+fs+'px">'+k+'</div><div class="wro">'+g[1]+'</div><div class="wmn">'+g[2]+'</div><div class="wnm" style="font-size:'+nf+'px">'+esc(nm)+'!</div><div class="wsb">'+(s>0?'Sudah '+s+' hari berturut-turut belajar. Pertahankan!':'Selamat datang. Satu langkah kecil hari ini sudah cukup.')+'</div><div class="wprogress" role="progressbar" aria-label="Tahan untuk mulai" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wprogress-track"><i class="wprogress-fill"></i></div><div class="wprogress-label">HOLD TO START</div><div class="wprogress-hint">Tekan & tahan 2,6 detik</div></div></div><div class="wsw"></div>';
+w.innerHTML='<canvas></canvas>'+tw+'<div class="wg"></div><i class="wr" style="--d:.1s"></i><i class="wr" style="--d:.65s"></i><i class="wr" style="--d:1.2s"></i><div class="wc"><div class="wk" style="font-size:'+fs+'px">'+k+'</div><div class="wro">'+g[1]+'</div><div class="wmn">'+g[2]+'</div><div class="wnm" style="font-size:'+nf+'px">'+esc(nm)+'!</div><div class="wsb">'+(s>0?'Sudah '+s+' hari berturut-turut belajar. Pertahankan!':'Selamat datang. Satu langkah kecil hari ini sudah cukup.')+'</div><div class="wprogress" role="progressbar" aria-label="Tahan untuk mulai" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wprogress-track"><i class="wprogress-fill"></i></div><div class="wprogress-label">HOLD TO START</div></div></div><div class="wsw"></div>';
 var red=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
 var raf=0,done=false,holding=false,holdStart=0,holdPct=0;
 var holdFill=w.querySelector('.wprogress-fill'),holdWrap=w.querySelector('.wprogress');
-var holdDuration=2600;
+var holdDuration=1200;
 function holdFrame(now){if(done||!holding)return;var pct=Math.min(100,Math.floor((now-holdStart)/holdDuration*100));holdPct=Math.max(holdPct,pct);holdFill.style.width=holdPct+'%';if(holdPct>=100){holding=false;end();return;}raf=requestAnimationFrame(holdFrame);}
 function startHold(e){if(done||holding)return;holding=true;holdStart=performance.now();holdPct=0;holdFill.style.width='0%';w.classList.add('holding');raf=requestAnimationFrame(holdFrame);if(e&&e.preventDefault)e.preventDefault();}
 function cancelHold(){if(!holding||done)return;holding=false;cancelAnimationFrame(raf);holdPct=0;holdFill.style.width='0%';holdWrap.setAttribute('aria-valuenow','0');w.classList.remove('holding');}
@@ -671,11 +690,33 @@ if(!red){
     raf=requestAnimationFrame(loop);};
   raf=requestAnimationFrame(loop);
 }
+/* Minta SEMUA bobot font yang dipakai sekarang (bukan menunggu dipakai saat render), lalu tunggu selesai. */
+var fontP=(function(){
+  try{
+    if(!document.fonts||!document.fonts.load)return Promise.resolve();
+    var q=['400 16px "Plus Jakarta Sans"','600 16px "Plus Jakarta Sans"','700 16px "Plus Jakarta Sans"','800 16px "Plus Jakarta Sans"','italic 500 16px "Plus Jakarta Sans"','italic 800 16px "Plus Jakarta Sans"','400 16px "Zen Maru Gothic"','700 16px "Zen Maru Gothic"'];
+    return Promise.all(q.map(function(f){return document.fonts.load(f,'Aa あ').then(null,function(){});}).concat([document.fonts.ready]));
+  }catch(e){return Promise.resolve();}
+})();
+/* Pra-muat & pra-decode foto hero (data-URI 96KB) supaya tidak "muncul belakangan" saat halaman tampil / dirender ulang. Objek Image disimpan agar bitmap tetap di cache. */
+var heroP=new Promise(function(res){
+  try{
+    var t=document.createElement('div');t.className='v6-girl';t.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none';
+    document.body.appendChild(t);var bg=getComputedStyle(t).backgroundImage;document.body.removeChild(t);
+    var m=/url\("?([^")]+)"?\)/.exec(bg);if(!m){res();return;}
+    var im=new Image();window.__v6girl=im;im.onload=im.onerror=function(){res();};im.src=m[1];
+    if(im.decode)im.decode().then(res,res);
+  }catch(e){res();}
+});
 function end(){
   if(done)return;done=true;cancelAnimationFrame(raf);
-  w.classList.add('out');
-  var a=document.getElementById('app');if(a&&!red)a.classList.add('v6-in');
-  setTimeout(function(){w.classList.add('gone');w.innerHTML='';if(a)a.classList.remove('v6-in');},red?0:680);
+  /* Tunggu font Google selesai (maks 1,5 dtk) agar pergantian font terjadi di balik welcome, bukan terlihat sebagai UI bergeser. */
+  var fin=function(){
+    w.classList.add('out');
+    var a=document.getElementById('app');if(a&&!red)a.classList.add('v6-in');
+    setTimeout(function(){w.classList.add('gone');w.innerHTML='';if(a)a.classList.remove('v6-in');},red?0:440);
+  };
+  try{Promise.race([Promise.all([fontP,heroP]),new Promise(function(r){setTimeout(r,3500);})]).then(fin,fin);}catch(e){fin();}
 }
 
 })();
@@ -1557,7 +1598,7 @@ function kqSetup(){
 function kqPlay(){
   var r=KQ.run,id=kqFb?kqFb.id:r.queue[0],w=BY[id],fb=kqFb,total=r.ids.length,done=total-r.queue.length;
   var pct=r.fin?100:Math.min(99,Math.floor(done/total*100)),fs=w.jp.length>8?30:w.jp.length>5?40:52;
-  var h='<div class="session-page"><header class="session-top"><button class="back" data-a="kqx">✕ Keluar</button><span class="session-mode">'+esc(kqTitle(r))+'</span></header>';
+  var h='<div class="session-page kq-session"><div class="kq-scroll"><header class="session-top"><button class="back" data-a="kqx">✕ Keluar</button><span class="session-mode">'+esc(kqTitle(r))+'</span></header>';
   h+='<div class="session-progress"><div class="session-progress-meta"><span>PROGRESS LATIHAN</span><b>'+pct+'%</b></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
   h+='<div class="session-question-count">SELESAI <b>'+done+'</b><span> / '+total+'</span></div>';
   h+='<div class="chips"><span class="chip">↻ Perlu diulang '+kqRetryN(r)+'</span><span class="chip">✓ '+r.ok+'</span><span class="chip">✗ '+r.no+'</span><span class="chip">⇢ '+r.skip+'</span></div>';
@@ -1565,14 +1606,17 @@ function kqPlay(){
   h+=fb?'<div class="h">'+(fb.good?'✓ Benar!':'✗ Belum tepat')+'</div>':'<div class="h">⇠ geser kartu untuk melewati ⇢</div>';
   h+='</div>';
   if(kqMsg){h+='<div class="v6-toast" style="margin-top:12px">'+esc(kqMsg)+'</div>';kqMsg='';}
-  h+='<input id="kqin" class="v6-in" type="text" lang="ja" enterkeyhint="send" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Ketik bacaan Hiragana…" style="margin:14px 0 10px'+(fb?';border-color:'+(fb.good?'var(--ok)':'var(--no)'):'')+'" value="'+(fb?esc(fb.typed):'')+'"'+(fb?' disabled':'')+'>';
+  var dk='<div class="kq-entry-dock"><input id="kqin" class="v6-in" type="text" lang="ja" enterkeyhint="send" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Ketik bacaan Hiragana…" style="'+(fb?';border-color:'+(fb.good?'var(--ok)':'var(--no)'):'')+'" value="'+(fb?esc(fb.typed):'')+'"'+(fb?' disabled':'')+'>';
+  if(!fb)dk+='<button class="pri kq-check-btn" data-a="kqc" aria-label="Periksa jawaban" title="Periksa jawaban">Periksa</button>';
+  dk+='</div>';
+  h+=dk;
   if(fb){
     h+='<div class="panel" style="margin:0 0 10px"><div class="mute" style="margin-bottom:4px">'+(fb.good?'Jawaban kamu cocok:':'Jawaban yang benar:')+'</div>'+kqAnsH(id)+(fb.good?'':'<p class="mute" style="margin:8px 0 0">Soal ini masuk antrean ulang dan akan muncul lagi.</p>')+'</div>';
     h+='<button class="pri session-next" data-a="kqn">'+(fb.good?(r.fin?'Lihat hasil →':'Lanjut →'):'Lanjut ke soal berikutnya →')+'</button>';
   }else{
-    h+='<button class="pri kq-check-btn" data-a="kqc">Periksa</button><p class="mute" style="text-align:center;margin:10px 0 0">Geser kartu ke kiri atau kanan untuk menunda soal</p>';
+    h+='<p class="mute kq-hint" style="text-align:center;margin:10px 0 0">Geser kartu ke kiri atau kanan untuk menunda soal</p>';
   }
-  return h+'</div>';
+  return h+'</div></div>';
 }
 function kqRes(){
   var r=KQ.run,t=r.ok+r.no,acc=t?Math.round(r.ok/t*100):100,hist=r.history||[];
@@ -1602,9 +1646,38 @@ function kqAfter(){
   if(!kqFocusPending||!kqKeyboardWanted)return;kqFocusPending=false;
   var i=$('kqin');if(i){try{i.focus({preventScroll:true});}catch(e){i.focus();}}
 }
-/* Keyboard iOS: jangan ubah ukuran/posisi layout saat visual viewport berubah.
-   Perubahan tinggi keyboard cukup ditangani browser; tidak ada auto-scroll. */
-function kqViewport(){ /* sengaja tanpa mutasi layout */ }
+/* KQ iOS viewport lock:
+   Kunci halaman pada visual viewport supaya Safari tidak menggulir dokumen
+   ke input ketika keyboard dibuka ulang. Hanya aktif selama Quiz Ketik Kanji. */
+var kqVvK='',kqSettleT=0;
+function kqViewport(){
+  if(view!=='kq'||kqPage!=='play')return;
+  var vv=window.visualViewport,app=document.getElementById('app');
+  if(vv&&app){
+    var vh=Math.max(1,Math.round(vv.height||window.innerHeight)),tp=Math.max(0,Math.round(vv.offsetTop||0)),k=vh+'|'+tp;
+    if(k!==kqVvK){kqVvK=k;app.style.setProperty('--kq-vh',vh+'px');app.style.setProperty('--kq-vv-top',tp+'px');}
+  }
+  var ae=document.activeElement,on=!!(ae&&ae.id==='kqin');
+  if(document.body.classList.contains('kq-kb')!==on)document.body.classList.toggle('kq-kb',on);
+  if(window.scrollY>0)window.scrollTo(0,0);
+  if(app&&app.scrollTop)app.scrollTop=0;
+}
+/* iOS sering terlambat/melewatkan event resize saat keyboard dibuka ulang:
+   baca visualViewport tiap frame ~0,75 dtk setelah fokus/blur (tulis hanya jika berubah). */
+function kqHold(sc,st){
+  var inp=document.getElementById('kqin');
+  if(!sc||!sc.isConnected||!inp||sc.scrollTop===st)return;
+  var d=sc.scrollTop-st,r=inp.getBoundingClientRect(),v=sc.getBoundingClientRect();
+  if(r.top+d>=v.top&&r.bottom+d<=v.bottom)sc.scrollTop=st;
+}
+function kqSettle(){
+  var t=++kqSettleT,n=0,sc=document.querySelector('.kq-scroll'),st=sc?sc.scrollTop:0;
+  (function f(){if(t!==kqSettleT)return;kqViewport();kqHold(sc,st);if(++n<45)requestAnimationFrame(f);})();
+}
+document.addEventListener('focusin',function(e){
+  if(view!=='kq'||kqPage!=='play'||!e.target||e.target.id!=='kqin')return;
+  kqSettle();
+});
 if(window.visualViewport){
   window.visualViewport.addEventListener('resize',kqViewport,{passive:true});
   window.visualViewport.addEventListener('scroll',kqViewport,{passive:true});
@@ -1654,6 +1727,7 @@ document.addEventListener('pointermove',function(e){
 document.addEventListener('pointerup',function(e){if(kqDr&&e.pointerId===kqDr.id)kqDragEnd(true);});
 document.addEventListener('pointercancel',function(e){if(kqDr&&e.pointerId===kqDr.id)kqDragEnd(false);});
 document.addEventListener('focusout',function(e){
+  if(e.target&&e.target.id==='kqin'&&view==='kq'&&kqPage==='play')kqSettle();
   if(!e.target||e.target.id!=='kqin'||kqPreserveFocusOnRender)return;
   var next=e.relatedTarget;
   if(next&&next.getAttribute&&next.getAttribute('data-a')==='kqc')return;
@@ -1684,6 +1758,15 @@ function render(){
   }
   _sk=sk;_ck=ks[1];_fi=fcI;
   app.className=(nv?'hasnav':'')+(kind&&kind!=='card'?' pg-'+kind:'');
+  if(view==='kq'&&kqPage==='play'){
+    app.classList.add('kq-viewport-lock');
+    document.body.classList.add('kq-viewport-active');
+  }else{
+    app.classList.remove('kq-viewport-lock');
+    app.style.removeProperty('--kq-vh');
+    app.style.removeProperty('--kq-vv-top');
+    document.body.classList.remove('kq-viewport-active');document.body.classList.remove('kq-kb');kqVvK='';
+  }
   if(det)h+=sheet(det);
   var ob=[],bs,bi;
   if(!kind||kind==='card'){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length;bi++)ob.push(bs[bi].style.width);}
