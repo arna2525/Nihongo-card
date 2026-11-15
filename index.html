@@ -471,12 +471,15 @@ li{border-radius:14px!important;overflow:hidden}
 .hasnav .sticky{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
 /* Quiz Ketik Kanji (hanya kelas baru .kq-card) */
 .kq-card{touch-action:pan-y;-webkit-user-select:none;user-select:none;cursor:grab}
-.fc3{perspective:1100px;margin:12px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.fc3{perspective:1100px;margin:12px 0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .fc3 .fc3-in{position:relative;min-height:290px;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .6s cubic-bezier(.25,.9,.3,1)!important;will-change:transform}
-.fc3.flipped .fc3-in{transform:rotateY(180deg)}
+.fc3.flipped .fc3-in{transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
 .fc3 .fcard.fc3-f,.fc3 .fcard.fc3-b{position:absolute;inset:0;margin:0!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box;-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:rgba(36,20,88,.96)!important}
-.fc3 .fc3-b{transform:rotateY(180deg)}
-@media (prefers-reduced-motion:reduce){.fc3 .fc3-in{transition:none!important}}
+.fc3 .fc3-f{transform:rotateY(0deg);-webkit-transform:rotateY(0deg)}
+.fc3 .fc3-b{transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
+.fc3.fc-fade-in{animation:fcCardFade .18s ease-out both}
+@keyframes fcCardFade{from{opacity:.25}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.fc3 .fc3-in{transition:none!important}.fc3.fc-fade-in{animation:none!important}}
 /* Flashcard: susunan layar (hanya kelas baru .fc-*, semua dibatasi di dalam .fc-wrap) */
 .fc-wrap .fc-head{margin:0 0 12px}
 .fc-wrap .fc-head h1{margin:4px 0 0}
@@ -1344,11 +1347,11 @@ function xClick(a,t){
   if(a==='vqn'){vQ.i++;vQ.pick=null;window.scrollTo(0,0);return 1;}
   if(a==='fc'){fcStart(t.getAttribute('data-t'),0);view='fc';window.scrollTo(0,0);return 1;}
   if(a==='fcx'){view='list';window.scrollTo(0,0);return 1;}
-  if(a==='fcd'){if(fcTy==='j'&&+v&&!isDone('j',+v))return 1;fcStart(fcTy,+v);window.scrollTo(0,0);return 1;}
+  if(a==='fcd'){if(fcTy==='j'&&+v&&!isDone('j',+v))return 1;fcStart(fcTy,+v);return 1;}
   if(a==='fcr'){fcRand=!fcRand;fcStart(fcTy,fcDay);return 1;}
   if(a==='fcf'){fcBack=!fcBack;var c3=document.querySelector('.fc3'),l3=$('fcl');if(c3){c3.classList.toggle('flipped',fcBack);if(l3)l3.textContent=fcBack?'ANSWER REVEALED':'TAP TO REVEAL';return 2;}return 1;}
-  if(a==='fcn'){fcI=(fcI+1)%fcList.length;fcBack=false;window.scrollTo(0,0);return 1;}
-  if(a==='fcp'){fcI=(fcI+fcList.length-1)%fcList.length;fcBack=false;window.scrollTo(0,0);return 1;}
+  if(a==='fcn'){fcI=(fcI+1)%fcList.length;fcBack=false;return 1;}
+  if(a==='fcp'){fcI=(fcI+fcList.length-1)%fcList.length;fcBack=false;return 1;}
   return 0;}
 
 
@@ -1642,7 +1645,7 @@ function render(){
   _tab=false;
   if(kind==='push'||kind==='pop'){ghost=null;}
   else if(kind==='card'){
-    if(view==='fc'){var fn=fcList.length||1,fd=(fcI-_fi+fn)%fn;rdir=(fn>2&&fd===fn-1)?-1:1;rg=smRegion(['.fc3']);}
+    if(view==='fc'){/* Flashcard uses a short opacity fade, never a horizontal slide. */}
     else rg=smRegion(['.session-q','.answer-grid']);
   }
   _sk=sk;_ck=ks[1];_fi=fcI;
@@ -1651,6 +1654,7 @@ function render(){
   var ob=[],bs,bi;
   if(!kind||kind==='card'){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length;bi++)ob.push(bs[bi].style.width);}
   app.innerHTML=h;
+  if(view==='fc'&&kind==='card'){var fadeCard=app.querySelector('.fc3');if(fadeCard)fadeCard.classList.add('fc-fade-in');}
   if(ghost){app.appendChild(ghost);setTimeout(function(){if(ghost.parentNode)ghost.parentNode.removeChild(ghost);},400);}
   if(rg)smRegionApply(rg,rdir);
   if(ob.length){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length&&bi<ob.length;bi++){var tw=bs[bi].style.width;if(ob[bi]&&tw&&ob[bi]!==tw){bs[bi].style.width=ob[bi];void bs[bi].offsetWidth;bs[bi].style.width=tw;}}}
