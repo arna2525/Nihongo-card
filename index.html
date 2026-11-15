@@ -393,7 +393,7 @@ li{border-radius:14px!important;overflow:hidden}
 .v6-row .rc svg{width:16px;height:16px;display:block}
 .v6-soon{text-align:center;margin:26px 8px 0;font-size:12.5px}
 .v6-toast{margin:0 0 12px;padding:11px 14px;border-radius:14px;background:rgba(91,224,196,.16);border:1px solid rgba(91,224,196,.5);color:#8ff0d8;font-weight:700;font-size:13.5px}
-.v6-in{width:100%;height:56px;border-radius:18px;border:1px solid rgba(180,160,255,.5);background:rgba(18,10,58,.75);color:#fff;font-family:inherit;font-size:18px;font-weight:700;padding:0 16px;outline:none;box-shadow:inset 0 2px 8px rgba(0,0,0,.3)}
+.v6-in{scroll-margin-bottom:28px;width:100%;height:56px;border-radius:18px;border:1px solid rgba(180,160,255,.5);background:rgba(18,10,58,.75);color:#fff;font-family:inherit;font-size:18px;font-weight:700;padding:0 16px;outline:none;box-shadow:inset 0 2px 8px rgba(0,0,0,.3)}
 .v6-in:focus{border-color:#c9b0ff;box-shadow:0 0 0 3px rgba(157,124,255,.35)}.v6-in::placeholder{color:#8f80c9;font-weight:600}
 .v6-ab{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
 .v6-ab span{padding:12px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(170,150,255,.25);font-size:12px;color:#cfc4fa}.v6-ab b{display:block;font-size:20px;color:#fff;margin-bottom:2px}
@@ -533,7 +533,13 @@ button,[data-a]{touch-action:manipulation}
 .sm-gi{box-sizing:border-box}
 .sm-rg{position:fixed!important;margin:0!important;pointer-events:none;z-index:3;box-sizing:border-box;animation:rgOut .22s ease-in forwards}
 .rg-in{animation:rgIn .28s cubic-bezier(.22,.8,.24,1) backwards}
-}
+/* Pergantian soal: tampilkan konten baru dengan fade bersih, tanpa clone/ghost */
+@keyframes sessionFade{from{opacity:0}to{opacity:1}}
+.session-page.session-fade-in .session-q,.session-page.session-fade-in .answer-grid{animation:sessionFade .16s ease-out both}
+@media(prefers-reduced-motion:reduce){.session-page.session-fade-in .session-q,.session-page.session-fade-in .answer-grid{animation:none!important}}
+/* Quiz Ketik Kanji: layout tetap; tombol Periksa menempel di area bawah layar. */
+.kq-check-btn{position:sticky!important;bottom:8px;z-index:12;box-shadow:0 8px 24px rgba(0,0,0,.32)}
+
 
 /* ===== BUNPOU V6 · redesain Purple Glass (daftar + detail + kuis) ===== */
 .bp-page{--bp-glass:linear-gradient(150deg,rgba(124,98,240,.36),rgba(40,26,108,.66));--bp-line:rgba(190,168,255,.38);--bp-glow:0 14px 34px -12px rgba(5,2,32,.75),0 0 24px rgba(139,104,255,.16),inset 0 1px 0 rgba(255,255,255,.16);display:block;width:100%;max-width:100%;overflow-x:clip;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));font-family:var(--fnt);color:var(--ink)}
@@ -1413,7 +1419,7 @@ setInterval(function(){if(view==='fc'&&!document.hidden){var t=today();S.log[t]=
 /* ===== Quiz Ketik Kanji =====
    Mode mandiri: soal dari JI (D.J), jawaban dicek dengan field read.
    Penyimpanan & statistik TERPISAH: localStorage 'jft-a2-kq-v1' (tidak menyentuh 'jft-a2-v1'). */
-var KQK='jft-a2-kq-v1',KQ=null,kqPage='setup',kqSc=0,kqCnt=0,kqFb=null,kqMsg='',kqLock=false,kqDr=null;
+var KQK='jft-a2-kq-v1',KQ=null,kqPage='setup',kqSc=0,kqCnt=0,kqFb=null,kqMsg='',kqLock=false,kqDr=null,kqFocusPending=false,kqKeyboardWanted=false,kqPreserveFocusOnRender=false;
 function kqNorm(s){
   s=String(s==null?'':s);
   try{s=s.normalize('NFKC');}catch(e){}
@@ -1469,12 +1475,13 @@ function kqFix(d){
   var st=d.st||{},o={v:1,st:{ok:+st.ok||0,no:+st.no||0,skip:+st.skip||0,sess:+st.sess||0,fin:+st.fin||0},got:{},run:null},k,r=d.run;
   if(d.got&&typeof d.got==='object')for(k in d.got)if(KQB[k])o.got[k]=1;
   if(r&&Array.isArray(r.ids)&&Array.isArray(r.queue)){
-    var seen={},ids=[],q=[],sq={},rt={};
+    var seen={},ids=[],q=[],sq={},rt={},hist=[];
     r.ids.forEach(function(id){if(KQB[id]&&!seen[id]){seen[id]=1;ids.push(id);}});
     r.queue.forEach(function(id){if(seen[id]&&!sq[id]){sq[id]=1;q.push(id);}});
     if(ids.length){
       if(r.rt&&typeof r.rt==='object')for(k in r.rt)if(sq[k])rt[k]=1;
-      o.run={sc:+r.sc||0,ids:ids,queue:q,ok:+r.ok||0,no:+r.no||0,skip:+r.skip||0,rt:rt,ans:+r.ans||0,fin:q.length?0:1};
+      if(Array.isArray(r.history))r.history.forEach(function(x){if(x&&seen[x.id]&&(x.skip||typeof x.good==='boolean'))hist.push({id:x.id,good:!!x.good,skip:!!x.skip,typed:String(x.typed||''),sec:Math.max(0,Math.min(3600,+x.sec||0))});});
+      o.run={sc:+r.sc||0,ids:ids,queue:q,ok:+r.ok||0,no:+r.no||0,skip:+r.skip||0,rt:rt,ans:+r.ans||0,fin:q.length?0:1,history:hist,qid:null,qAt:0,rewarded:!!r.rewarded,lastExp:+r.lastExp||0};
     }
   }
   return o;
@@ -1495,27 +1502,28 @@ function kqPool(){
 function kqStart(){
   var ids=shuf(kqPool());if(kqCnt)ids=ids.slice(0,kqCnt);
   if(!ids.length){kqMsg='Belum ada Day yang selesai 100%. Selesaikan sebuah Day di Hafalin kanji dulu.';return false;}
-  KQ.run={sc:kqSc,ids:ids.slice(),queue:ids.slice(),ok:0,no:0,skip:0,rt:{},ans:0,fin:0};
-  KQ.st.sess++;kqFb=null;kqMsg='';kqPage='play';kqSave();return true;
+  KQ.run={sc:kqSc,ids:ids.slice(),queue:ids.slice(),ok:0,no:0,skip:0,rt:{},ans:0,fin:0,history:[],qid:null,qAt:0};
+  KQ.st.sess++;kqFb=null;kqMsg='';kqPage='play';kqKeyboardWanted=true;kqFocusPending=true;kqSave();return true;
 }
 function kqRetryN(r){return r.queue.filter(function(id){return r.rt[id];}).length;}
 function kqCheckNow(){
   var r=KQ.run;if(!r||r.fin||kqFb||kqLock||!r.queue.length)return;
   var el=$('kqin'),typed=el?el.value:'';
-  if(!typed.trim()){kqMsg='Ketik bacaan Hiragana dulu. Belum tahu? Geser kartunya atau tekan Lewati.';return;}
-  var id=r.queue[0],good=kqOk(typed,id);
+  if(!typed.trim()){kqMsg='Ketik bacaan Hiragana dulu. Belum tahu? Geser kartunya untuk menunda.';kqFocusPending=kqKeyboardWanted;return;}
+  var id=r.queue[0],good=kqOk(typed,id),elapsed=Math.max(0,(Date.now()-(r.qAt||Date.now()))/1000);
+  r.history=r.history||[];r.history.push({id:id,good:good,typed:typed,sec:elapsed});
   r.queue.shift();r.ans++;
-  if(good){r.ok++;KQ.st.ok++;KQ.got[id]=1;delete r.rt[id];if(!r.queue.length){r.fin=1;KQ.st.fin++;}}
+  if(good){r.ok++;KQ.st.ok++;KQ.got[id]=1;delete r.rt[id];if(!r.queue.length){r.fin=1;KQ.st.fin++;if(!r.rewarded){r.lastExp=r.ok*4+(r.ids.length&&r.ok===r.ids.length?2:0);r.rewarded=true;S.exp=(S.exp||0)+r.lastExp;save();}}}
   else{r.no++;KQ.st.no++;r.rt[id]=1;r.queue.splice(Math.min(r.queue.length,3+Math.floor(Math.random()*2)),0,id);}
-  kqFb={id:id,good:good,typed:typed};kqMsg='';kqSave();
-  if(good){var fb=kqFb;setTimeout(function(){if(kqFb===fb&&view==='kq'){kqFb=null;render();}},950);}
+  r.qid=null;r.qAt=0;kqFb={id:id,good:good,typed:typed};kqMsg='';kqSave();
+  if(good){var fb=kqFb;setTimeout(function(){if(kqFb===fb&&view==='kq'){kqFb=null;kqFocusPending=kqKeyboardWanted;render();}},950);}
 }
 /* swipe / lewati: soal TIDAK selesai, hanya ditunda ke belakang antrean */
 function kqSkip(){
   var r=KQ.run;if(!r||r.fin||kqFb||!r.queue.length)return;
-  var id=r.queue.shift();r.skip++;KQ.st.skip++;r.ans++;r.rt[id]=1;r.queue.push(id);kqMsg='';kqSave();
+  var id=r.queue.shift();r.history=r.history||[];r.history.push({id:id,skip:true,sec:Math.max(0,(Date.now()-(r.qAt||Date.now()))/1000)});r.skip++;KQ.st.skip++;r.ans++;r.rt[id]=1;r.queue.push(id);r.qid=null;r.qAt=0;kqMsg='';kqFocusPending=kqKeyboardWanted;kqSave();
 }
-function kqNext(){kqFb=null;kqMsg='';}
+function kqNext(){kqFb=null;kqMsg='';kqFocusPending=kqKeyboardWanted;}
 
 function kqTitle(r){return 'Quiz Ketik Kanji · '+(r.sc?'Day '+r.sc:'Semua');}
 function kqAnsH(id){
@@ -1557,22 +1565,29 @@ function kqPlay(){
   h+=fb?'<div class="h">'+(fb.good?'✓ Benar!':'✗ Belum tepat')+'</div>':'<div class="h">⇠ geser kartu untuk melewati ⇢</div>';
   h+='</div>';
   if(kqMsg){h+='<div class="v6-toast" style="margin-top:12px">'+esc(kqMsg)+'</div>';kqMsg='';}
-  h+='<input id="kqin" class="v6-in" type="text" lang="ja" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Ketik bacaan Hiragana…" style="margin:14px 0 10px'+(fb?';border-color:'+(fb.good?'var(--ok)':'var(--no)'):'')+'" value="'+(fb?esc(fb.typed):'')+'"'+(fb?' disabled':'')+'>';
+  h+='<input id="kqin" class="v6-in" type="text" lang="ja" enterkeyhint="send" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Ketik bacaan Hiragana…" style="margin:14px 0 10px'+(fb?';border-color:'+(fb.good?'var(--ok)':'var(--no)'):'')+'" value="'+(fb?esc(fb.typed):'')+'"'+(fb?' disabled':'')+'>';
   if(fb){
     h+='<div class="panel" style="margin:0 0 10px"><div class="mute" style="margin-bottom:4px">'+(fb.good?'Jawaban kamu cocok:':'Jawaban yang benar:')+'</div>'+kqAnsH(id)+(fb.good?'':'<p class="mute" style="margin:8px 0 0">Soal ini masuk antrean ulang dan akan muncul lagi.</p>')+'</div>';
     h+='<button class="pri session-next" data-a="kqn">'+(fb.good?(r.fin?'Lihat hasil →':'Lanjut →'):'Lanjut ke soal berikutnya →')+'</button>';
   }else{
-    h+='<button class="pri" data-a="kqc">Periksa</button><button class="sec" data-a="kqk" style="width:100%;margin-top:10px">Lewati ↷ (ditunda, nanti muncul lagi)</button>';
+    h+='<button class="pri kq-check-btn" data-a="kqc">Periksa</button><p class="mute" style="text-align:center;margin:10px 0 0">Geser kartu ke kiri atau kanan untuk menunda soal</p>';
   }
   return h+'</div>';
 }
 function kqRes(){
-  var r=KQ.run,t=r.ok+r.no,acc=t?Math.round(r.ok/t*100):100;
+  var r=KQ.run,t=r.ok+r.no,acc=t?Math.round(r.ok/t*100):100,hist=r.history||[];
   var msg=acc>=85?'Mantap! Bacaan kanjimu sudah tajam.':acc>=60?'Lumayan! Terus ulangi supaya makin hafal.':'Tidak apa-apa, dari salah itulah ingatan menempel.';
   var h='<div class="result-page"><button class="back" data-a="kqd">← Selesai</button><section class="result-hero"><div class="result-symbol">祝</div><div class="study-kicker">TYPING COMPLETED</div><h1>Quiz Ketik selesai!</h1><p>'+msg+'</p>';
-  h+='<div class="result-score"><b class="'+(acc>=60?'g':'r')+'">'+acc+'%</b></div><div class="bar"><i style="width:100%"></i></div><small>'+esc(kqTitle(r))+' · '+r.ids.length+' dari '+r.ids.length+' soal selesai</small></section>';
+  h+='<div class="result-score"><b class="'+(acc>=60?'g':'r')+'">'+acc+'%</b><span class="exp">⚡ +'+(r.lastExp||0)+' EXP</span></div><div class="bar"><i style="width:100%"></i></div><small>'+esc(kqTitle(r))+' · '+r.ids.length+' dari '+r.ids.length+' soal selesai</small></section>';
   h+='<div class="panel"><div class="chips" style="margin:0"><span class="chip">✓ Jawaban benar '+r.ok+'</span><span class="chip">✗ Jawaban salah '+r.no+'</span><span class="chip">⇢ Swipe '+r.skip+'</span></div></div>';
-  h+='<div class="sticky"><button class="pri" data-a="kqd">Selesai</button></div></div>';
+  h+='<div class="result-section-title"><b>Rangkuman jawaban</b><span>Ketuk item untuk rincian</span></div><div class="panel list result-list">';
+  r.ids.forEach(function(id){
+    var w=BY[id],a=hist.filter(function(x){return x.id===id;}),last=null,wrong=0,skips=0;
+    a.forEach(function(x){if(x.skip)skips++;else if(x.good)last=x;else wrong++;});
+    var sec=last?last.sec:0,cl=last?(sec<=6?'e':'g2'):'a',lb=last?(sec<=6?'⚡ Easy ':'👍 Good '):'✓ Selesai';
+    h+='<button class="rw" data-a="inf" data-id="'+id+'"><div class="t"><b>'+esc(w.jp)+'</b><span>'+esc(w.read)+' · '+esc(w.mean)+(wrong?' · diulang '+wrong+'×':'')+(skips?' · swipe '+skips+'×':'')+'</span></div><span class="bd '+cl+'">'+lb+(last?fsec(sec):'')+'</span></button>';
+  });
+  h+='</div><div class="sticky"><button class="pri" data-a="kqd">Selesai</button></div></div>';
   return h;
 }
 function kqView(){
@@ -1582,7 +1597,18 @@ function kqView(){
   return kqPage==='play'?kqPlay():kqPage==='res'?kqRes():kqSetup();
 }
 function kqAfter(){
-  if(view==='kq'&&kqPage==='play'&&!kqFb){var i=$('kqin');if(i){try{i.focus({preventScroll:true});}catch(e){i.focus();}}}
+  if(view!=='kq'||kqPage!=='play'||kqFb)return;
+  var r=KQ.run;if(r&&r.queue.length&&r.qid!==r.queue[0]){r.qid=r.queue[0];r.qAt=Date.now();}
+  if(!kqFocusPending||!kqKeyboardWanted)return;kqFocusPending=false;
+  var i=$('kqin');if(i){try{i.focus({preventScroll:true});}catch(e){i.focus();}}
+}
+/* Keyboard iOS: jangan ubah ukuran/posisi layout saat visual viewport berubah.
+   Perubahan tinggi keyboard cukup ditangani browser; tidak ada auto-scroll. */
+function kqViewport(){ /* sengaja tanpa mutasi layout */ }
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',kqViewport,{passive:true});
+  window.visualViewport.addEventListener('scroll',kqViewport,{passive:true});
+  window.addEventListener('resize',kqViewport,{passive:true});
 }
 function kqClick(a,t){
   if(a.slice(0,2)!=='kq')return 0;
@@ -1591,13 +1617,13 @@ function kqClick(a,t){
   if(a==='kqs'){var dv=+t.getAttribute('data-v')||0;if(!dv||kqOpen(dv))kqSc=dv;return 1;}
   if(a==='kqm'){kqCnt=+t.getAttribute('data-v')||0;return 1;}
   if(a==='kqgo'){kqStart();window.scrollTo(0,0);return 1;}
-  if(a==='kqrs'){if(KQ.run&&!KQ.run.fin){kqFb=null;kqMsg='';kqLock=false;kqPage='play';}window.scrollTo(0,0);return 1;}
+  if(a==='kqrs'){if(KQ.run&&!KQ.run.fin){kqFb=null;kqMsg='';kqLock=false;kqPage='play';kqKeyboardWanted=true;kqFocusPending=true;}window.scrollTo(0,0);return 1;}
   if(a==='kqr'){if(KQ.run&&KQ.run.fin)kqPage='res';window.scrollTo(0,0);return 1;}
-  if(a==='kqc'){kqCheckNow();return 1;}
-  if(a==='kqk'){if(!kqLock)kqSkip();return 1;}
-  if(a==='kqn'){kqNext();window.scrollTo(0,0);return 1;}
-  if(a==='kqx'){kqSave();kqFb=null;kqMsg='';kqPage='setup';window.scrollTo(0,0);return 1;}
-  if(a==='kqd'){KQ.run=null;kqFb=null;kqSave();kqPage='setup';window.scrollTo(0,0);return 1;}
+  if(a==='kqc'){kqFocusPending=kqKeyboardWanted;kqPreserveFocusOnRender=true;kqCheckNow();return 1;}
+  if(a==='kqk'){if(!kqLock){kqSkip();render();}return 1;}
+  if(a==='kqn'){kqNext();return 1;}
+  if(a==='kqx'){kqSave();kqFb=null;kqMsg='';kqPage='setup';kqKeyboardWanted=false;kqFocusPending=false;window.scrollTo(0,0);return 1;}
+  if(a==='kqd'){KQ.run=null;kqFb=null;kqSave();kqPage='setup';kqKeyboardWanted=false;kqFocusPending=false;window.scrollTo(0,0);return 1;}
   return 0;
 }
 /* swipe kartu (pointer events: sentuh & mouse) */
@@ -1627,10 +1653,17 @@ document.addEventListener('pointermove',function(e){
 });
 document.addEventListener('pointerup',function(e){if(kqDr&&e.pointerId===kqDr.id)kqDragEnd(true);});
 document.addEventListener('pointercancel',function(e){if(kqDr&&e.pointerId===kqDr.id)kqDragEnd(false);});
+document.addEventListener('focusout',function(e){
+  if(!e.target||e.target.id!=='kqin'||kqPreserveFocusOnRender)return;
+  var next=e.relatedTarget;
+  if(next&&next.getAttribute&&next.getAttribute('data-a')==='kqc')return;
+  /* iOS Selesai/Done melepas fokus; jangan paksa keyboard muncul lagi. */
+  kqKeyboardWanted=false;kqFocusPending=false;
+});
 document.addEventListener('keydown',function(e){
   if(e.key!=='Enter'||e.isComposing||e.keyCode===229||view!=='kq'||kqPage!=='play'||!KQ.run)return;
   if(kqFb){e.preventDefault();kqNext();render();return;}
-  if(e.target&&e.target.id==='kqin'){e.preventDefault();kqCheckNow();render();}
+  if(e.target&&e.target.id==='kqin'){e.preventDefault();e.stopPropagation();kqFocusPending=false;kqPreserveFocusOnRender=true;kqCheckNow();render();kqPreserveFocusOnRender=false;}
 });
 
 function render(){
@@ -1646,7 +1679,8 @@ function render(){
   if(kind==='push'||kind==='pop'){ghost=null;}
   else if(kind==='card'){
     if(view==='fc'){/* Flashcard uses a short opacity fade, never a horizontal slide. */}
-    else rg=smRegion(['.session-q','.answer-grid']);
+    else if(view==='sess'){/* Session uses a clean fade below; never clone the old question/options. */}
+    else rg=null;
   }
   _sk=sk;_ck=ks[1];_fi=fcI;
   app.className=(nv?'hasnav':'')+(kind&&kind!=='card'?' pg-'+kind:'');
@@ -1655,11 +1689,13 @@ function render(){
   if(!kind||kind==='card'){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length;bi++)ob.push(bs[bi].style.width);}
   app.innerHTML=h;
   if(view==='fc'&&kind==='card'){var fadeCard=app.querySelector('.fc3');if(fadeCard)fadeCard.classList.add('fc-fade-in');}
+  if(view==='sess'&&kind==='card'){var fadeSession=app.querySelector('.session-page');if(fadeSession)fadeSession.classList.add('session-fade-in');}
   if(ghost){app.appendChild(ghost);setTimeout(function(){if(ghost.parentNode)ghost.parentNode.removeChild(ghost);},400);}
   if(rg)smRegionApply(rg,rdir);
   if(ob.length){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length&&bi<ob.length;bi++){var tw=bs[bi].style.width;if(ob[bi]&&tw&&ob[bi]!==tw){bs[bi].style.width=ob[bi];void bs[bi].offsetWidth;bs[bi].style.width=tw;}}}
   document.body.style.overflow=det?'hidden':'';
-  if(view==='kq')kqAfter();
+  if(view==='kq'){kqAfter();kqViewport();}else{kqKeyboardWanted=false;kqFocusPending=false;}
+  kqPreserveFocusOnRender=false;
 }
 var _sk='',_ck=null,_sy=0,_fi=0,_tab=false;
 window.addEventListener('scroll',function(){_sy=window.pageYOffset||0;},{passive:true});
