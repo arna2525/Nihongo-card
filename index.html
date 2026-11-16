@@ -656,6 +656,11 @@ body.kq-viewport-active.kq-kb .kq-hint{display:none}
 .kq-weak .sw i{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#e5d9ff;transition:transform .2s}
 .kq-weak .sw.on{background:linear-gradient(135deg,#9b7cff,#6a4be0);border-color:rgba(255,255,255,.5)}.kq-weak .sw.on i{transform:translateX(18px);background:#fff}
 #sv-warn{position:fixed;z-index:120;left:50%;transform:translateX(-50%);top:max(10px,env(safe-area-inset-top));width:min(440px,calc(100% - 24px));box-sizing:border-box;padding:11px 14px;border-radius:14px;background:rgba(92,22,48,.96);border:1px solid var(--no);color:#ffe3ea;font-weight:700;font-size:13px;line-height:1.45;box-shadow:0 10px 26px rgba(0,0,0,.45)}
+/* Opsi jawaban Jepang (kanji/kana) di sesi: lebih besar; opsi arti Indonesia (.m) tetap */
+.answer-grid .opt:not(.m){font-size:30px!important;height:72px!important;min-height:72px!important;line-height:1.25!important;white-space:nowrap}
+.answer-grid .opt.j2{font-size:24px!important}
+.answer-grid .opt.j3{font-size:20px!important}
+.answer-grid .opt.j4{font-size:17px!important}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9c4ff"/><stop offset="1" stop-color="#7a5cf0"/></linearGradient><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b2dcff"/><stop offset="1" stop-color="#4d7df0"/></linearGradient><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc4e8"/><stop offset="1" stop-color="#e070c0"/></linearGradient><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a62e0"/><stop offset="1" stop-color="#2e2080"/></linearGradient><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ff0e0"/><stop offset="1" stop-color="#1fa9a0"/></linearGradient></defs></svg>
 <div id="v6w" class="v6w" aria-hidden="true"></div>
@@ -1337,7 +1342,7 @@ function sessView(){
   var tag=s.from!=='day'?(BY[it.id].ty==='j'?'Kanji':'Kotoba'):'';
   h+='</div><div class="q session-q">'+(tag?'<span class="lvtag">'+esc(tag)+'</span>':'')+'<span class="question-kicker">INGAT DAN PILIH</span><button class="big bt" data-a="inf" data-id="'+it.id+'" aria-label="Lihat rincian" style="font-size:'+fs+'px">'+qh+'</button><div class="h">'+hint+'</div></div><div class="answer-grid">';
   s.opts.forEach(function(o,i){
-    var c='opt'+(af==='mean'?' m':'');
+    var c='opt'+(af==='mean'?' m':'')+(af!=='mean'?(o.t.length>15?' j4':o.t.length>13?' j3':o.t.length>10?' j2':''):'');
     if(s.pick!==null){if(o.c)c+=' good';else if(i===s.pick)c+=' bad';}
     h+='<button class="'+c+'" data-a="p" data-i="'+i+'"'+(s.pick!==null?' disabled':'')+'>'+esc(o.t)+'</button>';
   });
