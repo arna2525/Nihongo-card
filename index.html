@@ -2,7 +2,7 @@
 <html lang="id" class="v6-stab">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0d0928">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1822,6 +1822,18 @@ function kqSettle(){
   var t=++kqSettleT,n=0,sc=document.querySelector('.kq-scroll'),st=sc?sc.scrollTop:0;
   (function f(){if(t!==kqSettleT)return;kqViewport();kqHold(sc,st);if(++n<45)requestAnimationFrame(f);})();
 }
+/* Matikan zoom (cubit/gesture iOS). */
+['gesturestart','gesturechange','gestureend'].forEach(function(n){document.addEventListener(n,function(e){e.preventDefault();},{passive:false});});
+document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault();},{passive:false});
+/* Ketuk kolom ketik: fokus manual TANPA gulir, supaya iOS tidak menggeser layar saat keyboard dibuka ulang. */
+document.addEventListener('touchend',function(e){
+  var i=e.target;
+  if(!i||i.id!=='kqin'||view!=='kq'||kqPage!=='play'||document.activeElement===i||i.disabled||i.readOnly)return;
+  if(e.changedTouches&&e.changedTouches.length>1)return;
+  e.preventDefault();
+  try{i.focus({preventScroll:true});var n=i.value.length;i.setSelectionRange(n,n);}catch(x){try{i.focus();}catch(y){}}
+  setTimeout(function(){if(document.activeElement!==i&&view==='kq'&&document.body.contains(i)){try{i.focus();}catch(x){}}},180);
+},{passive:false});
 document.addEventListener('focusin',function(e){
   if(view!=='kq'||kqPage!=='play'||!e.target||e.target.id!=='kqin')return;
   kqSettle();
