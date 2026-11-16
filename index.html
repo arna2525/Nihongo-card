@@ -661,6 +661,40 @@ body.kq-viewport-active.kq-kb .kq-hint{display:none}
 .answer-grid .opt.j2{font-size:24px!important}
 .answer-grid .opt.j3{font-size:20px!important}
 .answer-grid .opt.j4{font-size:17px!important}
+
+/* ===== Edit / Hapus daftar kata ===== */
+.ed-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ed-bar{display:flex;align-items:center;gap:8px;flex:none}
+.ed-main{min-height:42px;padding:0 23px;border-radius:999px;border:1.5px solid rgba(190,170,255,.62);background:rgba(34,18,92,.92);display:flex;align-items:center;justify-content:center;color:#eee7ff;font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.01em;transition:background .2s,border-color .2s,transform .2s}
+.ed-main.on{background:linear-gradient(135deg,#d6bcff,#8d6cf5);border-color:rgba(255,255,255,.7);color:#21134f}
+.ed-action{min-height:40px;padding:0 17px;border-radius:999px;border:1px solid rgba(190,170,255,.55);background:rgba(34,18,92,.92);color:#eee7ff;font-family:inherit;font-size:13px;font-weight:700}
+.ed-action.save{background:linear-gradient(135deg,#d6bcff,#8d6cf5);border-color:rgba(255,255,255,.65);color:#21134f}
+.ed-action:active,.ed-main:active{transform:scale(.97)}
+@keyframes edIn{from{opacity:0;transform:translateX(34px) scale(.5)}to{opacity:1;transform:none}}
+.ed-note{margin:0 0 10px;font-size:12.5px;color:#bfb2ee}
+.ed-search{position:relative;margin:12px 0 10px}.ed-search input{width:100%;height:44px;box-sizing:border-box;border:1px solid rgba(190,170,255,.38);border-radius:999px;padding:0 16px 0 42px;background:rgba(18,10,55,.78);color:#fff;font-family:inherit;font-size:16px;font-weight:500;outline:none}.ed-search input:focus{border-color:#bda5ff;box-shadow:0 0 0 2px rgba(174,137,255,.14)}.ed-search:before{content:"⌕";position:absolute;left:16px;top:7px;color:#cbbaff;font-size:25px;line-height:28px;pointer-events:none}.ed-search input::placeholder{color:#aa9bcf}.ed-empty{display:none;padding:14px;text-align:center;color:#bfb2ee;font-size:13px}
+.ed-li{position:relative;list-style:none;padding:10px 11px;transition:opacity .18s,border-color .18s}
+.ed-li.marked{border-color:rgba(255,91,117,.8);background:rgba(111,25,60,.24);opacity:.78}
+.ed-fields{display:grid;grid-template-columns:1fr;gap:7px;padding-right:42px}
+.ed-fields label{display:block;font-size:10px;font-weight:800;color:#bfb2ee;margin:0 0 3px 2px}
+.ed-fields input{display:block;width:100%;min-width:0;box-sizing:border-box;height:39px;padding:7px 11px;border-radius:11px;border:1px solid rgba(190,170,255,.4);background:rgba(13,7,39,.72);color:#fff;font-family:inherit;font-size:15px;font-weight:600;outline:none}
+.ed-fields input:focus{border-color:#c9adff;box-shadow:0 0 0 2px rgba(174,137,255,.16)}
+.ed-li.marked .ed-fields input{text-decoration:line-through;opacity:.55}
+.ed-trash{position:absolute;right:10px;top:13px;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,107,129,.7);background:rgba(255,80,110,.16);display:flex;align-items:center;justify-content:center;padding:0}
+.ed-trash svg{width:18px;height:18px;fill:#ff5a73}
+.ed-li.marked .ed-trash{background:linear-gradient(135deg,#ff7187,#d93a58);border-color:#ff9aaa}
+.ed-li.marked .ed-trash svg{fill:#fff}
+.ed-mark-note{font-size:11px;color:#ff9aaa;margin:6px 2px 0}
+.ed-ov{position:fixed;inset:0;z-index:50;background:rgba(6,3,28,.74);display:flex;align-items:flex-start;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 56px) 16px 16px;overflow:auto}
+.ed-card{width:100%;max-width:420px;background:rgba(28,14,78,.98);border:1px solid rgba(190,170,255,.45);border-radius:22px;padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.ed-card h3{margin:0 0 6px;font-size:18px}
+.ed-card label{display:block;margin:10px 0 5px;font-size:12px;font-weight:700;color:#c9b8ff}
+.ed-card .v6-in{width:100%;height:50px;font-size:18px}
+.ed-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.ed-red{border:0;border-radius:16px;min-height:50px;font-weight:800;font-size:16px;color:#fff;background:linear-gradient(135deg,#ff6b81,#d93a58)}
+.ed-err{margin:10px 0 0;color:#ff8fa0;font-size:13px;font-weight:700}
+.ed-big{font-size:40px;font-weight:800;text-align:center;margin:6px 0}
+.ed-toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);transform:translateX(-50%);z-index:60;padding:10px 18px;border-radius:99px;background:rgba(30,16,86,.96);border:1px solid rgba(190,170,255,.5);font-size:13px;font-weight:800;color:#fff;white-space:nowrap}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9c4ff"/><stop offset="1" stop-color="#7a5cf0"/></linearGradient><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b2dcff"/><stop offset="1" stop-color="#4d7df0"/></linearGradient><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc4e8"/><stop offset="1" stop-color="#e070c0"/></linearGradient><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a62e0"/><stop offset="1" stop-color="#2e2080"/></linearGradient><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ff0e0"/><stop offset="1" stop-color="#1fa9a0"/></linearGradient></defs></svg>
 <div id="v6w" class="v6w" aria-hidden="true"></div>
@@ -788,8 +822,12 @@ var DIRS={kh:['jp','read','Kanji → Hiragana'],hk:['read','jp','Hiragana → Ka
 var TY={k:{name:'Kotoba',per:30},j:{name:'Kanji',per:10}};
 var MON=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 var CJK=/[㐀-鿿⺀-⻿]/;
-var KI=D.K.map(function(a,i){return{id:'k'+i,ty:'k',jp:a[0],read:a[1],mean:a[2],th:a[3]};});
-var JI=D.J.map(function(a,i){return{id:'j'+i,ty:'j',jp:a[0],read:a[1],mean:a[2],th:a[3]};});
+/* Perubahan pengguna (edit/hapus kata) disimpan terpisah dari progres */
+var OVK='manabi-edit-v1',OV={e:{},d:{}};
+try{var ovr=JSON.parse(localStorage.getItem(OVK));if(ovr&&typeof ovr==='object'){if(ovr.e&&typeof ovr.e==='object')OV.e=ovr.e;if(ovr.d&&typeof ovr.d==='object')OV.d=ovr.d;}}catch(x){}
+function ovApply(x){var e=OV.e[x.id];if(e&&typeof e==='object'){if(typeof e.jp==='string'&&e.jp)x.jp=e.jp;if(typeof e.read==='string'&&e.read)x.read=e.read;if(typeof e.mean==='string'&&e.mean)x.mean=e.mean;}return x;}
+var KI=D.K.map(function(a,i){return{id:'k'+i,ty:'k',pos:i,jp:a[0],read:a[1],mean:a[2],th:a[3]};}).filter(function(x){return !OV.d[x.id];}).map(ovApply);
+var JI=D.J.map(function(a,i){return{id:'j'+i,ty:'j',pos:i,jp:a[0],read:a[1],mean:a[2],th:a[3]};}).filter(function(x){return !OV.d[x.id];}).map(ovApply);
 var BY={};
 KI.concat(JI).forEach(function(x){BY[x.id]=x;});
 
@@ -923,9 +961,9 @@ function hlt(text,hl){
 
 /* ---------- data & statistik ---------- */
 var KB={};KI.forEach(function(x){(KB[x.th]||(KB[x.th]=[])).push(x);});
-function ndays(ty){return ty==='k'?50:Math.ceil(JI.length/TY[ty].per);}
+function ndays(ty){return ty==='k'?50:Math.ceil(D.J.length/TY[ty].per);}
 function dl(ty,d){return (ty==='k'?'BAB ':'DAY ')+d;}
-function items(ty,d){if(ty==='k')return KB[d]||[];var n=TY[ty].per;return JI.slice((d-1)*n,d*n);}
+function items(ty,d){if(ty==='k')return KB[d]||[];var n=TY[ty].per,a=(d-1)*n,b=d*n;return JI.filter(function(x){return x.pos>=a&&x.pos<b;});}
 function stat(id,k){var a=S.p[id];if(!a)return[0,0,0];var i=KS.indexOf(k)*3;return[a[i],a[i+1],a[i+2]];}
 function setStat(id,k,q){var a=S.p[id]||(S.p[id]=[0,0,0,0,0,0,0,0,0,0,0,0]),i=KS.indexOf(k)*3;a[i]=q[0];a[i+1]=q[1];a[i+2]=q[2];}
 function mastered(q){return q[0]>=1&&q[1]>=2;}
@@ -1190,7 +1228,117 @@ function listView(){
   h+='</div>';
   return h;
 }
-function rowOf(w){return '<li><button class="it" data-a="inf" data-id="'+w.id+'"><b>'+esc(w.jp)+'</b><span>'+esc(w.read)+' · '+esc(w.mean)+'</span></button></li>';}
+var TRASH='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+var PENC='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg>';
+var DISK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z"/></svg>';
+var edOpen=false,edMode='',edSearch='',edSheet=null,edConf=null,edBatchConfirm=false,edErr='',edDraft=null,edNote='',edToast='',edTT=0,edBatch={},edMarked={};
+function edTo(m){edToast=m;clearTimeout(edTT);edTT=setTimeout(function(){edToast='';if(view==='day'&&!edSheet&&!edConf&&!edBatchConfirm)render();},1800);}
+function edReset(){edOpen=false;edMode='';edSearch='';edSheet=null;edConf=null;edBatchConfirm=false;edErr='';edDraft=null;edNote='';edToast='';edBatch={};edMarked={};}
+function edBegin(){edBatch={};edMarked={};items(cty,day).forEach(function(w){edBatch[w.id]={jp:w.jp,read:w.read,mean:w.mean};});edMode='edit';}
+function rowOf(w){
+  var inf='<button class="it" data-a="inf" data-id="'+w.id+'"><b>'+esc(w.jp)+'</b><span>'+esc(w.read)+' · '+esc(w.mean)+'</span></button>';
+  if(edMode==='edit'){
+    var d=edBatch[w.id]||{jp:w.jp,read:w.read,mean:w.mean},marked=!!edMarked[w.id];
+    return '<li class="ed-li'+(marked?' marked':'')+'"><div class="ed-fields">'+
+      '<div><label>Kanji / kana</label><input data-ed-id="'+w.id+'" data-ed-field="jp" lang="ja" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="60" value="'+esc(d.jp)+'"></div>'+
+      '<div><label>Bacaan (hiragana)</label><input data-ed-id="'+w.id+'" data-ed-field="read" lang="ja" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="80" value="'+esc(d.read)+'"></div>'+
+      '<div><label>Arti</label><input data-ed-id="'+w.id+'" data-ed-field="mean" maxlength="160" value="'+esc(d.mean)+'"></div></div>'+
+      '<button class="ed-trash" data-a="edmark" data-id="'+w.id+'" aria-label="'+(marked?'Batalkan penghapusan ':'Tandai hapus ')+esc(w.jp)+'">'+TRASH+'</button>'+
+      (marked?'<p class="ed-mark-note">Ditandai untuk dihapus · ketuk sampah lagi untuk membatalkan</p>':'')+'</li>';
+  }
+  if(edMode==='del')return '<li class="ed-li"><button class="it ed-d" data-a="inf" data-id="'+w.id+'"><b>'+esc(w.jp)+'</b><span>'+esc(w.read)+' · '+esc(w.mean)+'</span></button><button class="ed-trash" data-a="edd" data-id="'+w.id+'" aria-label="Hapus '+esc(w.jp)+'">'+TRASH+'</button></li>';
+  return '<li>'+inf+'</li>';
+}
+function edBar(nm){
+  var h='<div class="ed-h"><h2>Daftar '+nm+'</h2><div class="ed-bar">';
+  if(edOpen){
+    h+='<button class="ed-action save" data-a="eds">Simpan</button><button class="ed-action" data-a="edcancel">Batal</button>';
+  }else h+='<button class="ed-main" data-a="edt" aria-label="Edit daftar" aria-expanded="false">Edit</button>';
+  h+='</div></div>';
+  if(edOpen)h+='<p class="ed-note">Edit langsung pada kolom. Ikon sampah merah menandai kata untuk dihapus.</p>';
+  return h;
+}
+function edSheetH(){
+  var tst=edToast?'<div class="ed-toast" role="status">'+esc(edToast)+'</div>':'';
+  if(!edSheet&&!edConf&&!edBatchConfirm)return tst;
+  if(edBatchConfirm){
+    var list=items(cty,day),hasDelete=list.some(function(w){return !!edMarked[w.id];}),hasEdit=list.some(function(w){if(edMarked[w.id])return false;var d=edBatch[w.id]||{jp:w.jp,read:w.read,mean:w.mean};return edClean(d.jp,60)!==w.jp||edClean(d.read,80)!==w.read||edClean(d.mean,160)!==w.mean;});
+    var msg=hasEdit&&hasDelete?'Yakin ingin menyimpan perubahan?':hasDelete?'Yakin ingin menghapus kotoba yang dipilih?':'Yakin ingin menyimpan perubahan kotoba ini?';
+    return '<div class="ed-ov"><div class="ed-card"><h3>Konfirmasi</h3><p class="mute" style="margin:0 0 16px">'+msg+'</p><div class="ed-btns"><button class="sec" data-a="edbatchx">Batal</button><button class="pri" data-a="edbatchyes">Ya, lanjutkan</button></div></div></div>';
+  }
+  if(edConf){var w=BY[edConf];if(!w)return '';
+    return '<div class="ed-ov"><div class="ed-card"><h3>Hapus kata ini?</h3><p class="ed-big">'+esc(w.jp)+'</p><p class="mute" style="margin:0 0 14px">'+esc(w.read)+' · '+esc(w.mean)+'<br>Kata ini hilang dari daftar, latihan, dan pengulangan.</p>'+(edErr?'<p class="ed-err">'+esc(edErr)+'</p>':'')+'<div class="ed-btns"><button class="sec" data-a="edx">Batal</button><button class="ed-red" data-a="edyes">Hapus</button></div></div></div>';}
+  var w=BY[edSheet];if(!w)return '';var d=edDraft||{jp:w.jp,read:w.read,mean:w.mean};
+  return '<div class="ed-ov"><div class="ed-card"><h3>Edit '+(w.ty==='k'?'kotoba':'kanji')+'</h3>'
+   +'<label for="edjp">Tulisan (kanji / kana)</label><input id="edjp" class="v6-in" type="text" lang="ja" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="60" value="'+esc(d.jp)+'">'
+   +'<label for="edrd">Bacaan (hiragana)</label><input id="edrd" class="v6-in" type="text" lang="ja" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="80" value="'+esc(d.read)+'">'
+   +'<label for="edmn">Arti</label><input id="edmn" class="v6-in" type="text" autocomplete="off" autocorrect="off" maxlength="160" value="'+esc(d.mean)+'">'
+   +(edErr?'<p class="ed-err">'+esc(edErr)+'</p>':'')
+   +'<div class="ed-btns"><button class="sec" data-a="edx">Batal</button><button class="pri" data-a="edok">Simpan</button></div></div></div>';
+}
+function edClean(s,n){return String(s==null?'':s).replace(/\s+/g,' ').trim().slice(0,n);}
+function edDelete(id){
+  var w=BY[id];if(!w)return;
+  OV.d[id]=1;delete OV.e[id];
+  var arr=w.ty==='k'?KI:JI,i=arr.indexOf(w);if(i>=0)arr.splice(i,1);
+  if(w.ty==='k'){var b=KB[w.th];if(b){i=b.indexOf(w);if(i>=0)b.splice(i,1);}}
+  delete BY[id];delete S.p[id];if(ENG&&ENG.sr)delete ENG.sr[id];if(ENG&&ENG.an)delete ENG.an[id];
+  kqBuild();KQ=kqFix(KQ);
+  svPut(OVK,OV);save();engSave();kqSave();
+}
+function edApply(id,jp,rd,mn){
+  var w=BY[id];if(!w)return;
+  w.jp=jp;w.read=rd;w.mean=mn;OV.e[id]={jp:jp,read:rd,mean:mn};
+  kqBuild();KQ=kqFix(KQ);svPut(OVK,OV);kqSave();
+}
+function edSaveBatch(){
+  var list=items(cty,day).slice(),removed=0,changed=0,cleaned={};
+  if(list.filter(function(w){return !edMarked[w.id];}).length<1){edNote='Minimal satu kata harus tersisa.';return true;}
+  for(var v=0;v<list.length;v++){
+    var vw=list[v];if(edMarked[vw.id])continue;
+    var vd=edBatch[vw.id]||{jp:vw.jp,read:vw.read,mean:vw.mean};
+    cleaned[vw.id]={jp:edClean(vd.jp,60),read:edClean(vd.read,80),mean:edClean(vd.mean,160)};
+    if(!cleaned[vw.id].jp||!cleaned[vw.id].read||!cleaned[vw.id].mean){edNote='Semua kolom wajib diisi. Periksa '+vw.jp+'.';return true;}
+  }
+  for(var i=0;i<list.length;i++){
+    var w=list[i],d=cleaned[w.id];
+    if(edMarked[w.id]){edDelete(w.id);removed++;continue;}
+    if(!d)continue;
+    var jp=d.jp,rd=d.read,mn=d.mean;
+    if(jp!==w.jp||rd!==w.read||mn!==w.mean){edApply(w.id,jp,rd,mn);changed++;}
+  }
+  edOpen=false;edMode='';edBatch={};edMarked={};edNote='';
+  edTo('Tersimpan · '+changed+' diperbarui · '+removed+' dihapus');
+  return true;
+}
+/* true = sudah ditangani (lalu render) */
+function edClick(a,t){
+  var id,w;
+  if(a==='edt'){edOpen=true;edBegin();return true;}
+  if(a==='edcancel'){edOpen=false;edMode='';edBatch={};edMarked={};edNote='';return true;}
+  if(a==='eds'){edBatchConfirm=true;return true;}
+  if(a==='edbatchx'){edBatchConfirm=false;return true;}
+  if(a==='edbatchyes'){edBatchConfirm=false;return edSaveBatch();}
+  if(a==='edmark'){id=t.getAttribute('data-id');if(!edMarked[id]){var alive=items(cty,day).filter(function(x){return !edMarked[x.id];});if(alive.length<=1){edNote='Minimal satu kotoba harus tersisa.';return true;}edMarked[id]=1;}else delete edMarked[id];return true;}
+  if(a==='edr'){id=t.getAttribute('data-id');if(BY[id]){edSheet=id;edDraft=null;edErr='';}return true;}
+  if(a==='edd'){id=t.getAttribute('data-id');if(BY[id]){edConf=id;edErr='';}return true;}
+  if(a==='edx'){edSheet=null;edConf=null;edErr='';edDraft=null;return true;}
+  if(a==='edyes'){
+    id=edConf;w=BY[id];
+    if(w){var left=items(w.ty,w.ty==='k'?w.th:day).length;
+      if(left<=1){edErr='Minimal satu kata harus tersisa di '+(w.ty==='k'?'Bab':'Day')+' ini.';return true;}
+      edDelete(id);edNote='Kata dihapus.';edTo('Kata dihapus');}
+    edConf=null;edErr='';return true;
+  }
+  if(a==='edok'){
+    id=edSheet;w=BY[id];if(!w){edSheet=null;return true;}
+    var jp=edClean(($('edjp')||{}).value,60),rd=edClean(($('edrd')||{}).value,80),mn=edClean(($('edmn')||{}).value,160);
+    edDraft={jp:jp,read:rd,mean:mn};
+    if(!jp||!rd||!mn){edErr='Tulisan, bacaan, dan arti tidak boleh kosong.';return true;}
+    edApply(id,jp,rd,mn);edSheet=null;edDraft=null;edErr='';edNote='Kata diperbarui.';edTo('Kata diperbarui');return true;
+  }
+  return false;
+}
 function dayView(){
   var ty=cty,w=items(ty,day),nm=ty==='k'?'kotoba':'kanji';
   var h='<button class="back" data-a="bl">← Kembali</button><h1>'+dl(ty,day)+' · '+TY[ty].name+'</h1>';
@@ -1205,9 +1353,10 @@ function dayView(){
   h+='<p class="tm">⌛ Total waktu belajar (sampai 100%): '+fdur(S.dt[ty+day]||0)+'</p></div>';
   h+='<p class="mute">Pilih cara menghafal. Tiap '+nm+' muncul '+REP+' kali.'+(ty==='k'?' Kata tanpa kanji hanya ada di Hiragana → Arti dan Acak.':'')+'</p><div class="modes">';
   for(var k in DIRS)h+='<button class="sec" data-a="s" data-m="'+k+'">'+DIRS[k][2]+'</button>';
-  h+='</div><button class="pri" data-a="s" data-m="acak">Acak semua cara</button><h2>Daftar '+nm+'</h2><ul>';
+  h+='</div><button class="pri" data-a="s" data-m="acak">Acak semua cara</button><div class="ed-search"><input id="edSearch" type="search" placeholder="Cari kotoba di bab ini..." aria-label="Cari '+nm+' di bab ini" value="'+esc(edSearch)+'"></div>'+edBar(nm)+'<ul id="edList">';
   w.forEach(function(x){h+=rowOf(x);});
-  return h+'</ul>';
+  h+='</ul><p class="ed-empty" id="edEmpty">Kotoba tidak ditemukan di bab ini.</p>';
+  return h+edSheetH();
 }
 function testView(){
   var np=learned(tsrc).length,nk=learned('k').length,nj=learned('j').length;
@@ -1618,12 +1767,16 @@ function kqNorm(s){
 }
 /* kanji yang sesuai: mengandung kanji & bacaannya berbeda dari tulisannya. Kanji yang sama (mis. 開きます) digabung: semua bacaan diterima */
 var KQP=[],KQA={},KQB={};
-JI.forEach(function(w){
-  if(!CJK.test(w.jp)||!w.read||kqNorm(w.jp)===kqNorm(w.read))return;
-  KQP.push(w);KQB[w.id]=1;
-  var a=KQA[w.jp]||(KQA[w.jp]={rd:{},it:[]});a.it.push(w);
-  kqNorm(w.read).split('\u3001').forEach(function(p){if(p)a.rd[p]=1;});
-});
+function kqBuild(){
+  var k;KQP.length=0;for(k in KQA)delete KQA[k];for(k in KQB)delete KQB[k];
+  JI.forEach(function(w){
+    if(!CJK.test(w.jp)||!w.read||kqNorm(w.jp)===kqNorm(w.read))return;
+    KQP.push(w);KQB[w.id]=1;
+    var a=KQA[w.jp]||(KQA[w.jp]={rd:{},it:[]});a.it.push(w);
+    kqNorm(w.read).split('\u3001').forEach(function(p){if(p)a.rd[p]=1;});
+  });
+}
+kqBuild();
 var KQR=(function(){
   var m={},V='aiueo',rows={'':'あいうえお','k':'かきくけこ','s':'さしすせそ','t':'たちつてと','n':'なにぬねの','h':'はひふへほ','m':'まみむめも','y':'や_ゆ_よ','r':'らりるれろ','w':'わ___を','g':'がぎぐげご','z':'ざじずぜぞ','d':'だぢづでど','b':'ばびぶべぼ','p':'ぱぴぷぺぽ'},c,i,k;
   for(c in rows)for(i=0;i<5;i++)if(rows[c].charAt(i)!=='_')m[c+V.charAt(i)]=rows[c].charAt(i);
@@ -2009,6 +2162,8 @@ function onClick(e){
   if(a==='dim'){if(dPend)dApply();window.scrollTo(0,0);render();return;}
   if(a==='dcx'){dPend=null;render();return;}
   var xr=xClick(a,t);if(xr){if(xr===1)render();return;}
+  if(a==='bl'||a==='bm'||a==='ty'||a==='tes'||a==='rev'||a==='s'||a==='d'||a==='fc'||a==='kq')edReset();
+  if(edClick(a,t)){render();return;}
   if(kqClick(a,t)){render();return;}
   if(a==='q'){qi=pickQuote();}
   else if(a==='start'){view='menu';window.scrollTo(0,0);}
@@ -2036,6 +2191,12 @@ function onClick(e){
   else if(a==='reset'){if(!rst){rst=true;}else{bakPush('pra-reset');var nm0=S.nm;S=hydrate({});S.nm=nm0;S.lq=qi;save();kqReset();ENG=engFix({});engSave();rst=false;dMsg='Semua progres sudah dihapus.';dErr=false;}}
   render();
 }
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='edSearch'){edSearch=e.target.value;var q=edSearch.trim().toLocaleLowerCase(),list=document.getElementById('edList'),empty=document.getElementById('edEmpty');if(list){var rows=list.querySelectorAll('li'),shown=0;rows.forEach(function(li){var hay=(li.textContent+' '+Array.from(li.querySelectorAll('input')).map(function(x){return x.value;}).join(' ')).toLocaleLowerCase();var ok=!q||hay.indexOf(q)!==-1;li.style.display=ok?'':'none';if(ok)shown++;});if(empty)empty.style.display=shown?'none':'block';}return;}
+  var t=e.target;if(!t||!t.hasAttribute('data-ed-id'))return;
+  var id=t.getAttribute('data-ed-id'),field=t.getAttribute('data-ed-field');
+  if(!edBatch[id]||!field)return;edBatch[id][field]=t.value;
+});
 document.addEventListener('click',function(e){
   _tab=!!(e.target&&e.target.closest&&e.target.closest('.v6-nav'));
   try{onClick(e);}
