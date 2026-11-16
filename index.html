@@ -1701,7 +1701,6 @@ function kqCheckNow(){
   if(good){r.ok++;KQ.st.ok++;KQ.got[id]=1;delete r.rt[id];if(!r.queue.length){r.fin=1;KQ.st.fin++;if(!r.rewarded){r.lastExp=r.ok*4+(r.ids.length&&r.ok===r.ids.length?2:0);r.rewarded=true;S.exp=(S.exp||0)+r.lastExp;save();}}}
   else{r.no++;KQ.st.no++;r.rt[id]=1;r.queue.splice(Math.min(r.queue.length,3+Math.floor(Math.random()*2)),0,id);}
   r.qid=null;r.qAt=0;kqFb={id:id,good:good,typed:typed};kqMsg='';kqSave();
-  if(good){var fb=kqFb;setTimeout(function(){if(kqFb===fb&&view==='kq'){kqFb=null;kqFocusPending=kqKeyboardWanted;render();}},950);}
 }
 /* swipe / lewati: soal TIDAK selesai, hanya ditunda ke belakang antrean */
 function kqSkip(){
@@ -1801,7 +1800,17 @@ function kqViewport(){
   if(document.body.classList.contains('kq-kb')!==on)document.body.classList.toggle('kq-kb',on);
   if(window.scrollY>0)window.scrollTo(0,0);
   if(app&&app.scrollTop)app.scrollTop=0;
+  /* iOS: saat keyboard muncul, visual viewport bisa bergeser (offsetTop != 0) atau mengecil.
+     Tempelkan #app tepat pada area yang terlihat supaya layar tidak ikut bergerak/kosong di atas. */
+  var vv=window.visualViewport;
+  if(app&&vv){
+    var off=Math.round(vv.offsetTop),h=Math.round(vv.height);
+    if(off!==0||h<window.innerHeight-1){
+      app.style.setProperty('top',off+'px','important');app.style.setProperty('bottom','auto','important');app.style.setProperty('height',h+'px','important');
+    }else kqVvClear(app);
+  }
 }
+function kqVvClear(app){if(!app)return;app.style.removeProperty('top');app.style.removeProperty('bottom');app.style.removeProperty('height');}
 /* Selama ~0,75 dtk setelah fokus/blur, tahan posisi gulir area soal agar tidak ada geseran sisa dari iOS. */
 function kqHold(sc,st){
   var inp=document.getElementById('kqin');
@@ -1905,6 +1914,7 @@ function render(){
     app.classList.remove('kq-viewport-lock');
     app.style.removeProperty('--kq-vh');
     app.style.removeProperty('--kq-vv-top');
+    kqVvClear(app);
     document.body.classList.remove('kq-viewport-active');document.body.classList.remove('kq-kb');kqVvK='';
   }
   if(det)h+=sheet(det);
