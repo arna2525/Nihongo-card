@@ -884,7 +884,7 @@ function bakPush(why){
   try{
     var a=bakRead(),t=today();
     if(why==='auto'&&(a.some(function(x){return x.d===t&&x.why==='auto';})||!(Object.keys(S.p).length||Object.keys(S.log).length)))return;
-    var list=[{d:t,at:new Date().toISOString(),why:why,main:S,kq:KQ,eng:ENG}].concat(a).slice(0,4);
+    var list=[{d:t,at:new Date().toISOString(),why:why,main:S,kq:KQ,kt:KT,eng:ENG}].concat(a).slice(0,4);
     while(list.length){try{localStorage.setItem(BAK,JSON.stringify(list));return;}catch(e){list.pop();}}
   }catch(e){}
 }
@@ -1090,7 +1090,7 @@ function aboutView(){
 var dMsg='',dErr=false,dPend=null,KQK2='jft-a2-kq-v1';
 function dExport(){
   try{
-    var o={app:'si-paling-jft-a2',fmt:1,at:new Date().toISOString(),main:S,kq:KQ,eng:ENG};
+    var o={app:'si-paling-jft-a2',fmt:1,at:new Date().toISOString(),main:S,kq:KQ,kt:KT,eng:ENG};
     var b=new Blob([JSON.stringify(o)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');
     a.href=u;a.download='manabi-progres-'+today()+'.json';document.body.appendChild(a);a.click();
     setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u);},400);
@@ -1104,7 +1104,7 @@ function bakBtn(){
 function dExportBak(){
   try{
     var a=bakRead();if(!a.length){dMsg='Belum ada cadangan otomatis.';dErr=true;return;}
-    var x=a[0],o={app:'si-paling-jft-a2',fmt:1,at:x.at,main:x.main,kq:x.kq,eng:x.eng};
+    var x=a[0],o={app:'si-paling-jft-a2',fmt:1,at:x.at,main:x.main,kq:x.kq,kt:x.kt,eng:x.eng};
     var b=new Blob([JSON.stringify(o)],{type:'application/json'}),u=URL.createObjectURL(b),el=document.createElement('a');
     el.href=u;el.download='manabi-cadangan-'+x.d+'.json';document.body.appendChild(el);el.click();
     setTimeout(function(){document.body.removeChild(el);URL.revokeObjectURL(u);},400);
@@ -1115,12 +1115,13 @@ function dParse(txt){
   var o=JSON.parse(txt),m=o&&o.main?o.main:o;
   if(!m||typeof m!=='object'||Array.isArray(m)||!m.log||typeof m.log!=='object')throw new Error('Isi file bukan cadangan progres Manabi.');
   if(m.dv!==DV)throw new Error('Versi data file ini berbeda dari aplikasi, jadi tidak bisa diimpor.');
-  return {main:m,kq:(o&&o.main&&o.kq&&typeof o.kq==='object')?o.kq:null,eng:(o&&o.main&&o.eng&&typeof o.eng==='object')?o.eng:null};
+  return {main:m,kq:(o&&o.main&&o.kq&&typeof o.kq==='object')?o.kq:null,kt:(o&&o.main&&o.kt&&typeof o.kt==='object')?o.kt:null,eng:(o&&o.main&&o.eng&&typeof o.eng==='object')?o.eng:null};
 }
 function dApply(){
   bakPush('pra-impor');
   var nm0=S.nm;S=hydrate(dPend.main);if(!S.nm)S.nm=nm0;S.lq=qi;save();
   KQ=kqFix(dPend.kq||{});kqFb=null;kqPage='setup';kqLock=false;kqSave();
+  KT=ktFix(dPend.kt||{});ktFb=null;ktPage='setup';ktSave();
   if(dPend.eng){ENG=engFix(dPend.eng);engSave();}
   sess=null;det='';dstack=[];dPend=null;dMsg='Progres berhasil diimpor.';dErr=false;
 }
@@ -1216,7 +1217,7 @@ function listView(){
   var f=0;for(var q=1;q<=nd&&!f;q++){if(!isDone(ty,q))f=q;}
   h+='<div class="library-actions">';
   if(f)h+='<button class="pri" data-a="d" data-d="'+f+'">Lanjut ke '+dl(ty,f)+'　↗</button>';
-  h+='<button class="sec" data-a="fc" data-t="'+ty+'">🃏 Flashcard '+(ty==='k'?'kotoba · '+KI.length:'kanji · '+JI.length)+'</button>'+(ty==='j'?'<button class="sec" data-a="kq" style="grid-column:1/-1">⌨ Quiz Ketik Kanji · ketik bacaan Hiragana</button>':'')+'</div>';
+  h+='<button class="sec" data-a="fc" data-t="'+ty+'">🃏 Flashcard '+(ty==='k'?'kotoba · '+KI.length:'kanji · '+JI.length)+'</button>'+(ty==='j'?'<button class="sec" data-a="kq" style="grid-column:1/-1">⌨ Quiz Ketik Kanji · ketik bacaan Hiragana</button>':'')+(ty==='k'?'<button class="sec" data-a="kt" style="grid-column:1/-1">⌨ Test Ketik Kotoba · arti ⇄ Jepang</button>':'')+'</div>';
   h+='<div class="chapter-grid">';
   for(var d=1;d<=nd;d++){
     var w=items(ty,d),st=dayStats(ty,d),sm=0,sn=0,sub;
@@ -1283,8 +1284,8 @@ function edDelete(id){
   var arr=w.ty==='k'?KI:JI,i=arr.indexOf(w);if(i>=0)arr.splice(i,1);
   if(w.ty==='k'){var b=KB[w.th];if(b){i=b.indexOf(w);if(i>=0)b.splice(i,1);}}
   delete BY[id];delete S.p[id];if(ENG&&ENG.sr)delete ENG.sr[id];if(ENG&&ENG.an)delete ENG.an[id];
-  kqBuild();KQ=kqFix(KQ);
-  svPut(OVK,OV);save();engSave();kqSave();
+  kqBuild();KQ=kqFix(KQ);if(KT)KT=ktFix(KT);
+  svPut(OVK,OV);save();engSave();kqSave();if(KT)ktSave();
 }
 function edApply(id,jp,rd,mn){
   var w=BY[id];if(!w)return;
@@ -1952,7 +1953,7 @@ function kqAfter(){
    ke input ketika keyboard dibuka ulang. Hanya aktif selama Quiz Ketik Kanji. */
 var kqVvK='',kqSettleT=0;
 function kqViewport(){
-  if(view!=='kq'||kqPage!=='play')return;
+  if(!kpl())return;
   var app=document.getElementById('app');
   var ae=document.activeElement,on=!!(ae&&ae.id==='kqin');
   if(document.body.classList.contains('kq-kb')!==on)document.body.classList.toggle('kq-kb',on);
@@ -1986,14 +1987,14 @@ document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length
 /* Ketuk kolom ketik: fokus manual TANPA gulir, supaya iOS tidak menggeser layar saat keyboard dibuka ulang. */
 document.addEventListener('touchend',function(e){
   var i=e.target;
-  if(!i||i.id!=='kqin'||view!=='kq'||kqPage!=='play'||document.activeElement===i||i.disabled||i.readOnly)return;
+  if(!i||i.id!=='kqin'||!kpl()||document.activeElement===i||i.disabled||i.readOnly)return;
   if(e.changedTouches&&e.changedTouches.length>1)return;
   e.preventDefault();
   try{i.focus({preventScroll:true});var n=i.value.length;i.setSelectionRange(n,n);}catch(x){try{i.focus();}catch(y){}}
   setTimeout(function(){if(document.activeElement!==i&&view==='kq'&&document.body.contains(i)){try{i.focus();}catch(x){}}},180);
 },{passive:false});
 document.addEventListener('focusin',function(e){
-  if(view!=='kq'||kqPage!=='play'||!e.target||e.target.id!=='kqin')return;
+  if(!kpl()||!e.target||e.target.id!=='kqin')return;
   kqSettle();
 });
 if(window.visualViewport){
@@ -2025,11 +2026,11 @@ function kqDragEnd(commit){
   if(commit&&d.lock==='h'&&Math.abs(d.dx)>=Math.max(70,(el.offsetWidth||300)*.25)){
     var dir=d.dx>0?1:-1;kqLock=true;
     el.style.transform='translateX('+dir*(window.innerWidth||400)+'px) rotate('+dir*18+'deg)';el.style.opacity='0';
-    setTimeout(function(){kqLock=false;if(view==='kq'&&kqPage==='play'&&!kqFb){kqSkip();render();}},190);
+    setTimeout(function(){kqLock=false;if(kpl()&&!kfb()){if(view==='kt')ktSkip();else kqSkip();render();}},190);
   }else{el.style.transform='';el.style.opacity='';}
 }
 document.addEventListener('pointerdown',function(e){
-  if(view!=='kq'||kqPage!=='play'||kqFb||kqLock||!e.target||!e.target.closest)return;
+  if(!kpl()||kfb()||kqLock||!e.target||!e.target.closest)return;
   var c=e.target.closest('[data-kq="card"]');if(!c||(e.pointerType==='mouse'&&e.button!==0))return;
   kqDr={x:e.clientX,y:e.clientY,el:c,id:e.pointerId,dx:0,lock:''};
   try{c.setPointerCapture(e.pointerId);}catch(err){}
@@ -2046,7 +2047,7 @@ document.addEventListener('pointermove',function(e){
 document.addEventListener('pointerup',function(e){if(kqDr&&e.pointerId===kqDr.id)kqDragEnd(true);});
 document.addEventListener('pointercancel',function(e){if(kqDr&&e.pointerId===kqDr.id)kqDragEnd(false);});
 document.addEventListener('focusout',function(e){
-  if(e.target&&e.target.id==='kqin'&&view==='kq'&&kqPage==='play')kqSettle();
+  if(e.target&&e.target.id==='kqin'&&kpl())kqSettle();
   if(!e.target||e.target.id!=='kqin'||kqPreserveFocusOnRender)return;
   var next=e.relatedTarget;
   if(next&&next.getAttribute&&next.getAttribute('data-a')==='kqc')return;
@@ -2059,8 +2060,217 @@ document.addEventListener('keydown',function(e){
   if(e.target&&e.target.id==='kqin'){e.preventDefault();e.stopPropagation();kqFocusPending=false;kqPreserveFocusOnRender=true;kqCheckNow();render();kqPreserveFocusOnRender=false;}
 });
 
+/* ===== Test Ketik Kotoba =====
+   Mode mandiri: soal dari KI (kotoba) pada Bab yang sudah 100%. Arah diacak per kata:
+   'id' = lihat arti, ketik bahasa Jepang (hiragana / romaji / kanji); 'ja' = lihat tulisan Jepang, ketik arti.
+   Penyimpanan TERPISAH: localStorage 'manabi-kt-v1' (tidak menyentuh progres lain). Maks. 100 soal per sesi. */
+var KTK='manabi-kt-v1',KT=null,ktPage='setup',ktSc=0,ktCnt=20,ktFb=null,ktMsg='',KTMAX=100,ktT=0;
+function kpl(){return (view==='kq'&&kqPage==='play')||(view==='kt'&&ktPage==='play');}
+function kfb(){return view==='kt'?ktFb:kqFb;}
+/* tulisan Jepang: daftar varian (utuh, tanpa kurung, isi kurung), tiap varian dipecah per "、" */
+function ktJa(s){
+  var b=kqNorm(s),vs=[b,b.replace(/\([^)]*\)/g,''),b.replace(/[()]/g,'')],re=/\(([^)]*)\)/g,m;
+  while((m=re.exec(b)))vs.push(m[1]);
+  return vs.map(function(x){return x.replace(/[\[\]［］【】?？。.!！\-－]/g,'').split('、').filter(Boolean);});
+}
+/* arti Indonesia: huruf kecil, tanpa ～ dan tanda baca, dipecah per "/" "," ";" */
+function ktMn(s){
+  var t=String(s==null?'':s);try{t=t.normalize('NFKC');}catch(e){}
+  t=t.toLowerCase().replace(/[～~]/g,' ');
+  var vs=[t,t.replace(/[(\[][^)\]]*[)\]]/g,' '),t.replace(/[()\[\]]/g,' ')];
+  return vs.map(function(x){return x.split(/[\/,;]/).map(function(p){return p.replace(/[.!?'"“”‘’+\-]/g,' ').replace(/\s+/g,' ').trim();}).filter(Boolean);});
+}
+function ktSetOf(lists){var o={};lists.forEach(function(vs){vs.forEach(function(arr){arr.forEach(function(p){o[p]=1;});});});return o;}
+function ktFit(vs,set){return vs.some(function(arr){return arr.length>0&&arr.every(function(p){return set[p]===1;});});}
+function ktOk(typed,id,dir){
+  var w=BY[id],t=String(typed==null?'':typed).trim(),bab=w?(KB[w.th]||[]):[],r,lists=[];
+  if(!w||!t)return false;
+  if(dir==='ja'){
+    bab.forEach(function(x){if(x.id===w.id||x.jp===w.jp||x.read===w.read)lists.push(ktMn(x.mean));});
+    return ktFit(ktMn(t),ktSetOf(lists));
+  }
+  try{t=t.normalize('NFKC');}catch(e){}
+  if(/^[A-Za-z' \-]+$/.test(t)&&/[A-Za-z]/.test(t)){r=kqRomaji(t);if(r)t=r;}
+  var key=ktMn(w.mean)[0].join('|');
+  bab.forEach(function(x){if(x.id===w.id||ktMn(x.mean)[0].join('|')===key){lists.push(ktJa(x.jp));lists.push(ktJa(x.read));}});
+  return ktFit(ktJa(t),ktSetOf(lists));
+}
+function ktFix(d){
+  d=d&&typeof d==='object'?d:{};
+  var st=d.st||{},o={v:1,w:d.w?1:0,st:{ok:+st.ok||0,no:+st.no||0,skip:+st.skip||0,sess:+st.sess||0,fin:+st.fin||0},got:{},run:null},k,r=d.run;
+  var good=function(id){return BY[id]&&BY[id].ty==='k';};
+  if(d.got&&typeof d.got==='object')for(k in d.got)if(good(k))o.got[k]=1;
+  if(r&&Array.isArray(r.ids)&&Array.isArray(r.queue)){
+    var seen={},ids=[],q=[],sq={},rt={},dir={},hist=[];
+    r.ids.forEach(function(id){if(good(id)&&!seen[id]&&ids.length<KTMAX){seen[id]=1;ids.push(id);dir[id]=(r.dir&&r.dir[id]==='ja')?'ja':'id';}});
+    r.queue.forEach(function(id){if(seen[id]&&!sq[id]){sq[id]=1;q.push(id);}});
+    if(ids.length){
+      if(r.rt&&typeof r.rt==='object')for(k in r.rt)if(sq[k])rt[k]=1;
+      if(Array.isArray(r.history))r.history.forEach(function(x){if(x&&seen[x.id]&&(x.skip||typeof x.good==='boolean'))hist.push({id:x.id,good:!!x.good,skip:!!x.skip,typed:String(x.typed||''),sec:Math.max(0,Math.min(3600,+x.sec||0))});});
+      o.run={sc:+r.sc||0,ids:ids,queue:q,dir:dir,ok:+r.ok||0,no:+r.no||0,skip:+r.skip||0,rt:rt,ans:+r.ans||0,fin:q.length?0:1,history:hist,qid:null,qAt:0,rewarded:!!r.rewarded,lastExp:+r.lastExp||0};
+    }
+  }
+  return o;
+}
+function ktLoad(){try{return ktFix(JSON.parse(localStorage.getItem(KTK)));}catch(e){}return ktFix({});}
+function ktSave(){return svPut(KTK,KT);}
+function ktReset(){try{localStorage.removeItem(KTK);}catch(e){}KT=ktFix({});ktFb=null;ktPage='setup';kqLock=false;}
+KT=ktLoad();
+
+function ktOpen(d){return isDone('k',d);}
+function ktPool(){
+  var src=[],out=[],d;
+  if(ktSc){if(ktOpen(ktSc))src=items('k',ktSc);}
+  else for(d=1;d<=ndays('k');d++)if(ktOpen(d))src=src.concat(items('k',d));
+  src.forEach(function(w){out.push(w.id);});
+  return out;
+}
+function ktWeigh(ids){
+  var t=today(),t3=plus(t,-3),ks=[];
+  ids.forEach(function(id){
+    var w=1,a=ENG.an[id],e=ENG.sr[id],ok=a?a[3]:0,no=a?a[4]:0;
+    if(!KT.got[id])w+=2;                                   /* belum pernah benar di Test Ketik Kotoba */
+    if(ok+no>0&&no/(ok+no)>=.34)w+=2;                       /* sering salah di test */
+    if(e&&e[1]<=t)w+=e[1]<=t3?3:2;                          /* jatuh tempo pengulangan */
+    ks.push({id:id,k:Math.pow(Math.random()||1e-9,1/w)});
+  });
+  ks.sort(function(a,b){return b.k-a.k;});
+  return ks.map(function(x){return x.id;});
+}
+function ktStart(){
+  var pl=ktPool(),ids=KT.w?ktWeigh(pl):shuf(pl.slice()),n=Math.min(ktCnt||KTMAX,KTMAX),dir={};
+  ids=ids.slice(0,n);
+  if(!ids.length){ktMsg='Belum ada Bab kotoba yang selesai 100%. Selesaikan sebuah Bab di Hafalin kotoba dulu.';return false;}
+  ids.forEach(function(id){dir[id]=Math.random()<.5?'id':'ja';});
+  KT.run={sc:ktSc,ids:ids.slice(),queue:shuf(ids.slice()),dir:dir,ok:0,no:0,skip:0,rt:{},ans:0,fin:0,history:[],qid:null,qAt:0};
+  KT.st.sess++;ktFb=null;ktMsg='';ktPage='play';kqKeyboardWanted=true;kqFocusPending=true;ktSave();return true;
+}
+function ktRetryN(r){return r.queue.filter(function(id){return r.rt[id];}).length;}
+function ktCheckNow(){
+  var r=KT.run;if(!r||r.fin||ktFb||kqLock||!r.queue.length)return;
+  var el=$('kqin'),typed=el?el.value:'';
+  if(!typed.trim()){ktMsg='Ketik jawabanmu dulu. Belum tahu? Geser kartunya untuk menunda.';kqFocusPending=kqKeyboardWanted;return;}
+  var id=r.queue[0],good=ktOk(typed,id,r.dir[id]),elapsed=Math.max(0,(Date.now()-(r.qAt||Date.now()))/1000);
+  engRec(id,'t',good,elapsed);
+  r.history=r.history||[];r.history.push({id:id,good:good,typed:typed,sec:elapsed});
+  r.queue.shift();r.ans++;
+  if(good){r.ok++;KT.st.ok++;KT.got[id]=1;delete r.rt[id];if(!r.queue.length){r.fin=1;KT.st.fin++;if(!r.rewarded){r.lastExp=r.ok*4+(r.ids.length&&r.ok===r.ids.length?2:0);r.rewarded=true;S.exp=(S.exp||0)+r.lastExp;save();}}}
+  else{r.no++;KT.st.no++;r.rt[id]=1;r.queue.splice(Math.min(r.queue.length,3+Math.floor(Math.random()*2)),0,id);}
+  r.qid=null;r.qAt=0;ktFb={id:id,good:good,typed:typed};ktMsg='';ktSave();
+}
+/* swipe / lewati: soal TIDAK selesai, hanya ditunda ke belakang antrean */
+function ktSkip(){
+  var r=KT.run;if(!r||r.fin||ktFb||!r.queue.length)return;
+  var id=r.queue.shift();engSkip(id);r.history=r.history||[];r.history.push({id:id,skip:true,sec:Math.max(0,(Date.now()-(r.qAt||Date.now()))/1000)});r.skip++;KT.st.skip++;r.ans++;r.rt[id]=1;r.queue.push(id);r.qid=null;r.qAt=0;ktMsg='';kqFocusPending=kqKeyboardWanted;ktSave();
+}
+function ktNext(){ktFb=null;ktMsg='';kqFocusPending=kqKeyboardWanted;}
+function ktTitle(r){return 'Test Ketik Kotoba · '+(r.sc?'Bab '+r.sc:'Semua');}
+function ktAnsH(id){var w=BY[id];return '<b>'+esc(w.jp)+'</b>'+(w.read!==w.jp?' · '+esc(w.read):'')+'<br>'+esc(w.mean);}
+function ktStatsH(){
+  var s=KT.st,got=Object.keys(KT.got).length,t=s.ok+s.no,acc=t?Math.round(s.ok/t*100):0;
+  return '<div class="panel"><h2 style="margin-top:0">Statistik Test Ketik Kotoba</h2><div class="chips"><span class="chip">✓ Benar '+s.ok+'</span><span class="chip">✗ Salah '+s.no+'</span><span class="chip">⇢ Swipe '+s.skip+'</span><span class="chip">Akurasi '+acc+'%</span></div><p class="mute" style="margin:6px 0 0">'+got+' kotoba pernah dijawab benar · '+s.sess+' sesi dimulai · '+s.fin+' sesi selesai. Statistik ini terpisah dari kuis lain.</p></div>';
+}
+function ktSetup(){
+  var r=KT.run,nd=ndays('k'),d,op={},no=0;
+  for(d=1;d<=nd;d++){op[d]=ktOpen(d);if(op[d])no++;}
+  if(ktSc&&!op[ktSc])ktSc=0;
+  var pool=ktPool().length,take=Math.min(ktCnt||KTMAX,KTMAX,pool);
+  var h='<div class="v6-slide"><div class="page-top"><button class="back" data-a="ktb">← Kembali</button><span class="eyebrow">TYPING TEST</span><h1>Test Ketik Kotoba</h1></div>';
+  h+='<p class="mute">Soal diacak dua arah: lihat arti lalu ketik bahasa Jepangnya (hiragana, romaji, atau kanji), atau lihat tulisan Jepang lalu ketik artinya. Benar: soal selesai. Salah atau digeser: soal kembali lagi sampai kamu menjawab benar.</p>';
+  if(ktMsg){h+='<div class="v6-toast">'+esc(ktMsg)+'</div>';ktMsg='';}
+  if(r&&!r.fin){
+    var dn=r.ids.length-r.queue.length;
+    h+='<div class="panel" style="border-left:6px solid #9c63ff"><b>▶ Sesi belum selesai</b><p class="mute" style="margin:4px 0 10px">'+esc(ktTitle(r))+' · '+Math.floor(dn/r.ids.length*100)+'% · '+r.queue.length+' soal tersisa</p><button class="pri" data-a="ktrs">Lanjutkan sesi</button></div>';
+  }else if(r&&r.fin){
+    h+='<div class="panel"><b>✅ Sesi terakhir selesai</b><p class="mute" style="margin:4px 0 10px">'+esc(ktTitle(r))+' · '+r.ids.length+' soal</p><button class="sec" data-a="ktr" style="width:100%">Lihat hasil</button></div>';
+  }
+  h+='<div class="flash-filter"><small>PILIH BAB · '+no+' / '+nd+' TERBUKA</small><div class="kq-days"><button class="vc kq-all'+(!ktSc?' on':'')+'" data-a="kts" data-v="0">Semua Bab yang sudah selesai</button>';
+  for(d=1;d<=nd;d++)h+=op[d]?'<button class="vc'+(ktSc===d?' on':'')+'" data-a="kts" data-v="'+d+'">'+d+'</button>':'<button class="vc kq-lock" disabled aria-label="Bab '+d+' terkunci">🔒<small>'+d+'</small></button>';
+  h+='</div><p class="mute" style="margin:8px 0 0">Bab terbuka setelah kamu menyelesaikannya 100% di Hafalin kotoba.</p></div><h2>Jumlah soal</h2><div class="row2" style="grid-template-columns:repeat(4,1fr)">';
+  [10,20,50,100].forEach(function(n){h+='<button class="sec" data-a="ktm" data-v="'+n+'" aria-pressed="'+(ktCnt===n)+'">'+n+'</button>';});
+  h+='</div><p class="mute">'+pool+' kotoba tersedia'+(pool>take?' · diambil '+take+' secara acak':'')+'. Maksimal 100 soal per sesi.</p>';
+  h+='<button class="v6-row kq-weak" data-a="ktw" role="switch" aria-checked="'+(KT.w?'true':'false')+'"><span class="rt"><b>Prioritaskan yang lemah</b><span>Kotoba yang sering salah lebih sering muncul</span></span><span class="sw'+(KT.w?' on':'')+'"><i></i></span></button><div style="height:12px"></div>';
+  h+='<button class="pri" data-a="ktgo"'+(pool?'':' disabled style="opacity:.5"')+'>'+(r&&!r.fin?'Mulai sesi baru':'Mulai')+'</button><div style="height:14px"></div>'+ktStatsH()+'</div>';
+  return h;
+}
+function ktPlay(){
+  var r=KT.run,id=ktFb?ktFb.id:r.queue[0],w=BY[id],fb=ktFb,dr=r.dir[id]||'id',total=r.ids.length,done=total-r.queue.length;
+  var pct=r.fin?100:Math.min(99,Math.floor(done/total*100)),q=dr==='id'?w.mean:w.jp,L=q.length;
+  var fs=dr==='id'?(L>26?24:L>16?30:L>9?38:46):(L>8?30:L>5?40:52);
+  var h='<div class="session-page kq-session"><div class="kq-scroll"><header class="session-top"><button class="back" data-a="ktx">✕ Keluar</button><span class="session-mode">'+esc(ktTitle(r))+'</span></header>';
+  h+='<div class="session-progress"><div class="session-progress-meta"><span>PROGRESS LATIHAN</span><b>'+pct+'%</b></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
+  h+='<div class="session-question-count">SELESAI <b>'+done+'</b><span> / '+total+'</span></div>';
+  h+='<div class="chips"><span class="chip">↻ Perlu diulang '+ktRetryN(r)+'</span><span class="chip">✓ '+r.ok+'</span><span class="chip">✗ '+r.no+'</span><span class="chip">⇢ '+r.skip+'</span></div>';
+  h+='<div class="q session-q kq-card'+(fb?(fb.good?' good':' bad'):'')+'" data-kq="card"><span class="question-kicker">'+(dr==='id'?'KETIK BAHASA JEPANGNYA':'KETIK ARTINYA')+'</span><div class="big" style="font-size:'+fs+'px">'+esc(q)+'</div>';
+  if(dr==='ja'&&w.read!==w.jp)h+='<div class="mute" style="font-size:16px">'+esc(w.read)+'</div>';
+  h+=fb?'<div class="h">'+(fb.good?'✓ Benar!':'✗ Belum tepat')+'</div>':'<div class="h">⇠ geser kartu untuk melewati ⇢</div>';
+  h+='</div>';
+  if(ktMsg){h+='<div class="v6-toast" style="margin-top:12px">'+esc(ktMsg)+'</div>';ktMsg='';}
+  var dk='<div class="kq-entry-dock"><input id="kqin" class="v6-in" type="text" lang="'+(dr==='id'?'ja':'id')+'" enterkeyhint="send" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="'+(dr==='id'?'Ketik hiragana, romaji, atau kanji…':'Ketik artinya…')+'" style="'+(fb?';border-color:'+(fb.good?'var(--ok)':'var(--no)'):'')+'" value="'+(fb?esc(fb.typed):'')+'"'+(fb?' disabled':'')+'>';
+  if(!fb)dk+='<button class="pri kq-check-btn" data-a="ktc" aria-label="Periksa jawaban" title="Periksa jawaban">Periksa</button>';
+  dk+='</div>';
+  h+=dk;
+  if(fb){
+    h+='<div class="panel" style="margin:0 0 10px"><div class="mute" style="margin-bottom:4px">'+(fb.good?'Jawaban kamu cocok:':'Jawaban yang benar:')+'</div>'+ktAnsH(id)+(fb.good?'':'<p class="mute" style="margin:8px 0 0">Soal ini masuk antrean ulang dan akan muncul lagi.</p>')+'</div>';
+    h+='<button class="pri session-next" data-a="ktn">'+(fb.good?(r.fin?'Lihat hasil →':'Lanjut →'):'Lanjut ke soal berikutnya →')+'</button>';
+  }else{
+    h+='<p class="mute kq-hint" style="text-align:center;margin:10px 0 0">Geser kartu ke kiri atau kanan untuk menunda soal</p>';
+  }
+  return h+'</div></div>';
+}
+function ktRes(){
+  var r=KT.run,t=r.ok+r.no,acc=t?Math.round(r.ok/t*100):100,hist=r.history||[];
+  var msg=acc>=85?'Mantap! Kotoba kamu sudah menempel.':acc>=60?'Lumayan! Terus ulangi supaya makin hafal.':'Tidak apa-apa, dari salah itulah ingatan menempel.';
+  var h='<div class="result-page"><button class="back" data-a="ktd">← Selesai</button><section class="result-hero"><div class="result-symbol">祝</div><div class="study-kicker">TYPING COMPLETED</div><h1>Test Ketik selesai!</h1><p>'+msg+'</p>';
+  h+='<div class="result-score"><b class="'+(acc>=60?'g':'r')+'">'+acc+'%</b><span class="exp">⚡ +'+(r.lastExp||0)+' EXP</span></div><div class="bar"><i style="width:100%"></i></div><small>'+esc(ktTitle(r))+' · '+r.ids.length+' dari '+r.ids.length+' soal selesai</small></section>';
+  h+='<div class="panel"><div class="chips" style="margin:0"><span class="chip">✓ Jawaban benar '+r.ok+'</span><span class="chip">✗ Jawaban salah '+r.no+'</span><span class="chip">⇢ Swipe '+r.skip+'</span></div></div>';
+  h+='<div class="result-section-title"><b>Rangkuman jawaban</b><span>Ketuk item untuk rincian</span></div><div class="panel list result-list">';
+  r.ids.forEach(function(id){
+    var w=BY[id];if(!w)return;
+    var a=hist.filter(function(x){return x.id===id;}),last=null,wrong=0,skips=0;
+    a.forEach(function(x){if(x.skip)skips++;else if(x.good)last=x;else wrong++;});
+    var sec=last?last.sec:0,cl=last?(sec<=6?'e':'g2'):'a',lb=last?(sec<=6?'⚡ Easy ':'👍 Good '):'✓ Selesai';
+    h+='<button class="rw" data-a="inf" data-id="'+id+'"><div class="t"><b>'+esc(w.jp)+'</b><span>'+esc(w.read)+' · '+esc(w.mean)+(wrong?' · diulang '+wrong+'×':'')+(skips?' · swipe '+skips+'×':'')+'</span></div><span class="bd '+cl+'">'+lb+(last?fsec(sec):'')+'</span></button>';
+  });
+  return h+'</div><div class="sticky"><button class="pri" data-a="ktd">Selesai</button></div></div>';
+}
+function ktView(){
+  var r=KT.run;
+  if(ktPage==='play'&&(!r||(r.fin&&!ktFb)))ktPage=r&&r.fin?'res':'setup';
+  if(ktPage==='res'&&!(r&&r.fin))ktPage='setup';
+  return ktPage==='play'?ktPlay():ktPage==='res'?ktRes():ktSetup();
+}
+function ktAfter(){
+  if(view!=='kt'||ktPage!=='play'||ktFb)return;
+  var r=KT.run;if(r&&r.queue.length&&r.qid!==r.queue[0]){r.qid=r.queue[0];r.qAt=Date.now();}
+  if(!kqFocusPending||!kqKeyboardWanted)return;kqFocusPending=false;
+  var i=$('kqin');if(i){try{i.focus({preventScroll:true});}catch(e){i.focus();}}
+}
+function ktClick(a,t){
+  if(a.slice(0,2)!=='kt')return 0;
+  if(a==='kt'){ktPage='setup';ktMsg='';ktFb=null;kqLock=false;view='kt';window.scrollTo(0,0);return 1;}
+  if(a==='ktb'){view='list';cty='k';window.scrollTo(0,0);return 1;}
+  if(a==='kts'){var dv=+t.getAttribute('data-v')||0;if(!dv||ktOpen(dv))ktSc=dv;return 1;}
+  if(a==='ktw'){KT.w=KT.w?0:1;ktSave();return 1;}
+  if(a==='ktm'){var n=+t.getAttribute('data-v')||20;ktCnt=Math.min(n,KTMAX);return 1;}
+  if(a==='ktgo'){ktStart();window.scrollTo(0,0);return 1;}
+  if(a==='ktrs'){if(KT.run&&!KT.run.fin){ktFb=null;ktMsg='';kqLock=false;ktPage='play';kqKeyboardWanted=true;kqFocusPending=true;}window.scrollTo(0,0);return 1;}
+  if(a==='ktr'){if(KT.run&&KT.run.fin)ktPage='res';window.scrollTo(0,0);return 1;}
+  if(a==='ktc'){kqFocusPending=kqKeyboardWanted;kqPreserveFocusOnRender=true;ktCheckNow();return 1;}
+  if(a==='ktn'){ktNext();return 1;}
+  if(a==='ktx'){ktSave();ktFb=null;ktMsg='';ktPage='setup';kqKeyboardWanted=false;kqFocusPending=false;window.scrollTo(0,0);return 1;}
+  if(a==='ktd'){KT.run=null;ktFb=null;ktSave();ktPage='setup';kqKeyboardWanted=false;kqFocusPending=false;window.scrollTo(0,0);return 1;}
+  return 0;
+}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Enter'||e.isComposing||e.keyCode===229||view!=='kt'||ktPage!=='play'||!KT.run)return;
+  if(ktFb){e.preventDefault();ktNext();render();return;}
+  if(e.target&&e.target.id==='kqin'){e.preventDefault();e.stopPropagation();kqFocusPending=false;kqPreserveFocusOnRender=true;ktCheckNow();render();kqPreserveFocusOnRender=false;}
+});
+setInterval(function(){if(view==='kt'&&ktPage==='play'&&!document.hidden){var t=today();S.log[t]=(S.log[t]||0)+1;if(++ktT%10===0)save();}},1000);
+
 function render(){
-  var h=view==='kq'?kqView():view==='setf'?fontView():view==='setd'?setdView():view==='set'?setView():view==='setn'?nameView():view==='seta'?aboutView():view==='fc'?fcView():view==='bun'?bunView():view==='vf'?vfView():view==='splash'?splash():view==='menu'?menu():view==='list'?listView():view==='day'?dayView():view==='test'?testView():(sess&&sess.brk?breakView():sessView());
+  var h=view==='kq'?kqView():view==='kt'?ktView():view==='setf'?fontView():view==='setd'?setdView():view==='set'?setView():view==='setn'?nameView():view==='seta'?aboutView():view==='fc'?fcView():view==='bun'?bunView():view==='vf'?vfView():view==='splash'?splash():view==='menu'?menu():view==='list'?listView():view==='day'?dayView():view==='test'?testView():(sess&&sess.brk?breakView():sessView());
   var nv=view==='menu'?'home':view==='list'?cty:view==='test'?'t':'';
   if(nv)h+=navb(nv);
   var ks=smKeys(),sk=ks[0],kind='',ghost=null,rg=null,rdir=1;
@@ -2077,7 +2287,7 @@ function render(){
   }
   _sk=sk;_ck=ks[1];_fi=fcI;
   app.className=(nv?'hasnav':'')+(kind&&kind!=='card'?' pg-'+kind:'');
-  if(view==='kq'&&kqPage==='play'){
+  if(kpl()){
     app.classList.add('kq-viewport-lock');
     document.body.classList.add('kq-viewport-active');
   }else{
@@ -2097,17 +2307,18 @@ function render(){
   if(rg)smRegionApply(rg,rdir);
   if(ob.length){bs=app.querySelectorAll('.bar i,.chapter-progress i');for(bi=0;bi<bs.length&&bi<ob.length;bi++){var tw=bs[bi].style.width;if(ob[bi]&&tw&&ob[bi]!==tw){bs[bi].style.width=ob[bi];void bs[bi].offsetWidth;bs[bi].style.width=tw;}}}
   document.body.style.overflow=det?'hidden':'';
-  if(view==='kq'){kqAfter();kqViewport();}else{kqKeyboardWanted=false;kqFocusPending=false;}
+  if(view==='kq'){kqAfter();kqViewport();}else if(view==='kt'){ktAfter();kqViewport();}else{kqKeyboardWanted=false;kqFocusPending=false;}
   kqPreserveFocusOnRender=false;
 }
 var _sk='',_ck=null,_sy=0,_fi=0,_tab=false;
 window.addEventListener('scroll',function(){_sy=window.pageYOffset||0;},{passive:true});
 function smRM(){return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches);}
 function smKeys(){
-  var sk=view+(view==='list'?cty:'')+(view==='bun'&&bD>=0?'d':'')+(view==='kq'?kqPage:'')+(view==='sess'?(sess&&sess.brk?'b'+sess.n:'q'):''),ck=null;
+  var sk=view+(view==='list'?cty:'')+(view==='bun'&&bD>=0?'d':'')+(view==='kq'?kqPage:'')+(view==='kt'?ktPage:'')+(view==='sess'?(sess&&sess.brk?'b'+sess.n:'q'):''),ck=null;
   try{
     if(view==='sess'&&sess&&!sess.brk)ck=sess.cur;
     else if(view==='kq'&&kqPage==='play'&&KQ&&KQ.run)ck='k'+(kqFb?kqFb.id:KQ.run.queue[0]);
+    else if(view==='kt'&&ktPage==='play'&&KT&&KT.run)ck='t'+(ktFb?ktFb.id:KT.run.queue[0]);
     else if(view==='fc')ck=fcI+'|'+fcDay+'|'+fcTy+'|'+fcList.length;
   }catch(e){}
   return [sk,ck];
@@ -2115,8 +2326,8 @@ function smKeys(){
 /* kedalaman layar: lebih dalam = slide masuk dari kanan, lebih dangkal = kembali */
 function smDepth(k){
   if(k==='menu')return 0;
-  if(k==='day'||k==='fc'||k==='kqsetup'||k==='bund')return 2;
-  if(k.indexOf('sess')===0||k==='kqplay'||k==='kqres')return 3;
+  if(k==='day'||k==='fc'||k==='kqsetup'||k==='ktsetup'||k==='bund')return 2;
+  if(k.indexOf('sess')===0||k==='kqplay'||k==='kqres'||k==='ktplay'||k==='ktres')return 3;
   return 1;
 }
 /* halaman lama dipindah ke lapisan terpisah supaya bisa ikut slide */
@@ -2162,9 +2373,10 @@ function onClick(e){
   if(a==='dim'){if(dPend)dApply();window.scrollTo(0,0);render();return;}
   if(a==='dcx'){dPend=null;render();return;}
   var xr=xClick(a,t);if(xr){if(xr===1)render();return;}
-  if(a==='bl'||a==='bm'||a==='ty'||a==='tes'||a==='rev'||a==='s'||a==='d'||a==='fc'||a==='kq')edReset();
+  if(a==='bl'||a==='bm'||a==='ty'||a==='tes'||a==='rev'||a==='s'||a==='d'||a==='fc'||a==='kq'||a==='kt')edReset();
   if(edClick(a,t)){render();return;}
   if(kqClick(a,t)){render();return;}
+  if(ktClick(a,t)){render();return;}
   if(a==='q'){qi=pickQuote();}
   else if(a==='start'){view='menu';window.scrollTo(0,0);}
   else if(a==='ty'){cty=t.getAttribute('data-t');view='list';window.scrollTo(0,0);}
@@ -2188,7 +2400,7 @@ function onClick(e){
   else if(a==='cl'){closeInfo();}
   else if(a==='cp'){cal.m--;if(cal.m<0){cal.m=11;cal.y--;}}
   else if(a==='cn'){cal.m++;if(cal.m>11){cal.m=0;cal.y++;}}
-  else if(a==='reset'){if(!rst){rst=true;}else{bakPush('pra-reset');var nm0=S.nm;S=hydrate({});S.nm=nm0;S.lq=qi;save();kqReset();ENG=engFix({});engSave();rst=false;dMsg='Semua progres sudah dihapus.';dErr=false;}}
+  else if(a==='reset'){if(!rst){rst=true;}else{bakPush('pra-reset');var nm0=S.nm;S=hydrate({});S.nm=nm0;S.lq=qi;save();kqReset();ktReset();ENG=engFix({});engSave();rst=false;dMsg='Semua progres sudah dihapus.';dErr=false;}}
   render();
 }
 document.addEventListener('input',function(e){
