@@ -2068,8 +2068,9 @@ var KTK='manabi-kt-v1',KT=null,ktPage='setup',ktSc=0,ktCnt=20,ktFb=null,ktMsg=''
 function kpl(){return (view==='kq'&&kqPage==='play')||(view==='kt'&&ktPage==='play');}
 function kfb(){return view==='kt'?ktFb:kqFb;}
 /* tulisan Jepang: daftar varian (utuh, tanpa kurung, isi kurung), tiap varian dipecah per "、" */
-function ktJa(s){
-  var b=kqNorm(s),vs=[b,b.replace(/\([^)]*\)/g,''),b.replace(/[()]/g,'')],re=/\(([^)]*)\)/g,m;
+function kqNormK(s){s=String(s==null?'':s);try{s=s.normalize('NFKC');}catch(e){}return s.replace(/[\s\u3000]+/g,'').replace(/[~\u301c\uff5e\u223c]/g,'').replace(/[,\/\u30fb;]/g,'\u3001').toLowerCase();}
+function ktJa(s,keep){
+  var b=keep?kqNormK(s):kqNorm(s),vs=[b,b.replace(/[(\[\u3010][^)\]\u3011]*[)\]\u3011]/g,''),b.replace(/[()\[\]\u3010\u3011]/g,'')],re=/[(\[\u3010]([^)\]\u3011]*)[)\]\u3011]/g,m;
   while((m=re.exec(b)))vs.push(m[1]);
   return vs.map(function(x){return x.replace(/[\[\]［］【】?？。.!！\-－]/g,'').split('、').filter(Boolean);});
 }
@@ -2090,10 +2091,17 @@ function ktOk(typed,id,dir){
     return ktFit(ktMn(t),ktSetOf(lists));
   }
   try{t=t.normalize('NFKC');}catch(e){}
-  if(/^[A-Za-z' \-]+$/.test(t)&&/[A-Za-z]/.test(t)){r=kqRomaji(t);if(r)t=r;}
-  var key=ktMn(w.mean)[0].join('|');
-  bab.forEach(function(x){if(x.id===w.id||ktMn(x.mean)[0].join('|')===key){lists.push(ktJa(x.jp));lists.push(ktJa(x.read));}});
-  return ktFit(ktJa(t),ktSetOf(lists));
+  var rom=false,key=ktMn(w.mean)[0].join('|'),grp=[];
+  if(/^[A-Za-z' \-]+$/.test(t)&&/[A-Za-z]/.test(t)){r=kqRomaji(t);if(r){t=r;rom=true;}}
+  bab.forEach(function(x){if(x.id===w.id||ktMn(x.mean)[0].join('|')===key)grp.push(x);});
+  /* romaji: boleh untuk semua kata. Ketik Jepang langsung: kata katakana WAJIB katakana (hiragana ditolak) */
+  if(rom){grp.forEach(function(x){lists.push(ktJa(x.jp));lists.push(ktJa(x.read));});return ktFit(ktJa(t),ktSetOf(lists));}
+  var sk=[],sl=[];
+  grp.forEach(function(x){
+    var kat=/[\u30a1-\u30f6]/.test(String(x.read).replace(/[\uff08(\uff3b\[\u3010][^\uff09)\uff3d\]\u3011]*[\uff09)\uff3d\]\u3011]/g,''));
+    if(kat){sk.push(ktJa(x.jp,true));sk.push(ktJa(x.read,true));}else{sl.push(ktJa(x.jp));sl.push(ktJa(x.read));}
+  });
+  return ktFit(ktJa(t,true),ktSetOf(sk))||ktFit(ktJa(t),ktSetOf(sl));
 }
 function ktFix(d){
   d=d&&typeof d==='object'?d:{};
