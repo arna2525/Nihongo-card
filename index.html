@@ -934,7 +934,7 @@ function bakPush(why){
   try{
     var a=bakRead(),t=today();
     if(why==='auto'&&(a.some(function(x){return x.d===t&&x.why==='auto';})||!(Object.keys(S.p).length||Object.keys(S.log).length)))return;
-    var list=[{d:t,at:new Date().toISOString(),why:why,main:S,kq:KQ,kt:KT,eng:ENG}].concat(a).slice(0,4);
+    var list=[{d:t,at:new Date().toISOString(),why:why,main:S,kq:KQ,kt:KT,tk:TK,eng:ENG}].concat(a).slice(0,4);
     while(list.length){try{localStorage.setItem(BAK,JSON.stringify(list));return;}catch(e){list.pop();}}
   }catch(e){}
 }
@@ -1140,7 +1140,7 @@ function aboutView(){
 var dMsg='',dErr=false,dPend=null,KQK2='jft-a2-kq-v1';
 function dExport(){
   try{
-    var o={app:'si-paling-jft-a2',fmt:1,at:new Date().toISOString(),main:S,kq:KQ,kt:KT,eng:ENG};
+    var o={app:'si-paling-jft-a2',fmt:1,at:new Date().toISOString(),main:S,kq:KQ,kt:KT,tk:TK,eng:ENG};
     var b=new Blob([JSON.stringify(o)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');
     a.href=u;a.download='manabi-progres-'+today()+'.json';document.body.appendChild(a);a.click();
     setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u);},400);
@@ -1154,7 +1154,7 @@ function bakBtn(){
 function dExportBak(){
   try{
     var a=bakRead();if(!a.length){dMsg='Belum ada cadangan otomatis.';dErr=true;return;}
-    var x=a[0],o={app:'si-paling-jft-a2',fmt:1,at:x.at,main:x.main,kq:x.kq,kt:x.kt,eng:x.eng};
+    var x=a[0],o={app:'si-paling-jft-a2',fmt:1,at:x.at,main:x.main,kq:x.kq,kt:x.kt,tk:x.tk,eng:x.eng};
     var b=new Blob([JSON.stringify(o)],{type:'application/json'}),u=URL.createObjectURL(b),el=document.createElement('a');
     el.href=u;el.download='manabi-cadangan-'+x.d+'.json';document.body.appendChild(el);el.click();
     setTimeout(function(){document.body.removeChild(el);URL.revokeObjectURL(u);},400);
@@ -1165,13 +1165,14 @@ function dParse(txt){
   var o=JSON.parse(txt),m=o&&o.main?o.main:o;
   if(!m||typeof m!=='object'||Array.isArray(m)||!m.log||typeof m.log!=='object')throw new Error('Isi file bukan cadangan progres Manabi.');
   if(m.dv!==DV)throw new Error('Versi data file ini berbeda dari aplikasi, jadi tidak bisa diimpor.');
-  return {main:m,kq:(o&&o.main&&o.kq&&typeof o.kq==='object')?o.kq:null,kt:(o&&o.main&&o.kt&&typeof o.kt==='object')?o.kt:null,eng:(o&&o.main&&o.eng&&typeof o.eng==='object')?o.eng:null};
+  return {main:m,kq:(o&&o.main&&o.kq&&typeof o.kq==='object')?o.kq:null,kt:(o&&o.main&&o.kt&&typeof o.kt==='object')?o.kt:null,tk:(o&&o.main&&o.tk&&typeof o.tk==='object')?o.tk:null,eng:(o&&o.main&&o.eng&&typeof o.eng==='object')?o.eng:null};
 }
 function dApply(){
   bakPush('pra-impor');
   var nm0=S.nm;S=hydrate(dPend.main);if(!S.nm)S.nm=nm0;S.lq=qi;save();
   KQ=kqFix(dPend.kq||{});kqFb=null;kqPage='setup';kqLock=false;kqSave();
   KT=ktFix(dPend.kt||{});ktFb=null;ktPage='setup';ktSave();
+  if(dPend.tk){TK=tkFix(dPend.tk);tkSave();}
   if(dPend.eng){ENG=engFix(dPend.eng);engSave();}
   sess=null;det='';dstack=[];dPend=null;dMsg='Progres berhasil diimpor.';dErr=false;
 }
@@ -1184,7 +1185,7 @@ function setdView(){
   if(dPend){
     h+='<div class="panel" style="border-left:6px solid #f2cf6b"><b>File siap diimpor</b><p class="mute" style="margin:6px 0 12px;font-size:13.5px;line-height:1.5">'+esc(dPend.name)+'. Progres yang ada sekarang akan <b>diganti</b> dengan isi file ini.</p><button class="pri" data-a="dim">Ganti progres dengan file ini</button><button class="link" data-a="dcx" style="display:block;margin:8px auto 0">Batal</button></div>';
   }
-  h+='<div class="v6-gl">ZONA BAHAYA</div><div class="panel"><p class="mute" style="margin:0 0 12px;font-size:13.5px;line-height:1.55">Menghapus semua progres hafalan, statistik, dan Quiz Ketik Kanji di perangkat ini. Nama tetap tersimpan. Cadangan otomatis terakhir (maks. 4 salinan) tetap ada di perangkat ini, jadi ekspor dulu kalau perlu.</p>';
+  h+='<div class="v6-gl">ZONA BAHAYA</div><div class="panel"><p class="mute" style="margin:0 0 12px;font-size:13.5px;line-height:1.55">Menghapus semua progres hafalan, statistik Kotoba, dan Quiz Ketik Kanji di perangkat ini. Nama tetap tersimpan. Cadangan otomatis terakhir (maks. 4 salinan) tetap ada di perangkat ini, jadi ekspor dulu kalau perlu.</p>';
   h+='<button class="sec d-danger" data-a="reset" style="width:100%">'+(rst?'Yakin? Ketuk lagi untuk menghapus semua progres':'Hapus semua progres')+'</button>';
   if(rst)h+='<button class="link" data-a="rcx" style="display:block;margin:8px auto 0">Batal</button>';
   return h+'</div></div>';
@@ -1438,11 +1439,11 @@ function mkOpts(it,f,dir){
   return shuf(out);
 }
 /* tiap item REP kali; tiap putaran diacak; dalam satu blok 7 soal item yang sama tidak boleh muncul dua kali (dijaga di nextCard) */
-function build(ids,mode){
+function build(ids,mode,weakOnly){
   var passes=[[],[],[]];
   ids.forEach(function(id){
     var v=validDirs(BY[id]),ds3;
-    if(mode==='acak'){var sv=shuf(v.slice());ds3=sv.length>=3?sv.slice(0,3):[sv[0],sv[0],sv[0]];}
+    if(mode==='acak'){var sv;if(weakOnly){var rec=TK.words[id],dr=rec&&rec.dirs||{},wd=v.filter(function(k){return dr[k]&&dr[k].weak;});sv=shuf((wd.length?wd:v).slice());}else sv=shuf(v.slice());ds3=sv.length>=3?sv.slice(0,3):[sv[0],sv[0],sv[0]];}
     else ds3=[mode,mode,mode];
     for(var r=0;r<3;r++)passes[r].push({id:id,dir:ds3[r]});
   });
@@ -1454,7 +1455,7 @@ function startSession(its,mode,title,from,ty,dayNo){
   var q,rem={},rp=(from==='test'||from==='rev')?1:REP;
   pool.forEach(function(w){rem[w.id]=rp;});
   if(from==='test'||from==='rev')q=shuf(pool.map(function(w){var v=validDirs(w);return{id:w.id,dir:v[Math.floor(Math.random()*v.length)]};}));
-  else q=build(pool.map(function(w){return w.id;}),mode);
+  else q=build(pool.map(function(w){return w.id;}),mode,from==='kotweak');
   sess={queue:q,mode:mode,title:title,from:from,ty:ty,day:dayNo||0,doneDay:0,ok:0,no:0,total:q.length,done:0,rem:rem,bad:{},chunk:[],n:0,brk:null,cur:null,f:null,pick:null,opts:[],used:{},t0:0,tp:0,lastExp:0,skipped:its.length-pool.length,ans:0};
   view='sess';det='';dstack=[];flash='';
   nextCard();
@@ -1514,8 +1515,9 @@ function answer(i){
   s.pick=i;s.ans++;s.chunk.push({id:w.id,ok:good,t:sec,jp:s.f.jp,read:s.f.read,mean:s.f.mean,hl:s.f.hl,r:cur.r?1:0,d:cur.dir});
   S.tsum=(S.tsum||0)+Math.min(sec,20);S.tcnt=(S.tcnt||0)+1;
   engRec(w.id,s.from==='day'?'d':s.from==='test'?'t':'r',good,sec);
-  if(s.from==='kotest'||s.from==='kotweak')tkRecord(w.id,good,true);
-  else if((s.from==='day'&&s.ty==='k')||(s.from==='test'&&w.ty==='k')||(s.from==='rev'&&w.ty==='k'))tkRecord(w.id,good,false);
+  if(s.from==='kotest'||s.from==='kotweak')tkRecord(w.id,good,true,cur.dir);
+  else if((s.from==='day'&&s.ty==='k')||(s.from==='test'&&w.ty==='k')||(s.from==='rev'&&w.ty==='k'))tkRecord(w.id,good,false,cur.dir);
+  if(w.ty==='j')kqWeakRecord(w.id,good,cur.dir);
   if(s.from==='day'){
     var q=stat(w.id,cur.dir);q[2]++;if(good){q[1]++;q[0]++;}else q[0]=0;setStat(w.id,cur.dir,q);
     if(!S.cd[s.ty+s.day]&&dayDone(s.ty,s.day)){S.cd[s.ty+s.day]=1;s.doneDay=s.day;}
@@ -1867,8 +1869,11 @@ function kqOk(typed,id){
 }
 function kqFix(d){
   d=d&&typeof d==='object'?d:{};
-  var st=d.st||{},o={v:1,st:{ok:+st.ok||0,no:+st.no||0,skip:+st.skip||0,sess:+st.sess||0,fin:+st.fin||0},got:{},run:null},k,r=d.run;
+  var st=d.st||{},o={v:2,st:{ok:+st.ok||0,no:+st.no||0,skip:+st.skip||0,sess:+st.sess||0,fin:+st.fin||0},got:{},weak:{},run:null},k,r=d.run;
   if(d.got&&typeof d.got==='object')for(k in d.got)if(KQB[k])o.got[k]=1;
+  if(d.weak&&typeof d.weak==='object')for(k in d.weak)if(KQB[k]){var z=d.weak[k]||{},dz={};if(z.dirs&&typeof z.dirs==='object')Object.keys(z.dirs).forEach(function(q){var v=z.dirs[q]||{};dz[q]={no:Math.max(0,+v.no||0),streak:Math.max(0,+v.streak||0),weak:!!v.weak};if(dz[q].no>=3)dz[q].weak=true;if(dz[q].streak>=3){dz[q].weak=false;dz[q].no=0;}});o.weak[k]={no:Math.max(0,+z.no||0),streak:Math.max(0,+z.streak||0),weak:!!z.weak,dirs:dz};if(o.weak[k].no>=3)o.weak[k].weak=true;if(o.weak[k].streak>=3){o.weak[k].weak=false;o.weak[k].no=0;}}
+  /* Migrasi riwayat lama dari engine: tiga+ kesalahan Ketik Kanji ikut menjadi kandidat Kanji Lemah. */
+  if(ENG&&ENG.an)for(k in ENG.an)if(KQB[k]&&!o.weak[k]&&ENG.an[k]&&(+ENG.an[k][10]||0)>=3)o.weak[k]={no:+ENG.an[k][10],streak:0,weak:true,dirs:{ketik:{no:+ENG.an[k][10],streak:0,weak:true}}};
   if(r&&Array.isArray(r.ids)&&Array.isArray(r.queue)){
     var seen={},ids=[],q=[],sq={},rt={},hist=[];
     r.ids.forEach(function(id){if(KQB[id]&&!seen[id]){seen[id]=1;ids.push(id);}});
@@ -1876,7 +1881,7 @@ function kqFix(d){
     if(ids.length){
       if(r.rt&&typeof r.rt==='object')for(k in r.rt)if(sq[k])rt[k]=1;
       if(Array.isArray(r.history))r.history.forEach(function(x){if(x&&seen[x.id]&&(x.skip||typeof x.good==='boolean'))hist.push({id:x.id,good:!!x.good,skip:!!x.skip,typed:String(x.typed||''),sec:Math.max(0,Math.min(3600,+x.sec||0))});});
-      o.run={sc:+r.sc||0,ids:ids,queue:q,ok:+r.ok||0,no:+r.no||0,skip:+r.skip||0,rt:rt,ans:+r.ans||0,fin:q.length?0:1,history:hist,qid:null,qAt:0,rewarded:!!r.rewarded,lastExp:+r.lastExp||0};
+      o.run={sc:+r.sc||0,weakOnly:!!r.weakOnly,ids:ids,queue:q,ok:+r.ok||0,no:+r.no||0,skip:+r.skip||0,rt:rt,ans:+r.ans||0,fin:q.length?0:1,history:hist,qid:null,qAt:0,rewarded:!!r.rewarded,lastExp:+r.lastExp||0};
     }
   }
   return o;
@@ -1894,10 +1899,12 @@ function kqPool(){
   src.forEach(function(w){if(KQB[w.id]&&!seen[w.jp]){seen[w.jp]=1;out.push(w.id);}});
   return out;
 }
-function kqStart(){
-  var pl=kqPool(),ids=ENG.set.kqw?kqWeigh(pl):shuf(pl);if(kqCnt)ids=ids.slice(0,kqCnt);
-  if(!ids.length){kqMsg='Belum ada Day yang selesai 100%. Selesaikan sebuah Day di Hafalin kanji dulu.';return false;}
-  KQ.run={sc:kqSc,ids:ids.slice(),queue:ids.slice(),ok:0,no:0,skip:0,rt:{},ans:0,fin:0,history:[],qid:null,qAt:0};
+function kqWeakRecord(id,good,dir){if(!KQB[id])return;var z=KQ.weak[id]||(KQ.weak[id]={no:0,streak:0,weak:false,dirs:{}}),d=String(dir||'ketik'),v=z.dirs[d]||(z.dirs[d]={no:0,streak:0,weak:false});if(good){z.streak++;v.streak++;if(z.streak>=3){z.weak=false;z.no=0;}if(v.streak>=3){v.weak=false;v.no=0;}}else{z.no++;z.streak=0;v.no++;v.streak=0;if(z.no>=3)z.weak=true;if(v.no>=3)v.weak=true;}kqSave();}
+function kqWeakIds(){var seen={},out=[];JI.forEach(function(w){var z=KQ.weak[w.id],bad=z&&(z.weak||Object.keys(z.dirs||{}).some(function(k){return z.dirs[k].weak;}));if(KQB[w.id]&&bad&&!seen[w.jp]){seen[w.jp]=1;out.push(w.id);}});return out;}
+function kqStart(weakOnly){
+  var pl=kqPool(),ids=weakOnly?kqWeakIds():ENG.set.kqw?kqWeigh(pl):shuf(pl);if(kqCnt&&!weakOnly)ids=ids.slice(0,kqCnt);
+  if(!ids.length){kqMsg=weakOnly?'Belum ada Kanji lemah. Lakukan beberapa sesi Ketik Kanji terlebih dahulu.':'Belum ada Day yang selesai 100%. Selesaikan sebuah Day di Hafalin kanji dulu.';return false;}
+  KQ.run={sc:kqSc,weakOnly:!!weakOnly,ids:ids.slice(),queue:ids.slice(),ok:0,no:0,skip:0,rt:{},ans:0,fin:0,history:[],qid:null,qAt:0};
   KQ.st.sess++;kqFb=null;kqMsg='';kqPage='play';kqKeyboardWanted=true;kqFocusPending=true;kqSave();return true;
 }
 function kqRetryN(r){return r.queue.filter(function(id){return r.rt[id];}).length;}
@@ -1907,6 +1914,7 @@ function kqCheckNow(){
   if(!typed.trim()){kqMsg='Ketik bacaan Hiragana dulu. Belum tahu? Geser kartunya untuk menunda.';kqFocusPending=kqKeyboardWanted;return;}
   var id=r.queue[0],good=kqOk(typed,id),elapsed=Math.max(0,(Date.now()-(r.qAt||Date.now()))/1000);
   engRec(id,'q',good,elapsed);
+  kqWeakRecord(id,good,'ketik');
   r.history=r.history||[];r.history.push({id:id,good:good,typed:typed,sec:elapsed});
   r.queue.shift();r.ans++;
   if(good){r.ok++;KQ.st.ok++;KQ.got[id]=1;delete r.rt[id];if(!r.queue.length){r.fin=1;KQ.st.fin++;if(!r.rewarded){r.lastExp=r.ok*4+(r.ids.length&&r.ok===r.ids.length?2:0);r.rewarded=true;S.exp=(S.exp||0)+r.lastExp;save();}}}
@@ -1920,7 +1928,7 @@ function kqSkip(){
 }
 function kqNext(){kqFb=null;kqMsg='';kqFocusPending=kqKeyboardWanted;}
 
-function kqTitle(r){return 'Quiz Ketik Kanji · '+(r.sc?'Day '+r.sc:'Semua');}
+function kqTitle(r){return (r.weakOnly?'Latih Kanji Lemah · ':'Quiz Ketik Kanji · ')+(r.sc?'Day '+r.sc:'Semua');}
 function kqAnsH(id){
   var a=KQA[BY[id].jp];
   return a.it.map(function(w){return '<b>'+esc(w.read)+'</b> · '+esc(w.mean);}).join('<br>');
@@ -1934,6 +1942,7 @@ function kqStatsH(){
   return '<section class="panel kq-stat"><div class="kq-stat-head"><div><div class="kq-stat-kicker">Performance / Kanji</div><h2>Statistik Ketik Kanji</h2></div><span class="kq-stat-live">● PERSONAL DATA</span></div>'+
     '<div class="kq-stat-main"><div class="kq-stat-ring" style="--kq-pct:'+pct+'%"><div class="kq-stat-ring-in"><b>'+pct+'%</b><small>mastery</small></div></div><div class="kq-stat-summary"><small>Kanji pernah dijawab benar</small><strong>'+got+' <span>/ '+all+'</span></strong><p>Progres penguasaan dari seluruh kanji yang tersedia untuk Quiz Ketik Kanji.</p></div></div>'+
     '<div class="kq-stat-grid"><div class="kq-stat-metric ok"><span>✓ BENAR</span><b>'+s.ok+'</b></div><div class="kq-stat-metric no"><span>✕ SALAH</span><b>'+s.no+'</b></div><div class="kq-stat-metric skip"><span>↷ SWIPE</span><b>'+s.skip+'</b></div></div>'+
+    '<p class="tk-rule">Kanji lemah: <strong>'+kqWeakIds().length+'</strong> · masuk setelah 3 kali salah, pulih setelah 3 kali benar berturut-turut.</p>'+
     '<div class="kq-stat-break"><div class="kq-stat-break-title"><span>RINGKASAN JAWABAN</span><span>'+total+' respons</span></div><div class="kq-stat-bars">'+
     '<div class="kq-stat-barrow"><span>Benar</span><div class="kq-stat-track"><div class="kq-stat-fill" style="width:'+(s.ok/mx*100)+'%"></div></div><b>'+s.ok+'</b></div>'+
     '<div class="kq-stat-barrow"><span>Salah</span><div class="kq-stat-track"><div class="kq-stat-fill no" style="width:'+(s.no/mx*100)+'%"></div></div><b>'+s.no+'</b></div>'+
@@ -1957,7 +1966,7 @@ function kqSetup(){
   h+='</div><p class="mute" style="margin:8px 0 0">Day terbuka setelah kamu menyelesaikannya 100% di Hafalin kanji.</p></div><h2>Jumlah soal</h2><div class="row2" style="grid-template-columns:repeat(4,1fr)">';
   [[10,'10'],[20,'20'],[30,'30'],[0,'Semua']].forEach(function(x){h+='<button class="sec" data-a="kqm" data-v="'+x[0]+'" aria-pressed="'+(kqCnt===x[0])+'">'+x[1]+'</button>';});
   h+='</div><p class="mute">'+pool+' kanji tersedia'+(kqCnt&&pool>kqCnt?' · diambil '+kqCnt+' secara acak':'')+'.</p><button class="v6-row kq-weak" data-a="kqw" role="switch" aria-checked="'+(ENG.set.kqw?'true':'false')+'"><span class="rt"><b>Prioritaskan yang lemah</b><span>Kanji lemah lebih sering muncul</span></span><span class="sw'+(ENG.set.kqw?' on':'')+'"><i></i></span></button><div style="height:12px"></div><button class="pri" data-a="kqgo"'+(pool?'':' disabled style="opacity:.5"')+'>'+(r&&!r.fin?'Mulai sesi baru':'Mulai')+'</button>';
-  h+='<div style="height:14px"></div>'+kqStatsH()+'</div>';
+  h+='<div style="height:10px"></div>'+kqWeakH()+'<div style="height:14px"></div>'+kqStatsH()+'</div>';
   return h;
 }
 function kqPlay(){
@@ -1999,11 +2008,36 @@ function kqRes(){
   h+='</div><div class="sticky"><button class="pri" data-a="kqd">Selesai</button></div></div>';
   return h;
 }
+function kqWeakH(){
+  var n=kqWeakIds().length;
+  return '<section class="tk-wk"><button class="tk-wk-head" data-a="kqwp"><span class="ri">⚠</span><span class="rt"><b>Kanji Lemah</b><span>'+(n?n+' kanji perlu diulang':'Belum ada kanji lemah')+'</span></span><span class="tk-wk-count">'+n+'</span><span class="tk-wk-chev">'+ARR+'</span></button></section>';
+}
+function kqWeakNo(z){var m=z.no||0,k;for(k in (z.dirs||{}))m=Math.max(m,z.dirs[k].no||0);return m;}
+function kqWeakPage(){
+  var ids=kqWeakIds().sort(function(a,b){return kqWeakNo(KQ.weak[b])-kqWeakNo(KQ.weak[a]);}),n=ids.length;
+  var mxNo=n?Math.max(1,kqWeakNo(KQ.weak[ids[0]])):0,dayOf={},dd;
+  if(n)for(dd=1;dd<=ndays('j');dd++)items('j',dd).forEach(function(w){dayOf[w.id]=dd;});
+  var h='<div class="v6-slide"><div class="page-top"><button class="back" data-a="kqwb">← Kembali</button><span class="eyebrow">WEAK KANJI</span><h1>Kanji Lemah</h1></div>';
+  h+='<p class="mute">Latihan khusus dari kanji yang berulang kali salah, dikumpulkan dari Hafalin Kanji dan Quiz Ketik Kanji (terpisah dari Kotoba). Kanji keluar dari daftar setelah 3 jawaban benar berturut-turut.</p>';
+  if(kqMsg){h+='<div class="v6-toast">'+esc(kqMsg)+'</div>';kqMsg='';}
+  h+='<h2>Ringkasan latihan</h2><div class="kq-stat-grid" style="margin-top:0"><div class="kq-stat-metric no"><span>KANJI LEMAH</span><b>'+n+'</b></div><div class="kq-stat-metric"><span>SOAL AWAL</span><b>'+n+'</b></div><div class="kq-stat-metric"><span>SALAH TERBANYAK</span><b>'+(n?mxNo+'×':'-')+'</b></div></div>';
+  h+='<div style="height:12px"></div><button class="pri" data-a="kqwg"'+(n?'':' disabled style="opacity:.5"')+'>'+(n?'Mulai Latihan · '+n+' kanji':'Belum ada kanji lemah')+'</button><div style="height:14px"></div>';
+  h+='<section class="panel tk-weak-box"><div class="tk-weak-head"><div><div class="kq-stat-kicker">Needs review</div><h2>Daftar Kanji Lemah</h2></div><span class="tk-weak-count">'+n+'</span></div>';
+  if(n){
+    h+='<div class="tk-weak-list">';
+    ids.slice(0,60).forEach(function(id,i){
+      var w=BY[id],no=kqWeakNo(KQ.weak[id]);
+      h+='<div class="tk-weak-row"><span class="tk-weak-rank">'+(i+1)+'</span><div class="tk-weak-txt"><b>'+esc(w.jp)+'</b><span>'+esc(w.read)+' · '+esc(w.mean)+'</span><div class="kq-stat-track"><div class="kq-stat-fill no" style="width:'+Math.round(no/mxNo*100)+'%"></div></div></div><div class="tk-weak-meta"><b>✕ '+no+'×</b>'+(dayOf[id]?'<small>Day '+dayOf[id]+'</small>':'')+'</div></div>';
+    });
+    h+='</div>'+(n>60?'<p class="tk-rule">+ '+(n-60)+' kanji lemah lainnya</p>':'');
+  }else h+='<p class="tk-rule" style="margin:0">Kanji masuk daftar ini setelah salah 3 kali. Latih beberapa sesi Ketik Kanji dulu, nanti muncul di sini.</p>';
+  return h+'</section></div>';
+}
 function kqView(){
   var r=KQ.run;
   if(kqPage==='play'&&(!r||(r.fin&&!kqFb)))kqPage=r&&r.fin?'res':'setup';
   if(kqPage==='res'&&!(r&&r.fin))kqPage='setup';
-  return kqPage==='play'?kqPlay():kqPage==='res'?kqRes():kqSetup();
+  return kqPage==='play'?kqPlay():kqPage==='res'?kqRes():kqPage==='weak'?kqWeakPage():kqSetup();
 }
 function kqAfter(){
   if(view!=='kq'||kqPage!=='play'||kqFb)return;
@@ -2073,7 +2107,10 @@ function kqClick(a,t){
   if(a==='kqs'){var dv=+t.getAttribute('data-v')||0;if(!dv||kqOpen(dv))kqSc=dv;return 1;}
   if(a==='kqw'){ENG.set.kqw=ENG.set.kqw?0:1;engSave();var qb=document.querySelector('[data-a="kqw"]');if(qb){qb.setAttribute('aria-checked',ENG.set.kqw?'true':'false');var qs=qb.querySelector('.sw');if(qs)qs.classList.toggle('on',!!ENG.set.kqw);return 2;}return 1;}
   if(a==='kqm'){kqCnt=+t.getAttribute('data-v')||0;return 1;}
-  if(a==='kqgo'){kqStart();window.scrollTo(0,0);return 1;}
+  if(a==='kqgo'){kqStart(false);window.scrollTo(0,0);return 1;}
+  if(a==='kqwp'){kqPage='weak';window.scrollTo(0,0);return 1;}
+  if(a==='kqwb'){kqPage='setup';window.scrollTo(0,0);return 1;}
+  if(a==='kqwg'){if(kqStart(true)){kqPage='play';kqKeyboardWanted=true;kqFocusPending=true;}window.scrollTo(0,0);return 1;}
   if(a==='kqrs'){if(KQ.run&&!KQ.run.fin){kqFb=null;kqMsg='';kqLock=false;kqPage='play';kqKeyboardWanted=true;kqFocusPending=true;}window.scrollTo(0,0);return 1;}
   if(a==='kqr'){if(KQ.run&&KQ.run.fin)kqPage='res';window.scrollTo(0,0);return 1;}
   if(a==='kqc'){kqFocusPending=kqKeyboardWanted;kqPreserveFocusOnRender=true;kqCheckNow();return 1;}
@@ -2144,7 +2181,7 @@ function tkFix(d){
   if(d.w!=null)o.w=!!d.w;
   if(d.st)o.st={ok:+d.st.ok||0,no:+d.st.no||0,sess:+d.st.sess||0,fin:+d.st.fin||0};
   if(d.words&&typeof d.words==='object')for(k in d.words){
-    if(BY[k]&&BY[k].ty==='k'){x=d.words[k]||{};o.words[k]={ok:+x.ok||0,no:+x.no||0,streak:+x.streak||0,weakErrors:(x.weakErrors==null?(x.weak?3:0):(+x.weakErrors||0)),weak:!!x.weak,attempts:+x.attempts||0};if(o.words[k].weakErrors>=3)o.words[k].weak=true;if(o.words[k].streak>=3){o.words[k].weak=false;o.words[k].weakErrors=0;}}
+    if(BY[k]&&BY[k].ty==='k'){x=d.words[k]||{};o.words[k]={ok:+x.ok||0,no:+x.no||0,streak:+x.streak||0,weakErrors:(x.weakErrors==null?(x.weak?3:0):(+x.weakErrors||0)),weak:!!x.weak,attempts:+x.attempts||0,dirs:{}};if(x.dirs&&typeof x.dirs==='object')Object.keys(x.dirs).forEach(function(d){var z=x.dirs[d]||{};o.words[k].dirs[d]={ok:+z.ok||0,no:+z.no||0,streak:+z.streak||0,weakErrors:+z.weakErrors||0,weak:!!z.weak,attempts:+z.attempts||0};});if(o.words[k].weakErrors>=3)o.words[k].weak=true;if(o.words[k].streak>=3){o.words[k].weak=false;o.words[k].weakErrors=0;}}
   }
   if(Array.isArray(d.last))o.last=d.last.slice(-12).filter(function(x){return x&&typeof x==='object';});
   return o;
@@ -2154,18 +2191,18 @@ function tkSave(){return svPut(TKK,TK);}
 TK=tkLoad();
 function tkOpen(d){return isDone('k',d);}
 function tkUnlocked(){var a=[];for(var d=1;d<=ndays('k');d++)if(tkOpen(d))a.push(d);return a;}
-function tkWord(id){return TK.words[id]||(TK.words[id]={ok:0,no:0,streak:0,weakErrors:0,weak:false,attempts:0});}
-function tkWeakIds(){return Object.keys(TK.words).filter(function(id){return BY[id]&&BY[id].ty==='k'&&TK.words[id].weak;});}
-function tkRecord(id,good,countStats){
+function tkWord(id){return TK.words[id]||(TK.words[id]={ok:0,no:0,streak:0,weakErrors:0,weak:false,attempts:0,dirs:{}});}
+function tkWeakIds(){return Object.keys(TK.words).filter(function(id){var w=TK.words[id],d=w&&w.dirs||{},bad=Object.keys(d).some(function(k){return !!d[k].weak;});return BY[id]&&BY[id].ty==='k'&&(w.weak||bad);});}
+function tkRecord(id,good,countStats,dir){
   if(!BY[id]||BY[id].ty!=='k')return;
-  var w=tkWord(id);w.attempts++;
-  if(good){w.ok++;w.streak++;if(w.streak>=3){w.weak=false;w.weakErrors=0;}if(countStats)TK.st.ok++;}
-  else{w.no++;w.weakErrors++;w.streak=0;if(w.weakErrors>=3)w.weak=true;if(countStats)TK.st.no++;}
+  var w=tkWord(id),d=String(dir||'gabungan'),z=w.dirs[d]||(w.dirs[d]={ok:0,no:0,streak:0,weakErrors:0,weak:false,attempts:0});w.attempts++;z.attempts++;
+  if(good){w.ok++;w.streak++;z.ok++;z.streak++;if(w.streak>=3){w.weak=false;w.weakErrors=0;}if(z.streak>=3){z.weak=false;z.weakErrors=0;}if(countStats)TK.st.ok++;}
+  else{w.no++;w.weakErrors++;w.streak=0;z.no++;z.weakErrors++;z.streak=0;if(w.weakErrors>=3)w.weak=true;if(z.weakErrors>=3)z.weak=true;if(countStats)TK.st.no++;}
   tkSave();
 }
 function tkChoose(pool,n,weighted){
   var a=pool.map(function(w){
-    var s=TK.words[w.id],weight=weighted&&s&&s.weak?7:weighted&&s&&s.no>=2?3:1;
+    var s=TK.words[w.id],dw=s&&s.dirs&&Object.keys(s.dirs).some(function(k){return s.dirs[k].weak;}),weight=weighted&&s&&(s.weak||dw)?7:weighted&&s&&s.no>=2?3:1;
     return {w:w,key:Math.pow(Math.random()||1e-9,1/weight)};
   });
   a.sort(function(x,y){return y.key-x.key;});
@@ -2185,10 +2222,12 @@ function tkStart(weakOnly){
 }
 function tkStatsH(){
   var ids=Object.keys(TK.words).filter(function(id){return BY[id];}),
-    weak=ids.filter(function(id){return TK.words[id].weak;}),
-    strong=ids.filter(function(id){return !TK.words[id].weak&&TK.words[id].streak>=3;}),
+    weak=ids.filter(function(id){var z=TK.words[id];return z.weak||Object.keys(z.dirs||{}).some(function(k){return z.dirs[k].weak;});}),
+    strong=ids.filter(function(id){var z=TK.words[id];return !z.weak&&!Object.keys(z.dirs||{}).some(function(k){return z.dirs[k].weak;})&&z.streak>=3;}),
     total=ids.length,mid=Math.max(0,total-weak.length-strong.length),
-    s=TK.st,t=s.ok+s.no,acc=t?Math.round(s.ok/t*100):0,mx=Math.max(1,strong.length,weak.length,mid);
+    s=TK.st,t=s.ok+s.no,acc=t?Math.round(s.ok/t*100):0,mx=Math.max(1,strong.length,weak.length,mid),dirHtml='';
+  Object.keys(DIRS).forEach(function(k){var label=DIRS[k][2],attempt=0,weakN=0,ok=0;ids.forEach(function(id){var z=(TK.words[id].dirs||{})[k];if(z){attempt+=z.attempts;ok+=z.ok; if(z.weak)weakN++;}});dirHtml+='<div class="kq-stat-barrow"><span>'+label+'</span><div class="kq-stat-track"><div class="kq-stat-fill no" style="width:'+(ids.length?weakN/ids.length*100:0)+'%"></div></div><b>'+weakN+'</b></div>';});
+  var chapterHtml='';for(var ch=1;ch<=ndays('k');ch++){var cWords=items('k',ch),cWeak=0,cSeen=0;cWords.forEach(function(w){var z=TK.words[w.id];if(z){cSeen++;if(z.weak||Object.keys(z.dirs||{}).some(function(k){return z.dirs[k].weak;}))cWeak++;}});if(cSeen)chapterHtml+='<div class="kq-stat-barrow"><span>Bab '+ch+'</span><div class="kq-stat-track"><div class="kq-stat-fill no" style="width:'+(cWords.length?cWeak/cWords.length*100:0)+'%"></div></div><b>'+cWeak+'</b></div>'; }
   var h='<section class="panel kq-stat"><div class="kq-stat-head"><div><div class="kq-stat-kicker">Performance / Kotoba</div><h2>Statistik Test Kotoba</h2></div><span class="kq-stat-live">● PERSONAL DATA</span></div>'+
     '<div class="kq-stat-main"><div class="kq-stat-ring" style="--kq-pct:'+acc+'%"><div class="kq-stat-ring-in"><b>'+acc+'%</b><small>akurasi</small></div></div><div class="kq-stat-summary"><small>Kotoba sudah dikuasai</small><strong>'+strong.length+' <span>/ '+total+' pernah dilatih</span></strong><p>'+(t||total?'Dikuasai setelah 3 jawaban benar berturut-turut.':'Belum ada data. Mulai Test Kotoba pertamamu untuk melihat progres di sini.')+'</p></div></div>'+
     '<div class="kq-stat-grid"><div class="kq-stat-metric ok"><span>✓ BENAR</span><b>'+s.ok+'</b></div><div class="kq-stat-metric no"><span>✕ SALAH</span><b>'+s.no+'</b></div><div class="kq-stat-metric skip"><span>∑ JAWABAN</span><b>'+t+'</b></div></div>'+
@@ -2196,19 +2235,21 @@ function tkStatsH(){
     '<div class="kq-stat-barrow"><span>Kuat</span><div class="kq-stat-track"><div class="kq-stat-fill" style="width:'+(strong.length/mx*100)+'%"></div></div><b>'+strong.length+'</b></div>'+
     '<div class="kq-stat-barrow"><span>Sedang</span><div class="kq-stat-track"><div class="kq-stat-fill skip" style="width:'+(mid/mx*100)+'%"></div></div><b>'+mid+'</b></div>'+
     '<div class="kq-stat-barrow"><span>Lemah</span><div class="kq-stat-track"><div class="kq-stat-fill no" style="width:'+(weak.length/mx*100)+'%"></div></div><b>'+weak.length+'</b></div></div></div>'+
+    '<div class="kq-stat-break"><div class="kq-stat-break-title"><span>KELEMAHAN PER ARAH LATIHAN</span><span>Jumlah kata lemah</span></div><div class="kq-stat-bars">'+dirHtml+'</div></div>'+
+    '<div class="kq-stat-break"><div class="kq-stat-break-title"><span>KELEMAHAN PER BAB</span><span>Jumlah kata lemah</span></div><div class="kq-stat-bars">'+(chapterHtml||'<span class="tk-rule">Belum ada data bab.</span>')+'</div></div>'+
     '<div class="kq-stat-foot"><span>Akurasi jawaban <strong>'+acc+'%</strong></span><span><strong>'+s.sess+'</strong> sesi dimulai · <strong>'+s.fin+'</strong> selesai</span></div>'+
-    '<p class="tk-rule">Masuk daftar lemah setelah salah 3 kali (akumulatif), keluar setelah 3 jawaban benar berturut-turut.</p></section>';
+    '<p class="tk-rule">Masuk daftar lemah setelah salah 3 kali (akumulatif), keluar setelah 3 jawaban benar berturut-turut. Penilaian arah latihan disimpan terpisah.</p></section>';
   return h;
 }
 function tkWeakH(){
   var n=tkWeakIds().length;
-  return '<section class="tk-wk"><button class="tk-wk-head" data-a="tkwp"><span class="ri">⚠</span><span class="rt"><b>Kotoba Lemah</b><span>'+(n?n+' kotoba perlu diulang':'Belum ada kotoba lemah')+'</span></span><span class="tk-wk-count">'+n+'</span><span class="tk-wk-chev">'+ARR+'</span></button></section>';
+  return '<section class="tk-wk"><button class="tk-wk-head" data-a="tkwp"><span class="ri">⚠</span><span class="rt"><b>Latih Kotoba Lemah</b><span>'+(n?n+' kotoba perlu diulang':'Belum ada kotoba lemah')+'</span></span><span class="tk-wk-count">'+n+'</span><span class="tk-wk-chev">'+ARR+'</span></button></section>';
 }
 function tkWeakPage(){
   var ids=tkWeakIds().sort(function(a,b){return TK.words[b].no-TK.words[a].no;}),n=ids.length;
   var take=Math.min(Math.ceil(200/Math.max(1,REP)),n),planned=take*REP;
   var h='<div class="v6-slide"><div class="page-top"><button class="back" data-a="tkwb">← Kembali</button><span class="eyebrow">WEAK WORDS</span><h1>Kotoba Lemah</h1></div>';
-  h+='<p class="mute">Latihan khusus dari kotoba yang berulang kali salah di Test Kotoba, dikumpulkan lintas bab dan sesi. Kotoba keluar dari daftar setelah 3 jawaban benar berturut-turut.</p>';
+  h+='<p class="mute">Latihan khusus dari kosakata yang berulang kali salah di seluruh latihan Kotoba: Hafalin Kotoba, Test Kotoba, dan Test Ketik Kotoba. Catatan dikumpulkan lintas bab dan sesi. Kotoba keluar dari daftar setelah 3 jawaban benar berturut-turut.</p>';
   if(tkMsg){h+='<div class="v6-toast">'+esc(tkMsg)+'</div>';tkMsg='';}
   h+='<h2>Ringkasan latihan</h2><div class="kq-stat-grid" style="margin-top:0"><div class="kq-stat-metric no"><span>KOTOBA LEMAH</span><b>'+n+'</b></div><div class="kq-stat-metric"><span>LATIHAN / KATA</span><b>'+REP+'×</b></div><div class="kq-stat-metric"><span>SOAL AWAL</span><b>'+planned+'</b></div></div>';
   h+='<div style="height:12px"></div><button class="pri" data-a="tkwgo"'+(n?'':' disabled style="opacity:.5"')+'>'+(n?'Mulai Latihan · '+take+' kotoba':'Belum ada kotoba lemah')+'</button><div style="height:14px"></div>';
@@ -2219,7 +2260,7 @@ function tkWeakPage(){
       h+='<div class="tk-weak-row"><span class="tk-weak-rank">'+(i+1)+'</span><div class="tk-weak-txt"><b>'+esc(w.jp)+'</b><span>'+(w.read&&w.read!==w.jp?esc(w.read)+' · ':'')+esc(w.mean)+'</span><div class="kq-stat-track"><div class="kq-stat-fill no" style="width:'+er+'%"></div></div></div><div class="tk-weak-meta"><b>✕ '+x.no+'×</b><small>Bab '+w.th+'</small></div></div>';
     });
     h+='</div>'+(n>50?'<p class="tk-rule">+ '+(n-50)+' kotoba lemah lainnya</p>':'')+'</section>';
-  }else h+='<section class="panel tk-weak-box"><div class="tk-weak-head"><div><div class="kq-stat-kicker">Needs review</div><h2>Daftar Kotoba Lemah</h2></div><span class="tk-weak-count">0</span></div><p class="tk-rule" style="margin:0">Kotoba masuk daftar ini setelah salah 3 kali di Test Kotoba. Latih beberapa bab dulu, nanti muncul di sini.</p></section>';
+  }else h+='<section class="panel tk-weak-box"><div class="tk-weak-head"><div><div class="kq-stat-kicker">Needs review</div><h2>Daftar Kotoba Lemah</h2></div><span class="tk-weak-count">0</span></div><p class="tk-rule" style="margin:0">Kotoba masuk daftar ini setelah salah 3 kali pada latihan Kotoba. Latih beberapa bab dulu, nanti muncul di sini.</p></section>';
   return h+'</div>';
 }
 function tkSetup(){
@@ -2228,16 +2269,16 @@ function tkSetup(){
   var h='<div class="v6-slide"><div class="page-top"><button class="back" data-a="tkb">← Kembali</button><span class="eyebrow">MULTIPLE CHOICE</span><h1>Test Kotoba</h1></div>';
   h+='<p class="mute">Latihan pilihan ganda dari semua cara hafalan. Pilih bab, lalu jawab soal yang diacak. Salah atau ragu: soal muncul lagi sampai kamu menjawab benar.</p>';
   if(tkMsg){h+='<div class="v6-toast">'+esc(tkMsg)+'</div>';tkMsg='';}
-  h+=tkWeakH();
   h+='<div class="flash-filter"><small>PILIH BAB · '+sel+' / '+no+' DIPILIH</small><div class="kq-days">';
   h+=no?'<button class="vc kq-all'+(sel===no?' on':'')+'" data-a="tkall">Semua Bab yang sudah selesai</button>':'<button class="vc kq-all kq-lock" disabled>Semua Bab yang sudah selesai</button>';
   for(d=1;d<=nd;d++)h+=op[d]?'<button class="vc'+(tkSelected[d]?' on':'')+'" data-a="tks" data-v="'+d+'">'+d+'</button>':'<button class="vc kq-lock" disabled aria-label="Bab '+d+' terkunci">🔒<small>'+d+'</small></button>';
   h+='</div><p class="mute" style="margin:8px 0 0">Boleh pilih lebih dari satu. Bab terbuka setelah kamu menyelesaikannya 100% di Hafalin kotoba.</p></div>';
   var maxWords=Math.ceil(200/Math.max(1,REP)),take=Math.min(maxWords,total),planned=take*REP;
   h+='<h2>Jumlah soal</h2><div class="kq-stat-grid" style="margin-top:0"><div class="kq-stat-metric"><span>KOTOBA</span><b>'+take+'</b></div><div class="kq-stat-metric"><span>LATIHAN / KATA</span><b>'+REP+'×</b></div><div class="kq-stat-metric"><span>SOAL AWAL</span><b>'+planned+'</b></div></div>';
-  h+='<p class="mute">'+total+' kotoba tersedia'+(total>take?' · diambil '+take+' secara acak':'')+'. Jumlah soal diatur otomatis (maksimal 200 kotoba unik).</p>';
+  h+='<p class="mute">'+total+' kotoba tersedia'+(total>take?' · diambil '+take+' secara acak':'')+'. Jumlah soal diatur otomatis (target sekitar 200 soal awal (67 kotoba × 3 latihan = 201 soal bila tersedia)).</p>';
   h+='<button class="v6-row kq-weak" data-a="tkw" role="switch" aria-checked="'+(TK.w?'true':'false')+'"><span class="rt"><b>Prioritaskan yang lemah</b><span>Kotoba yang sering salah lebih sering muncul</span></span><span class="sw'+(TK.w?' on':'')+'"><i></i></span></button><div style="height:12px"></div>';
-  h+='<button class="pri" data-a="tkgo"'+(total?'':' disabled style="opacity:.5"')+'>Mulai</button><div style="height:12px"></div>';
+  h+='<button class="pri" data-a="tkgo"'+(total?'':' disabled style="opacity:.5"')+'>Mulai Test Kotoba · Acak Semua Cara</button><div style="height:10px"></div>';
+  h+=tkWeakH();
   h+='<div style="height:14px"></div>'+tkStatsH()+'</div>';return h;
 }
 function tkView(){return tkPage==='weak'?tkWeakPage():tkSetup();}
@@ -2346,7 +2387,7 @@ function ktCheckNow(){
   if(!typed.trim()){ktMsg='Ketik jawabanmu dulu. Belum tahu? Geser kartunya untuk menunda.';kqFocusPending=kqKeyboardWanted;return;}
   var id=r.queue[0],good=ktOk(typed,id,r.dir[id]),elapsed=Math.max(0,(Date.now()-(r.qAt||Date.now()))/1000);
   engRec(id,'t',good,elapsed);
-  tkRecord(id,good,false);
+  tkRecord(id,good,false,'ketik_'+r.dir[id]);
   r.history=r.history||[];r.history.push({id:id,good:good,typed:typed,sec:elapsed});
   r.queue.shift();r.ans++;
   if(good){r.ok++;KT.st.ok++;KT.got[id]=1;delete r.rt[id];if(!r.queue.length){r.fin=1;KT.st.fin++;if(!r.rewarded){r.lastExp=r.ok*4+(r.ids.length&&r.ok===r.ids.length?2:0);r.rewarded=true;S.exp=(S.exp||0)+r.lastExp;save();}}}
@@ -2528,7 +2569,8 @@ function smKeys(){
 function smDepth(k){
   if(k==='menu')return 0;
   if(k==='day'||k==='fc'||k==='kqsetup'||k==='ktsetup'||k==='tkweak'||k==='setup'||k==='bund')return 2;
-  if(k.indexOf('sess')===0||k==='kqplay'||k==='kqres'||k==='ktplay'||k==='ktres')return 3;
+  if(k==='kqweak')return 3;
+  if(k.indexOf('sess')===0||k==='kqplay'||k==='kqres'||k==='ktplay'||k==='ktres')return 4;
   return 1;
 }
 /* halaman lama dipindah ke lapisan terpisah supaya bisa ikut slide */
